@@ -176,7 +176,14 @@ mise run build:engines  # tools/build_engines.sh -> sentinel/build/
 ## TUI 界面
 
 全部界面使用 **Catppuccin Frappé** 配色（`#303446` base / `#8caaee` accent，
-与 `catppuccin-frappe.theme` 一致）。截图见 `docs/tui/`。
+与 `catppuccin-frappe.theme` 一致）。截图由 `mise run shot` 重新生成。
+
+![WAF 可视化](docs/tui/panel1-dashboard.png)
+
+![引擎与资产](docs/tui/panel9-engines.png)
+
+<sub>左：实时态势（请求速率 / 拦截率 / 规则命中 TOP / 决策延迟分位）。右：引擎与内置资产 ——
+原生解释器、vendor 里每个集合的来源与许可证、以及解释器自检结果（正则编译失败数 / PCRE 方言改写数）。</sub>
 
 | 模块 | 名称 | 综设 |
 | --- | --- | --- |
