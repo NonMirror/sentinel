@@ -1,0 +1,21 @@
+id: sentinel-lab-admin-panel
+
+info:
+  name: Sentinel Lab 未授权管理后台
+  author: sentinel
+  severity: high
+  description: 靶场 /admin 无鉴权即可访问管理后台
+  tags: exposure,idor,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/admin"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "admin-panel"

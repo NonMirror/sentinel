@@ -1,0 +1,209 @@
+/* ------------------------------------------------------------------
+   Sentinel — TUI 主题 · Catppuccin Frappé
+   crust #232634  mantle #292c3c  base #303446  surface0 #414559
+   text #c6d0f5   subtext0 #a5adce  sapphire #85c1dc  mauve #ca9ee6
+   ------------------------------------------------------------------ */
+Screen {
+    background: #303446;
+    color: #c6d0f5;
+    layers: base overlay;
+    scrollbar-background: #292c3c;
+    scrollbar-color: #51576d;
+    scrollbar-color-hover: #85c1dc;
+    scrollbar-color-active: #ca9ee6;
+    scrollbar-size-vertical: 1;
+    scrollbar-size-horizontal: 1;
+}
+
+/* ---------------- 顶部标题栏 ---------------- */
+#titlebar {
+    height: 3;
+    background: #292c3c;
+    color: #85c1dc;
+    border-bottom: heavy #51576d;
+    padding: 0 2;
+}
+
+#titlebar-logo {
+    color: #ca9ee6;
+    text-style: bold;
+    width: 14;
+}
+
+#titlebar-status {
+    color: #a5adce;
+    width: 1fr;
+}
+
+#titlebar-clock {
+    width: 22;
+    text-align: right;
+    color: #99d1db;
+}
+
+#body { height: 1fr; }
+
+/* ---------------- 侧栏导航 ---------------- */
+#sidebar {
+    width: 42;
+    background: #292c3c;
+    border-right: heavy #51576d;
+    padding: 1 1;
+}
+
+#sidebar-title {
+    color: #85c1dc;
+    text-style: bold;
+    padding: 0 1 1 1;
+}
+
+.module {
+    height: 1;
+    padding: 0 1;
+    color: #a5adce;
+    border-left: thick #292c3c;
+}
+
+.module.active {
+    background: #414559;
+    color: #c6d0f5;
+    border-left: thick #ca9ee6;
+    text-style: bold;
+}
+
+.module:hover { background: #414559; }
+
+#sidebar-info {
+    color: #838ba7;
+    padding: 1 1 0 1;
+}
+
+#main { padding: 0 1; }
+
+/* ---------------- 面板通用 ---------------- */
+Panel, .panel { height: 1fr; }
+
+.panel-title {
+    color: #85c1dc;
+    text-style: bold;
+    height: 1;
+    padding: 0 0 1 0;
+}
+
+.row { height: auto; }
+
+/* 卡片: 圆角 + 悬停提亮, 让密集的数字区有层次 */
+.card {
+    background: #292c3c;
+    border: round #51576d;
+    padding: 0 1;
+    margin: 1 1 0 0;
+    width: 1fr;
+    height: auto;
+    min-height: 3;
+}
+
+.card:focus, .card:hover { border: round #85c1dc; }
+
+.card-title { color: #a5adce; }
+.card-value { color: #c6d0f5; text-style: bold; }
+.card-good .card-value { color: #a6d189; }
+.card-warn .card-value { color: #e5c890; }
+.card-bad  .card-value { color: #e78284; }
+.card-info .card-value { color: #99d1db; }
+
+/* ---------------- 表格 ---------------- */
+DataTable {
+    height: 1fr;
+    background: #232634;
+    border: round #51576d;
+    scrollbar-size-vertical: 1;
+}
+
+DataTable:focus { border: round #85c1dc; }
+
+DataTable > .datatable--header {
+    background: #414559;
+    color: #85c1dc;
+    text-style: bold;
+}
+
+DataTable > .datatable--cursor {
+    background: #51576d;
+    color: #f2d5cf;
+    text-style: bold;
+}
+
+DataTable > .datatable--hover { background: #414559; }
+DataTable > .datatable--odd-row { background: #292c3c; }
+DataTable > .datatable--even-row { background: #232634; }
+
+/* ---------------- 日志 / 详情 ---------------- */
+RichLog {
+    background: #232634;
+    border: round #51576d;
+    padding: 0 1;
+    height: 1fr;
+}
+
+RichLog:focus { border: round #85c1dc; }
+
+#rep-preview { height: 1fr; }
+
+/* 详情卡片: 与表格区分, 用细边而非圆角 */
+.detail {
+    background: #232634;
+    border: round #51576d;
+    padding: 0 2;
+    height: auto;
+    max-height: 60%;
+    overflow-y: auto;
+}
+
+/* ---------------- 输入 ---------------- */
+Input {
+    background: #292c3c;
+    border: round #85c1dc;
+    color: #c6d0f5;
+    width: 1fr;
+}
+
+Input:focus { border: round #ca9ee6; }
+
+#cmdbar { display: none; height: 3; dock: bottom; }
+#cmdbar.visible { display: block; }
+
+/* ---------------- 状态栏 ---------------- */
+#statusbar {
+    height: 1;
+    background: #414559;
+    color: #a5adce;
+    padding: 0 1;
+}
+
+/* ---------------- 帮助浮层 ---------------- */
+#help {
+    background: #292c3c;
+    border: heavy #ca9ee6;
+    padding: 1 3;
+    width: 88;
+    height: auto;
+    align: center middle;
+}
+
+/* ---------------- 语义色 ---------------- */
+.hint { color: #838ba7; }
+.ok { color: #a6d189; }
+.warn { color: #e5c890; }
+.bad { color: #e78284; }
+.accent { color: #99d1db; text-style: bold; }
+
+ToastRack { layer: overlay; }
+Toast {
+    background: #414559;
+    border: round #85c1dc;
+    color: #c6d0f5;
+}
+Toast.-information { border: round #85c1dc; }
+Toast.-warning { border: round #e5c890; }
+Toast.-error { border: round #e78284; }

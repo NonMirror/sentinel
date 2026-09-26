@@ -1,0 +1,1 @@
+FLAG{sentinel_waf_and_scanner_united}

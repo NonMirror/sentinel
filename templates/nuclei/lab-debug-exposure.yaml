@@ -1,0 +1,21 @@
+id: sentinel-lab-debug-exposure
+
+info:
+  name: Sentinel Lab 调试信息泄露
+  author: sentinel
+  severity: high
+  description: 靶场 /debug 泄露配置口令与调用栈
+  tags: exposure,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/debug"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "DB_PASSWORD="

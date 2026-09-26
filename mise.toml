@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+# Sentinel — 可视化安全运营与管理平台
+# 使用 mise 固定工具链, 使用 uv 管理 Python 依赖与虚拟环境.
+# ---------------------------------------------------------------------------
+min_version = "2024.1.0"
+
+[tools]
+python = "3.14"
+uv = "latest"
+
+[env]
+_.python.venv = { path = ".venv", create = true }
+PYTHONPATH = "{{config_root}}"
+SENTINEL_HOME = "{{config_root}}"
+
+[tasks.install]
+description = "同步依赖 (uv)"
+run = "uv sync --extra test --extra report"
+
+[tasks.test]
+description = "运行全部测试 (单元 + 集成 + 端到端)"
+run = "uv run pytest -q"
+
+[tasks."test:fast"]
+description = "仅运行快速单元测试"
+run = "uv run pytest -q -m 'not slow'"
+
+[tasks.bench]
+description = "运行性能基准测试"
+run = "uv run python -m benchmarks.run_all"
+
+[tasks.report]
+description = "生成中文测试报告 (Markdown + HTML + DOCX)"
+run = "uv run python -m benchmarks.run_all --report"
+
+[tasks.tui]
+description = "启动极致 TUI 管理平台"
+run = "uv run python -m sentinel"
+
+[tasks.lab]
+description = "启动漏洞靶场 (三实例) + WAF 反向代理"
+run = "uv run python -m sentinel.lab.cli"
+
+[tasks."build:engines"]
+description = "从源码构建真实 nginx WAF 数据面 (ModSecurity v3 + CRS + Naxsi)"
+run = "tools/build_engines.sh"
+
+[tasks.shot]
+description = "重新生成 TUI 截图 (docs/tui/*.png|svg, Catppuccin Frappé)"
+run = "env -u NO_COLOR TERM=xterm-256color COLORTERM=truecolor uv run python tools/capture_tui.py --out docs/tui"
+
+[tasks.junit]
+description = "运行完整测试并输出 JUnit XML (供报告矩阵使用)"
+run = "uv run pytest -q -p no:randomly --junitxml=reports/junit.xml"
+
+[tasks.lint]
+description = "语法与导入自检"
+run = "uv run python -m compileall -q sentinel && uv run python -c \"import sentinel, sentinel.waf, sentinel.scanner, sentinel.tui; print('imports ok')\""
+
+[tasks.vendor]
+description = "把上游第三方资产 (CRS / Naxsi / nuclei 模板) 同步进 sentinel/vendor"
+run = "uv run python tools/vendor.py"
+
+[tasks."vendor:check"]
+description = "校验 sentinel/vendor 与 MANIFEST.json 是否一致 (CI 用)"
+run = "uv run python tools/vendor.py --check"

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinel"
+version = "1.0.0"
+description = "Sentinel — 可视化安全运营与管理平台 (WAF Pro + Digger Pro 融合): 轻量级防火墙 + 漏洞扫描 + 极致 TUI"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0.3",
+    "textual>=0.80",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+report = ["python-docx>=1.1"]
+
+# 本地开发/评测所需的工具链: uv 默认安装该组, 保证 `uv run pytest` 开箱可用
+[dependency-groups]
+dev = ["pytest>=8", "python-docx>=1.1"]
+
+[project.scripts]
+sentinel = "sentinel.__main__:main"
+
+[tool.setuptools]
+packages = ["sentinel", "sentinel.core", "sentinel.vendor",
+            "sentinel.waf", "sentinel.waf.engines", "sentinel.waf.secrule",
+            "sentinel.waf.naxsi",
+            "sentinel.scanner", "sentinel.scanner.engines",
+            "sentinel.scanner.templating", "sentinel.scanner.plugins",
+            "sentinel.lab", "sentinel.tui", "benchmarks", "tests"]
+
+[tool.setuptools.package-data]
+# vendor 由 tools/vendor.py 生成, 必须随包一起分发, 否则引擎无规则可跑
+"sentinel.vendor" = ["*.json", "*.md", "**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+markers = ["slow: slow benchmarks", "integration: integration tests"]

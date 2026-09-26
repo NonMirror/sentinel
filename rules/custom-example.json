@@ -1,0 +1,41 @@
+{
+  "_comment": "Sentinel 自定义规则示例 — 与内置规则合并, 同 ID 覆盖内置。采用 ModSecurity SecRule 语义, 可与 OWASP CRS 共同加载, 也可用 :export 导出为 SecRule。",
+  "rules": [
+    {
+      "id": 999001,
+      "description": "禁止访问 /internal/ 敏感目录",
+      "variables": ["REQUEST_URI"],
+      "operator": "rx",
+      "operator_arg": "(?i)^/internal/",
+      "severity": "medium",
+      "action": "block",
+      "phase": 1,
+      "tags": ["custom", "access-control"],
+      "category": "custom"
+    },
+    {
+      "id": 999002,
+      "description": "拦截小众扫描器指纹 (Xray / Goby / WPScan)",
+      "variables": ["REQUEST_HEADERS:User-Agent"],
+      "operator": "rx",
+      "operator_arg": "(?i)(?:xray|goby|wpscan|joomscan|whatweb|nuclei)",
+      "severity": "medium",
+      "action": "block",
+      "tags": ["custom", "scanner"],
+      "category": "custom"
+    },
+    {
+      "id": 999003,
+      "description": "拦截超长 Base64 参数 (疑似编码绕过)",
+      "variables": ["ARGS"],
+      "operator": "rx",
+      "operator_arg": "[A-Za-z0-9+/]{220,}={0,2}",
+      "severity": "low",
+      "action": "log",
+      "transforms": ["removeNulls"],
+      "tags": ["custom", "evasion"],
+      "category": "custom",
+      "paranoia_level": 2
+    }
+  ]
+}

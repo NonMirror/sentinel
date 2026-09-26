@@ -1,0 +1,21 @@
+id: sentinel-lab-open-redirect
+
+info:
+  name: Sentinel Lab 开放重定向
+  author: sentinel
+  severity: medium
+  description: 靶场 /go 的 next 参数未校验, 可跳转任意站点
+  tags: redirect,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/go?next=http://evil.example/"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [302]
+      - type: word
+        part: header
+        words:
+          - "evil.example"

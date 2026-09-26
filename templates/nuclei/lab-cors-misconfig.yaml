@@ -1,0 +1,25 @@
+id: sentinel-lab-cors-misconfig
+
+info:
+  name: Sentinel Lab CORS 配置错误
+  author: sentinel
+  severity: medium
+  description: 靶场 /api/user 反射任意 Origin 且允许携带凭证
+  tags: cors,misconfig,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/user"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [200]
+      - type: word
+        part: body
+        words:
+          - "sentinel-cors-token"
+      - type: word
+        part: header
+        words:
+          - "Access-Control-Allow-Credentials: true"

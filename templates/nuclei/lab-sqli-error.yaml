@@ -1,0 +1,21 @@
+id: sentinel-lab-sqli-error
+
+info:
+  name: Sentinel Lab SQL 注入 (报错型)
+  author: sentinel
+  severity: high
+  description: 靶场 /search 的 q 参数未过滤单引号, 触发数据库报错
+  tags: sqli,lab
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/search?q=%27"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status: [500]
+      - type: word
+        part: body
+        words:
+          - "数据库错误"

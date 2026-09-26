@@ -1,0 +1,62 @@
+# ==========================================================================
+# Sentinel · .gitignore
+#
+# 原则: **源码与内置资产入库, 一切生成物不入库**。
+# 生成物都能用 mise 任务重新产出, 其中审计日志还含有运行时抓到的
+# 客户端 IP / URL —— 不适合提交, 更不适合公开。
+# ==========================================================================
+
+# ---------------------------------------------------------------- Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+
+# 测试 / 类型检查 / 格式化缓存
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---------------------------------------------------------------- 运行产物
+# reports/ 全部是生成物:
+#   reports/junit.xml        mise run junit
+#   reports/bench-*.json|md  mise run bench
+#   reports/report-*.html|docx  mise run report
+#   reports/audit*.jsonl     运行时审计流 (含客户端 IP)
+#   reports/engine-run/      引擎临时目录 (每次启动都新建)
+# 重新生成: mise run bench && mise run report
+reports/
+
+# 本地配置 (监听端口 / 规则目录等, 因人而异)
+sentinel.toml
+*.local.toml
+
+# ---------------------------------------------------------------- 编辑器 / 系统
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ==========================================================================
+# 注意: sentinel/vendor/ **必须入库**, 不要加进忽略列表。
+#
+# 它是 Sentinel 自包含的基础 —— OWASP CRS 规则、naxsi_core.rules、
+# unicode.mapping、nuclei 模板 (35 MiB / 11711 个文件), 由 tools/vendor.py
+# 从上游一次性收敛并逐文件记录 SHA-256 与许可证。少了它, WAF 与扫描器
+# 就无规则可跑。
+#
+# 校验一致性:  python tools/vendor.py --check
+# ==========================================================================
