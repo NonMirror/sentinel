@@ -45,7 +45,8 @@ Screen {
 
 /* ---------------- 侧栏导航 ---------------- */
 #sidebar {
-    width: 42;
+    width: 32;
+    min-width: 25;
     background: #292c3c;
     border-right: heavy #51576d;
     padding: 1 1;
@@ -68,6 +69,13 @@ Screen {
     background: #414559;
     color: #c6d0f5;
     border-left: thick #ca9ee6;
+    text-style: bold;
+}
+
+.module:focus {
+    background: #51576d;
+    color: #f2d5cf;
+    border-left: thick #85c1dc;
     text-style: bold;
 }
 
@@ -185,10 +193,42 @@ Input:focus { border: round #ca9ee6; }
 #help {
     background: #292c3c;
     border: heavy #ca9ee6;
-    padding: 1 3;
-    width: 88;
-    height: auto;
+    padding: 1 2;
+    width: 92%;
+    max-width: 112;
+    height: 86%;
     align: center middle;
+}
+
+#help-scroll {
+    height: 1fr;
+    scrollbar-size-vertical: 1;
+}
+
+.help-title, .navigator-title {
+    color: #85c1dc;
+    text-style: bold;
+    padding: 0 0 1 0;
+}
+
+.help-hint, .navigator-hint {
+    color: #838ba7;
+    padding: 1 0 0 0;
+}
+
+#navigator {
+    background: #292c3c;
+    border: heavy #ca9ee6;
+    padding: 1 2;
+    width: 76%;
+    max-width: 88;
+    height: 72%;
+    align: center middle;
+}
+
+#navigator-table {
+    height: 1fr;
+    margin-top: 1;
 }
 
 /* ---------------- 语义色 ---------------- */

@@ -232,18 +232,23 @@ Vim-style:
 | Key | Action | Key | Action |
 | --- | --- | --- | --- |
 | `1`–`9` | switch module | `j` / `k` | down / up |
-| `gg` / `G` | first / last line | `h` / `l` | focus left / right |
+| `gg` / `G` | first / last line | `h` / `l` | sidebar / main pane |
 | `Enter` | activate / switch engine | `x` / `Space` | toggle rule / switch engine |
 | `dd` | clear / freeze the current view | `yy` | yank the current row |
 | `/` | filter | `:` | command mode |
 | `r` | refresh / reload | `s` / `D` | normal / deep scan |
 | `a` / `A` | multi-engine / multi-engine deep scan | `Tab` | next module |
-| `?` | help overlay | `q` | quit |
+| `Ctrl-O` | quick navigator for modules and common actions | `?` | scrollable help overlay |
+| `q` | quit | `Esc` | close overlays / cancel |
 
-<sub>`j`/`k` act on the current panel: a table with rows moves its cursor,
-otherwise the live log scrolls. In a log, `k` pauses auto-follow and `G` returns
-to the last line and resumes it. When a panel has nothing to move, the status bar
-says why instead of swallowing the key.</sub>
+<sub>The TUI starts with the module sidebar focused. In the sidebar, `j`/`k`
+move module rows and `l` enters the main pane; `h` returns to the sidebar. In
+the main pane, `j`/`k` move table rows or scroll the live log. In a log, `k`
+pauses auto-follow and `G` returns to the last line and resumes it. `Ctrl-O` opens a keyboard-first navigator, and
+the help overlay scrolls with `j`/`k`/`g`/`G`. Number keys switch modules after a
+short 200 ms ambiguity window so count motions such as `3j` remain available.
+When a panel has nothing to move, the status bar says why instead of swallowing
+the key.</sub>
 
 Command mode:
 
@@ -297,7 +302,7 @@ sentinel/
 
 ## Tests and benchmarks
 
-- **Tests**: `mise run test` — **591 passing, 0 failing** (9 real-nginx cases
+- **Tests**: `mise run test` — **595 passing, 0 failing** (9 real-nginx cases
   auto-skip when the reference data plane isn't built). Details in
   `reports/junit.xml` and the report's test-case matrix. Much of the interpreter
   suite (`tests/test_secrule.py`, `test_naxsi.py`, `test_templating.py`) is

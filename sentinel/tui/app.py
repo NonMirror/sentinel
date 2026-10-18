@@ -2,7 +2,7 @@
 
 Vim 键位:
     1-9        切换功能模块        j / k      下 / 上移动
-    g g / G    回到首行 / 末行     h / l      焦点左 / 右切换
+    g g / G    首行 / 末行         h / l      侧栏 / 主面板
     Enter      激活 / 切换          x / Space  启停 (规则/配置项)
     d d        清空当前视图         y y        复制当前行
     /          搜索过滤            :          命令模式
@@ -48,6 +48,12 @@ def _scroller(panel):
             return found
     return None
 
+
+class ModuleItem(Static):
+    """Focusable sidebar row used as the initial navigation surface."""
+
+    can_focus = True
+
 #: (面板类, 综合设计归属, 归属中文名) —— 顺序即 1-9 的模块编号
 MODULES = [
     (DashboardPanel, "综设III", "管理平台"),
@@ -76,14 +82,17 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
 
 [bold]Vim 键位[/]
   [yellow]1-9[/]        切换模块 (也可鼠标点击侧栏)   [yellow]j / k[/]  下 / 上移动
-  [yellow]g g / G[/]    首行 / 末行             [yellow]h / l[/]      焦点左 / 右
+  [yellow]g g / G[/]    首行 / 末行             [yellow]h / l[/]      侧栏 / 主面板
+  [dim]进入时焦点在模块导航; j/k 移动模块, l 进入主面板, h 返回侧栏。[/]
   [dim]j/k 作用于当前面板: 有表格就移动光标, 否则滚动实时日志;
-   在日志里按 k 会暂停自动跟随, 按 G 回到末行并恢复跟随。[/]
+   主面板里 j/k 移动表格或日志; 在日志里按 k 会暂停自动跟随,
+   按 G 回到末行并恢复跟随。[/]
   [yellow]Enter[/]      激活 / 切换引擎         [yellow]x Space[/]    启停规则 / 切换引擎
   [yellow]d d[/]        清空当前视图            [yellow]y y[/]        复制当前行
   [yellow]/[/]          搜索过滤                [yellow]:[/]          命令模式
   [yellow]r[/]          刷新 / 重载引擎         [yellow]s / D[/]      普通 / 深度扫描
   [yellow]a / A[/]      多引擎融合扫描 / 深度融合扫描 (模板 + 插件 + 内置)
+  [yellow]Ctrl-O[/]     打开快速导航 (模块 / 常用动作)
   [yellow]Tab[/]        下一模块                [yellow]?[/]          本帮助
   [yellow]q[/]          退出
 
@@ -101,21 +110,153 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   :report [md|html|json] :export        导出当前引擎规则
   :reload               重载引擎规则     :clear  清空事件
 
-[dim]按 Esc 或 ? 关闭[/]"""
+[dim]按 Esc 或 ? 关闭 · j/k 滚动帮助[/]"""
 
 
 class HelpScreen(ModalScreen):
     """帮助浮层."""
 
     BINDINGS = [Binding("escape", "dismiss", "关闭"), Binding("question_mark", "dismiss", "关闭"),
-                Binding("q", "dismiss", "关闭")]
+                Binding("q", "dismiss", "关闭"),
+                Binding("j", "scroll_down", "下移", show=False),
+                Binding("down", "scroll_down", "下移", show=False),
+                Binding("k", "scroll_up", "上移", show=False),
+                Binding("up", "scroll_up", "上移", show=False),
+                Binding("g", "scroll_home", "顶部", show=False),
+                Binding("G", "scroll_end", "底部", show=False)]
 
     def compose(self) -> ComposeResult:
         with Vertical(id="help"):
-            yield Static(HELP_TEXT)
+            yield Static("帮助 · 快捷键与命令", classes="help-title")
+            with VerticalScroll(id="help-scroll"):
+                yield Static(HELP_TEXT)
+            yield Static("Esc/? 关闭 · j/k 滚动 · Ctrl-O 快速导航", classes="help-hint")
 
     def action_dismiss(self, *_) -> None:
         self.app.pop_screen()
+
+    def on_key(self, event) -> None:
+        actions = {"j": self.action_scroll_down, "down": self.action_scroll_down,
+                   "k": self.action_scroll_up, "up": self.action_scroll_up,
+                   "g": self.action_scroll_home, "G": self.action_scroll_end}
+        action = actions.get(event.key)
+        if action is not None:
+            action()
+            event.stop()
+            event.prevent_default()
+
+    def _scroll(self, direction: str) -> None:
+        scroll = self.query_one("#help-scroll", VerticalScroll)
+        if direction == "home":
+            scroll.scroll_home(animate=False)
+        elif direction == "end":
+            scroll.scroll_end(animate=False)
+        else:
+            scroll.scroll_relative(y=1 if direction == "down" else -1, animate=False)
+
+    def action_scroll_down(self) -> None:
+        self._scroll("down")
+
+    def action_scroll_up(self) -> None:
+        self._scroll("up")
+
+    def action_scroll_home(self) -> None:
+        self._scroll("home")
+
+    def action_scroll_end(self) -> None:
+        self._scroll("end")
+
+
+class NavigatorScreen(ModalScreen):
+    """Keyboard-first quick navigator for modules and common actions.
+
+    The numbered shortcuts remain available, but this gives new users a visible
+    route into the application and avoids making them remember every command.
+    """
+
+    BINDINGS = [
+        Binding("escape", "dismiss", "关闭"),
+        Binding("ctrl+o", "dismiss", "关闭", show=False),
+        Binding("enter", "activate", "打开"),
+        Binding("j", "move_down", "下移", show=False),
+        Binding("down", "move_down", "下移", show=False),
+        Binding("k", "move_up", "上移", show=False),
+        Binding("up", "move_up", "上移", show=False),
+    ]
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="navigator"):
+            yield Static("快速导航", classes="navigator-title")
+            yield Static("j/k 选择 · Enter 打开 · Esc 关闭", classes="navigator-hint")
+            yield DataTable(id="navigator-table", zebra_stripes=True)
+
+    def on_mount(self) -> None:
+        table = self.query_one("#navigator-table", DataTable)
+        table.add_columns("键", "目标", "说明")
+        for index, (panel_cls, _group, _group_name) in enumerate(MODULES, 1):
+            table.add_row(str(index), panel_cls.MODULE_NAME, "切换模块", key=f"module:{index - 1}")
+        for key, label, description in (
+            ("s", "普通扫描", "打开漏洞检测面板并开始扫描"),
+            ("a", "融合扫描", "运行模板、插件和内置引擎"),
+            ("e", "引擎管理", "打开引擎与资产面板"),
+            ("r", "报告生成", "打开报告面板"),
+            ("?", "帮助", "查看完整快捷键与命令"),
+        ):
+            table.add_row(key, label, description, key=f"action:{key}")
+        table.focus()
+
+    def on_key(self, event) -> None:
+        actions = {"j": self.action_move_down, "down": self.action_move_down,
+                   "k": self.action_move_up, "up": self.action_move_up,
+                   "enter": self.action_activate}
+        action = actions.get(event.key)
+        if action is not None:
+            action()
+            event.stop()
+            event.prevent_default()
+
+    def _table(self) -> DataTable:
+        return self.query_one("#navigator-table", DataTable)
+
+    def action_dismiss(self) -> None:
+        self.app.pop_screen()
+
+    def action_move_down(self) -> None:
+        table = self._table()
+        if table.row_count:
+            table.move_cursor(row=min(table.row_count - 1, table.cursor_row + 1))
+
+    def action_move_up(self) -> None:
+        table = self._table()
+        if table.row_count:
+            table.move_cursor(row=max(0, table.cursor_row - 1))
+
+    def action_activate(self) -> None:
+        table = self._table()
+        if not table.row_count:
+            return
+        try:
+            key = str(table.coordinate_to_cell_key(table.cursor_coordinate).row_key.value)
+        except Exception:  # noqa: BLE001 - selection can be empty during mount
+            return
+        self.app.pop_screen()
+        if key.startswith("module:"):
+            self.app.select_module(int(key.split(":", 1)[1]), focus="main")
+            return
+        action = key.split(":", 1)[1] if ":" in key else key
+        if action == "e":
+            self.app.select_module(MODULE_INDEX[EnginesPanel.__name__] - 1, focus="main")
+        elif action == "r":
+            self.app.select_module(MODULE_INDEX[ReportPanel.__name__] - 1, focus="main")
+        elif action == "?":
+            self.app.push_screen(HelpScreen())
+        elif action in ("s", "a"):
+            self.app.select_module(MODULE_INDEX[ScanPanel.__name__] - 1, focus="main")
+            panel = self.app.panel_for(ScanPanel)
+            if action == "s":
+                panel.start_scan(deep=False)
+            else:
+                panel.start_multi_scan(deep=False)
 
 
 @dataclass
@@ -139,6 +280,7 @@ class SentinelTUI(App):
     BINDINGS = [
         Binding("ctrl+c", "quit_app", "退出", show=False),
         Binding("escape", "escape", "取消", show=False),
+        Binding("ctrl+o", "open_navigator", "快速导航", show=False),
     ]
 
     def __init__(self, config: Config | None = None,
@@ -152,6 +294,8 @@ class SentinelTUI(App):
         self.vim = VimState()
         self._count_timer = None
         self.cmdbar_mode: str | None = None
+        self._cmdbar_focus_region = "main"
+        self.focus_region = "sidebar"
         self.active_index = 0
         self._panels: list = []
         self._status_bar: StatusBar | None = None
@@ -166,7 +310,7 @@ class SentinelTUI(App):
             with VerticalScroll(id="sidebar"):
                 yield Static("模块导航", id="sidebar-title")
                 for index, (panel_cls, group, _group_name) in enumerate(MODULES, 1):
-                    yield Static(
+                    yield ModuleItem(
                         f"[dim]{index}[/]  {panel_cls.MODULE_ICON}  {panel_cls.MODULE_NAME}",
                         classes="module", id=f"mod-{index}")
                 yield Static("", id="sidebar-info")
@@ -184,7 +328,7 @@ class SentinelTUI(App):
             panel = panel_cls()
             self._panels.append(panel)
             switcher.mount(panel)
-        self.select_module(0)
+        self.select_module(0, focus="sidebar")
         self.call_after_refresh(lambda: self.select_module(self.active_index))
         interval = 1.0 / max(0.5, self.config.tui.refresh_hz)
         self.set_interval(interval, self.refresh_active)
@@ -204,7 +348,7 @@ class SentinelTUI(App):
         index = MODULE_INDEX.get(panel_cls.__name__ if isinstance(panel_cls, type)
                                  else panel_cls)
         if index:
-            self.select_module(index - 1)
+            self.select_module(index - 1, focus="main")
         return self.panel_for(panel_cls)
 
     def _update_sidebar(self) -> None:
@@ -267,16 +411,18 @@ class SentinelTUI(App):
         widget_id = getattr(widget, "id", "") or ""
         if widget_id.startswith("mod-"):
             try:
-                self.select_module(int(widget_id.split("-", 1)[1]) - 1)
+                self.select_module(int(widget_id.split("-", 1)[1]) - 1, focus="main")
             except (IndexError, ValueError):
                 pass
 
     # ------------------------------------------------------------------
     # 模块与刷新
     # ------------------------------------------------------------------
-    def select_module(self, index: int) -> None:
+    def select_module(self, index: int, *, focus: str | None = None) -> None:
         index = max(0, min(len(MODULES) - 1, index))
         self.active_index = index
+        if focus is not None:
+            self.focus_region = focus
         panel = self._panels[index]
         try:
             self.query_one("#main", ContentSwitcher).current = panel.id
@@ -292,6 +438,23 @@ class SentinelTUI(App):
                 self.query_one(f"#mod-{i}", Static).set_class(i == index + 1, "active")
             except Exception:
                 pass
+        if self.focus_region == "sidebar":
+            self._focus_sidebar()
+        else:
+            self._focus_panel()
+
+    def _focus_sidebar(self) -> None:
+        """Focus the selected module row and keep it visible in the sidebar."""
+        self.focus_region = "sidebar"
+        try:
+            item = self.query_one(f"#mod-{self.active_index + 1}", ModuleItem)
+            item.focus()
+            item.scroll_visible()
+        except Exception:  # noqa: BLE001 - during initial composition
+            pass
+
+    def _focus_main(self) -> None:
+        self.focus_region = "main"
         self._focus_panel()
 
     def _focus_panel(self) -> None:
@@ -313,13 +476,29 @@ class SentinelTUI(App):
     def active_panel(self):
         return self._panels[self.active_index]
 
+    def action_open_navigator(self) -> None:
+        if not isinstance(self.screen, NavigatorScreen):
+            self.push_screen(NavigatorScreen())
+
     def refresh_active(self) -> None:
         for panel in self._panels:
             if panel is self.active_panel:
+                table = _first(panel, DataTable)
+                cursor = table.cursor_coordinate if table is not None else None
                 try:
                     panel.refresh_data()
                 except Exception:
-                    pass
+                    return
+                # Panels rebuild their rows during refresh. Keep the row
+                # selection stable so a refresh tick cannot make j/k jump.
+                if table is not None and cursor is not None and table.row_count:
+                    row, column = cursor
+                    columns = len(table.ordered_columns)
+                    if columns:
+                        table.move_cursor(
+                            row=min(row, table.row_count - 1),
+                            column=min(column, columns - 1),
+                        )
 
     def _update_status(self) -> None:
         # 状态栏挂在默认屏幕上; 模态浮层激活时 current screen 会变,
@@ -355,7 +534,7 @@ class SentinelTUI(App):
             return
         if isinstance(self.focused, Input):
             if event.key == "escape":
-                self._focus_panel()
+                self._restore_focus_region()
                 event.stop()
             return
         if self._handle_vim(event.key):
@@ -364,14 +543,15 @@ class SentinelTUI(App):
 
     def _handle_vim(self, key: str) -> bool:  # noqa: C901
         state = self.vim
-        # 数字: 作计数前缀; 若 380ms 内未跟移动键则切换对应模块 (1-8)
+        # 数字既是模块快捷键也是移动计数前缀。只保留一个很短的歧义窗口，
+        # 让单独的模块键几乎立即反馈，同时仍允许 ``3j`` 这样的 Vim 计数。
         if key.isdigit() and len(state.count) < 2:
             state.count += key
             state.pending = "count"
             state.pending_ts = time.time()
             if self._count_timer is not None:
                 self._count_timer.stop()
-            self._count_timer = self.set_timer(0.38, self._commit_count)
+            self._count_timer = self.set_timer(0.20, self._commit_count)
             return True
         if state.pending == "count":
             if self._count_timer is not None:
@@ -382,7 +562,9 @@ class SentinelTUI(App):
         if key == "g":
             if state.pending == "g":
                 state.pending = ""
-                if not self._move("top", count):
+                if self.focus_region == "sidebar":
+                    self.select_module(0, focus="sidebar")
+                elif not self._move("top", count):
                     self._hint(self._no_move_reason())
             else:
                 state.pending = "g"
@@ -404,14 +586,30 @@ class SentinelTUI(App):
         if key in ("j", "down", "k", "up", "G"):
             direction = {"j": "down", "down": "down", "k": "up", "up": "up",
                          "G": "bottom"}[key]
-            if not self._move(direction, count):
+            if self.focus_region == "sidebar":
+                if direction == "bottom":
+                    self.select_module(len(MODULES) - 1, focus="sidebar")
+                else:
+                    delta = count if direction == "down" else -count
+                    self.select_module(self.active_index + delta, focus="sidebar")
+            elif not self._move(direction, count):
                 self._hint(self._no_move_reason())
-        elif key == "h":
-            self._cycle_focus(-1)
-        elif key == "l":
-            self._cycle_focus(1)
+        elif key in ("h", "l"):
+            direction = "left" if key == "h" else "right"
+            if self.focus_region == "sidebar":
+                if direction == "right":
+                    self._focus_main()
+                else:
+                    self._hint("侧栏已聚焦 · 按 l 进入主面板")
+            elif direction == "left":
+                self._focus_sidebar()
+            else:
+                self._hint("主面板已聚焦 · 按 h 返回侧栏")
         elif key in ("enter", "space", "x"):
-            self.active_panel.vim_key(key, count)
+            if self.focus_region == "sidebar" and key == "enter":
+                self._focus_main()
+            else:
+                self.active_panel.vim_key(key, count)
         elif key == "q":
             self.action_quit_app()
         elif key == "r":
@@ -432,6 +630,8 @@ class SentinelTUI(App):
             self.select_module(self.active_index - 1)
         elif key == "question_mark":
             self.push_screen(HelpScreen())
+        elif key == "ctrl+o":
+            self.push_screen(NavigatorScreen())
         elif key == "escape":
             return False
         else:
@@ -440,7 +640,7 @@ class SentinelTUI(App):
         return True
 
     def _commit_count(self) -> None:
-        """计数超时: 数字单独按下时作为模块切换."""
+        """歧义窗口结束后把单独数字解释为模块切换."""
         state = self.vim
         self._count_timer = None
         if state.pending != "count":
@@ -452,7 +652,7 @@ class SentinelTUI(App):
         state.count = ""
         state.pending = ""
         if 1 <= number <= len(MODULES):
-            self.select_module(number - 1)
+            self.select_module(number - 1, focus="main")
 
     def _move(self, direction: str, count: int = 1) -> bool:
         """移动当前面板的「主光标」, 返回是否真的移动了.
@@ -469,7 +669,7 @@ class SentinelTUI(App):
         """
         panel = self.active_panel
         table = _first(panel, DataTable)
-        if table is not None and table.row_count:
+        if table is not None and table.row_count and table.size.height > 0:
             rows = table.row_count
             if direction == "top":
                 table.move_cursor(row=0)
@@ -485,7 +685,17 @@ class SentinelTUI(App):
             return True
 
         scroller = _scroller(panel)
+        scrollable = False
         if scroller is not None and scroller.max_scroll_y > 0:
+            if isinstance(scroller, RichLog):
+                # A compact terminal can report a zero layout height while a
+                # short startup log is still below the fold. Only treat a
+                # RichLog as a movement target once it has real history; this
+                # leaves h/j/k/l available for module navigation on startup.
+                scrollable = scroller.size.height > 0 or len(scroller.lines) > 8
+            else:
+                scrollable = scroller.size.height > 0
+        if scrollable:
             if direction == "top":
                 scroller.scroll_home(animate=False)
             elif direction == "bottom":
@@ -531,23 +741,6 @@ class SentinelTUI(App):
         self._hint_text = message
         self._hint_until = time.monotonic() + seconds
 
-    def _cycle_focus(self, direction: int) -> None:
-        widgets = []
-        for cls_name in ("DataTable", "Input"):
-            try:
-                widgets.append(self.active_panel.query_one(f"{cls_name}"))
-            except Exception:
-                pass
-        if not widgets:
-            self._focus_panel()
-            return
-        current = self.focused
-        if current in widgets:
-            index = (widgets.index(current) + direction) % len(widgets)
-        else:
-            index = 0
-        widgets[index].focus()
-
     def _yank(self) -> bool:
         row = self.active_panel.selected_row()
         if not row:
@@ -567,6 +760,7 @@ class SentinelTUI(App):
     # ------------------------------------------------------------------
     def open_cmdbar(self, prefix: str) -> None:
         bar = self.query_one("#cmdbar", Input)
+        self._cmdbar_focus_region = self.focus_region
         self.cmdbar_mode = prefix
         bar.value = prefix
         bar.add_class("visible")
@@ -577,7 +771,14 @@ class SentinelTUI(App):
         bar.value = ""
         bar.remove_class("visible")
         self.cmdbar_mode = None
-        self._focus_panel()
+        self._restore_focus_region()
+
+    def _restore_focus_region(self) -> None:
+        if self._cmdbar_focus_region == "sidebar":
+            self.focus_region = "sidebar"
+            self._focus_sidebar()
+        else:
+            self._focus_main()
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id != "cmdbar":
@@ -679,7 +880,7 @@ class SentinelTUI(App):
             self.notify(f"引擎切换失败: {exc}", timeout=6, severity="error")
         else:
             self.notify(f"WAF 引擎已切换 -> {switched}", timeout=3)
-            self.select_module(MODULE_INDEX["EnginesPanel"] - 1)
+            self.select_module(MODULE_INDEX["EnginesPanel"] - 1, focus="main")
 
     def _cmd_vendor(self) -> None:
         """``:vendor`` —— 内置第三方资产的来源与完整性."""

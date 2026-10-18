@@ -15,7 +15,7 @@ from textual.widgets import DataTable, Input, RichLog, Static
 
 from sentinel.core.config import Config
 from sentinel.tui import palette
-from sentinel.tui.app import MODULES, HelpScreen, SentinelTUI
+from sentinel.tui.app import MODULES, HelpScreen, ModuleItem, NavigatorScreen, SentinelTUI
 from sentinel.tui.widgets import StatusBar
 
 
@@ -92,6 +92,38 @@ def test_tui_number_keys_switch_modules(tui_config):
     assert _run(body) == list(range(9))
 
 
+def test_tui_number_keys_switch_quickly(tui_config):
+    """模块数字键不能因为 Vim 计数前缀而有明显延迟."""
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause(0.3)
+            before = app.active_index
+            await pilot.press("6")
+            await pilot.pause(0.25)
+            return before, app.active_index
+
+    before, after = _run(body)
+    assert before == 0 and after == 5
+
+
+def test_tui_quick_navigator_opens_and_jumps(tui_config):
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause(0.3)
+            await pilot.press("ctrl+o")
+            await pilot.pause(0.2)
+            opened = isinstance(app.screen, NavigatorScreen)
+            # 首行是模块 1; j/k 也可在浮层内使用, 这里跳到模块 2。
+            await pilot.press("j", "enter")
+            await pilot.pause(0.2)
+            return opened, app.active_index, isinstance(app.screen, NavigatorScreen)
+
+    opened, index, still_open = _run(body)
+    assert opened is True and index == 1 and still_open is False
+
+
 def test_tui_tab_and_shift_tab_cycle_modules(tui_config):
     async def body():
         app = SentinelTUI(tui_config, engine="python")
@@ -106,6 +138,39 @@ def test_tui_tab_and_shift_tab_cycle_modules(tui_config):
             return forward, back
 
     assert _run(body) == (1, 0)
+
+
+def test_tui_sidebar_focus_and_pane_navigation(tui_config):
+    """The sidebar is the initial selection surface; l enters the main pane."""
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            initial = (app.focus_region, app.active_index, type(app.focused), app.focused.id)
+            await pilot.press("j")
+            await pilot.pause(0.1)
+            sidebar_down = (app.focus_region, app.active_index, app.focused.id)
+            await pilot.press("2", "j")
+            await pilot.pause(0.1)
+            sidebar_count = (app.focus_region, app.active_index, app.focused.id)
+            await pilot.press("l")
+            await pilot.pause(0.1)
+            main = (app.focus_region, app.active_index, app.focused.id)
+            await pilot.press("j", "j")
+            await pilot.pause(0.1)
+            row = app.active_panel.query_one(DataTable).cursor_row
+            await pilot.press("h")
+            await pilot.pause(0.1)
+            back = (app.focus_region, app.active_index, app.focused.id)
+            return initial, sidebar_down, sidebar_count, main, row, back
+
+    initial, down, counted, main, row, back = _run(body)
+    assert initial == ("sidebar", 0, ModuleItem, "mod-1")
+    assert down == ("sidebar", 1, "mod-2")
+    assert counted == ("sidebar", 3, "mod-4")
+    assert main == ("main", 3, "rules-table")
+    assert row == 2
+    assert back == ("sidebar", 3, "mod-4")
 
 
 # --------------------------------------------------------------------------
@@ -160,6 +225,27 @@ def test_tui_vim_count_moves_by_count(tui_config):
 
     row, count = _run(body)
     assert row == 3 and count > 10
+
+
+def test_tui_h_l_switches_panes(tui_config):
+    """h/l move focus between the sidebar and the main pane."""
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            await pilot.press("4")
+            await settle(pilot, lambda: app.active_panel.MODULE_NAME == "规则防御管理")
+            await pilot.press("h")
+            await pilot.pause(0.1)
+            sidebar = (app.focus_region, app.focused.id)
+            await pilot.press("l")
+            await pilot.pause(0.1)
+            main = (app.focus_region, app.focused.id)
+            return sidebar, main
+
+    sidebar, main = _run(body)
+    assert sidebar == ("sidebar", "mod-4")
+    assert main == ("main", "rules-table")
 
 
 def test_tui_x_toggles_rule_and_yy_yanks(tui_config):
@@ -517,6 +603,8 @@ def test_vim_jk_scrolls_event_log_and_pauses_follow(tui_config):
             log = _first(panel, RichLog)
             assert log is not None and log.max_scroll_y > 0
 
+            await pilot.press("l")
+            await pilot.pause(0.2)
             top_before = log.scroll_y
             await pilot.press("k", "k", "k")
             await pilot.pause(0.3)

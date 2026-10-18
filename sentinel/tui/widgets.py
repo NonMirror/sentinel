@@ -197,6 +197,6 @@ class StatusBar(Static):
             text.append("   ")
             text.append(hint, style=f"bold {palette.YELLOW}")
         else:
-            text.append("   [1-9]模块  j/k移动  g/G首尾  a多引擎  /搜索  :命令  ?帮助  q退出",
+            text.append("   [1-9]模块  Ctrl-O导航  h/l侧栏·主面板  j/k模块·行  g/G首尾  a多引擎  /搜索  :命令  ?帮助  q退出",
                         style=palette.OVERLAY0)
         self.update(text)
