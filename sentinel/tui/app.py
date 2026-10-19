@@ -118,7 +118,7 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   [yellow]/[/]          搜索过滤                [yellow]:[/]          命令模式
   [yellow]r[/]          刷新 / 重载引擎         [yellow]s / D[/]      普通 / 深度扫描
   [yellow]a / A[/]      多引擎融合扫描 / 深度融合扫描 (模板 + 插件 + 内置)
-  [yellow]b[/]          扫描器答辩 Benchmark (本机 DVWA + Juice Shop)
+  [yellow]b[/]          当前 WAF / 扫描器面板的 Benchmark
   [yellow]Ctrl-O[/]     打开快速导航 (模块 / 常用动作)
   [yellow]Tab[/]        下一模块                [yellow]?[/]          本帮助
   [yellow]q[/]          退出
@@ -134,7 +134,7 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   :vendor               内置第三方资产 (规则/模板) 的来源与完整性
   :scan [url]            :scan! [url]   (深度扫描)
   :scanall [url]         :scanall! [url] 多引擎融合扫描 (模板+插件+内置)
-  :benchmark            运行并展示扫描器答辩 Benchmark
+  :benchmark [waf|scanner] 运行并展示对应 Benchmark
   :report [md|html|json] :export        导出当前引擎规则
   :reload               重载引擎规则     :clear  清空事件
 
@@ -156,7 +156,7 @@ def _read_benchmark_report() -> str:
 
 
 class BenchmarkScreen(ModalScreen):
-    """答辩用扫描器基准：重跑本地双靶场，并原样展示 benchmark.md。"""
+    """运行 WAF 或扫描器基准，并原样展示 benchmark.md。"""
 
     BINDINGS = [
         Binding("escape", "dismiss", "关闭"),
@@ -170,38 +170,56 @@ class BenchmarkScreen(ModalScreen):
         Binding("G", "scroll_end", "底部", show=False),
     ]
 
-    def __init__(self) -> None:
+    def __init__(self, kind: str = "scanner") -> None:
         super().__init__()
+        self.kind = kind
         self._benchmark_running = False
         self._results: dict[str, dict] = {}
+        self._waf_result: dict | None = None
 
     def compose(self) -> ComposeResult:
+        waf = self.kind == "waf"
         with Vertical(id="benchmark"):
-            yield Static("扫描器答辩 Benchmark", classes="benchmark-title")
+            yield Static("WAF Benchmark" if waf else "扫描器 Benchmark",
+                         classes="benchmark-title")
             yield Static(
-                "固定目标：本机 DVWA :8081 + Juice Shop :3000 · W13Scan 原生引擎深度扫描",
+                ("固定语料：GoTestWAF 434 条攻击 + 169 条良性请求 · balanced PL4"
+                 if waf else "固定目标：本机 DVWA :8081 + Juice Shop :3000"),
                 classes="benchmark-hint")
             with Horizontal(id="benchmark-actions"):
-                yield Button("运行双靶场 Benchmark [r]", id="benchmark-run", variant="primary")
+                yield Button("运行 WAF Benchmark [r]" if waf
+                             else "运行双靶场 Benchmark [r]",
+                             id="benchmark-run", variant="primary")
                 yield Button("关闭 [Esc]", id="benchmark-close")
-            yield Static("就绪；下方直接呈现 benchmark.md。", id="benchmark-status")
+            yield Static("就绪", id="benchmark-status")
             yield DataTable(id="benchmark-live", zebra_stripes=True)
             yield Static(
-                "实时表为当前原始扫描统计；报告中的对照分数为经复核统一结果，口径不同。",
+                ("实时表重跑 434+169 端到端语料；CSIC 10,000 条留出集与竞品结果见下方报告。"
+                 if waf else
+                 "实时表为当前原始扫描统计；报告中的对照分数为经复核统一结果，口径不同。"),
                 classes="benchmark-hint")
             with VerticalScroll(id="benchmark-report-scroll"):
                 yield Markdown(_read_benchmark_report(), id="benchmark-report")
 
     def on_mount(self) -> None:
         table = self.query_one("#benchmark-live", DataTable)
-        for label, key in (("目标", "target"), ("状态", "state"),
-                           ("接口", "endpoints"), ("原始发现", "findings"),
-                           ("请求", "requests"), ("错误", "errors"),
-                           ("耗时", "seconds")):
-            table.add_column(label, key=key)
-        for key, label, _url in BENCHMARK_TARGETS:
-            table.add_row(label, "待运行", "-", "-", "-", "-", "-", key=key)
-        table.add_row("合计", "待运行", "-", "-", "-", "-", "-", key="total")
+        if self.kind == "waf":
+            for label, key in (("配置", "config"), ("状态", "state"),
+                               ("总体拦截", "recall"), ("类别等权", "macro"),
+                               ("良性误报", "false_positives"), ("误报率", "fpr"),
+                               ("吞吐", "qps"), ("耗时", "seconds")):
+                table.add_column(label, key=key)
+            table.add_row("Sentinel balanced PL4", "待运行", "-", "-", "-", "-",
+                          "-", "-", key="waf")
+        else:
+            for label, key in (("目标", "target"), ("状态", "state"),
+                               ("接口", "endpoints"), ("原始发现", "findings"),
+                               ("请求", "requests"), ("错误", "errors"),
+                               ("耗时", "seconds")):
+                table.add_column(label, key=key)
+            for key, label, _url in BENCHMARK_TARGETS:
+                table.add_row(label, "待运行", "-", "-", "-", "-", "-", key=key)
+            table.add_row("合计", "待运行", "-", "-", "-", "-", "-", key="total")
         self.query_one("#benchmark-run", Button).focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -230,15 +248,24 @@ class BenchmarkScreen(ModalScreen):
             return
         self._benchmark_running = True
         self._results.clear()
+        self._waf_result = None
         self.query_one("#benchmark-run", Button).disabled = True
-        self.query_one("#benchmark-status", Static).update("正在检查本地靶场 ...")
-        for key, _label, _url in BENCHMARK_TARGETS:
-            self._set_row(key, {"state": "等待", "endpoints": "-", "findings": "-",
-                                "requests": "-", "errors": "-", "seconds": "-"})
-        threading.Thread(target=self._run_benchmark, name="sentinel-benchmark",
+        if self.kind == "waf":
+            self.query_one("#benchmark-status", Static).update("正在装载 WAF 固定语料 ...")
+            self._set_row("waf", {"state": "装载中", "recall": "-", "macro": "-",
+                                  "false_positives": "-", "fpr": "-", "qps": "-",
+                                  "seconds": "-"})
+            target = self._run_waf_benchmark
+        else:
+            self.query_one("#benchmark-status", Static).update("正在检查本地靶场 ...")
+            for key, _label, _url in BENCHMARK_TARGETS:
+                self._set_row(key, {"state": "等待", "endpoints": "-", "findings": "-",
+                                    "requests": "-", "errors": "-", "seconds": "-"})
+            target = self._run_scanner_benchmark
+        threading.Thread(target=target, name=f"sentinel-{self.kind}-benchmark",
                          daemon=True).start()
 
-    def _run_benchmark(self) -> None:
+    def _run_scanner_benchmark(self) -> None:
         for index, (key, label, url) in enumerate(BENCHMARK_TARGETS, 1):
             self.app.call_from_thread(
                 self._set_phase, key, f"运行中 {index}/{len(BENCHMARK_TARGETS)}：{label}")
@@ -270,7 +297,63 @@ class BenchmarkScreen(ModalScreen):
                           "requests": "-", "errors": 1, "seconds": "-",
                           "message": str(exc)}
             self.app.call_from_thread(self._set_result, key, result)
-        self.app.call_from_thread(self._finish)
+        self.app.call_from_thread(self._finish_scanner)
+
+    def _run_waf_benchmark(self) -> None:
+        try:
+            from benchmarks.scripts.bench_waf_proxy import run_benchmark
+
+            def progress(phase: str, completed: int, total: int) -> None:
+                self.app.call_from_thread(self._set_waf_progress, phase, completed, total)
+
+            result = run_benchmark(
+                engine="modsecurity", source="GoTestWAF", attacks=434, benign=169,
+                profile="balanced", paranoia=4, threshold=5, progress=progress)
+            self.app.call_from_thread(self._set_waf_result, result)
+        except Exception as exc:  # noqa: BLE001 - 保留错误并恢复可重试状态
+            self.app.call_from_thread(self._finish_waf_error, str(exc))
+
+    def _set_waf_progress(self, phase: str, completed: int, total: int) -> None:
+        if not self.is_mounted:
+            return
+        self._set_row("waf", {"state": f"{completed}/{total}"})
+        self.query_one("#benchmark-status", Static).update(
+            f"WAF Benchmark：{phase} {completed}/{total}")
+
+    def _set_waf_result(self, result: dict) -> None:
+        self._benchmark_running = False
+        if not self.is_mounted:
+            return
+        self._waf_result = result
+        attacks, benign = result["attacks"], result["benign"]
+        recall = float(result["attack_recall"])
+        macro = float(result["category_macro_recall"])
+        fpr = float(result["false_positive_rate"])
+        passed = recall >= .95 and macro >= .95 and fpr < .05
+        self._set_row("waf", {
+            "state": "达标" if passed else "完成",
+            "recall": f"{attacks['blocked']}/{attacks['n']} ({recall:.2%})",
+            "macro": f"{macro:.2%}",
+            "false_positives": f"{benign['blocked']}/{benign['n']}",
+            "fpr": f"{fpr:.2%}",
+            "qps": f"{result['qps']} req/s",
+            "seconds": f"{result['seconds']:.2f}s",
+        })
+        message = (f"WAF Benchmark 完成：拦截 {recall:.2%} · 类别等权 {macro:.2%} · "
+                   f"误报 {fpr:.2%}")
+        self.query_one("#benchmark-status", Static).update(message)
+        self.query_one("#benchmark-run", Button).disabled = False
+        self.app.notify(message, timeout=4,
+                        severity="information" if passed else "warning")
+
+    def _finish_waf_error(self, message: str) -> None:
+        self._benchmark_running = False
+        if not self.is_mounted:
+            return
+        self._set_row("waf", {"state": "失败"})
+        self.query_one("#benchmark-status", Static).update(f"WAF Benchmark 失败：{message}")
+        self.query_one("#benchmark-run", Button).disabled = False
+        self.app.notify(f"WAF Benchmark 失败：{message}", timeout=4, severity="error")
 
     def _set_phase(self, key: str, message: str) -> None:
         if not self.is_mounted:
@@ -285,7 +368,7 @@ class BenchmarkScreen(ModalScreen):
         self._set_row(key, result)
         self._update_total()
 
-    def _finish(self) -> None:
+    def _finish_scanner(self) -> None:
         self._benchmark_running = False
         if not self.is_mounted:
             return
@@ -302,9 +385,9 @@ class BenchmarkScreen(ModalScreen):
 
     def _set_row(self, row: str, values: dict) -> None:
         table = self.query_one("#benchmark-live", DataTable)
-        for column in ("state", "endpoints", "findings", "requests", "errors", "seconds"):
-            if column in values:
-                table.update_cell(row, column, str(values[column]))
+        for column, value in values.items():
+            if column != "message":
+                table.update_cell(row, column, str(value))
 
     def _update_total(self) -> None:
         numeric = ("endpoints", "findings", "requests", "errors")
@@ -707,9 +790,9 @@ class SentinelTUI(App):
         if not isinstance(self.screen, NavigatorScreen):
             self.push_screen(NavigatorScreen())
 
-    def open_benchmark(self) -> None:
+    def open_benchmark(self, kind: str = "scanner") -> None:
         if not isinstance(self.screen, BenchmarkScreen):
-            self.push_screen(BenchmarkScreen())
+            self.push_screen(BenchmarkScreen(kind))
 
     def refresh_active(self) -> None:
         for panel in self._panels:
@@ -1052,8 +1135,14 @@ class SentinelTUI(App):
                 panel.query_one("#scan-target", Input).value = args[0]
             panel.start_scan(deep=name.endswith("!"))
         elif name in ("benchmark", "bench"):
-            self.goto(ScanPanel)
-            self.open_benchmark()
+            kind = args[0].lower() if args else \
+                ("waf" if isinstance(self.active_panel, DashboardPanel) else "scanner")
+            if kind not in ("waf", "scanner"):
+                self.notify("用法: :benchmark [waf|scanner]", timeout=3,
+                            severity="warning")
+                return
+            self.goto(DashboardPanel if kind == "waf" else ScanPanel)
+            self.open_benchmark(kind)
         elif name == "report":
             fmt = args[0] if args else "md"
             if self.runtime.last_report is None:

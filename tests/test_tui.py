@@ -176,6 +176,46 @@ def test_tui_scanner_benchmark_runs_and_shows_markdown(tui_config, monkeypatch):
     assert still_open is False
 
 
+def test_tui_waf_panel_runs_balanced_benchmark(tui_config, monkeypatch):
+    def fake_waf_benchmark(**kwargs):
+        kwargs["progress"]("攻击样本", 434, 603)
+        kwargs["progress"]("良性样本", 603, 603)
+        return {
+            "attack_recall": .9539,
+            "category_macro_recall": .9515,
+            "false_positive_rate": .0296,
+            "attacks": {"n": 434, "blocked": 414},
+            "benign": {"n": 169, "blocked": 5},
+            "seconds": 4.2,
+            "qps": 123.4,
+        }
+
+    monkeypatch.setattr("benchmarks.scripts.bench_waf_proxy.run_benchmark",
+                        fake_waf_benchmark)
+
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            assert app.active_panel.MODULE_NAME == "WAF 可视化"
+            await pilot.press("b")
+            await settle(pilot, lambda: isinstance(app.screen, BenchmarkScreen))
+            screen = app.screen
+            assert screen.kind == "waf"
+            await pilot.press("r")
+            await settle(pilot, lambda: not screen._benchmark_running
+                         and screen._waf_result is not None)
+            row = screen.query_one("#benchmark-live", DataTable).get_row("waf")
+            await pilot.press("escape")
+            await pilot.pause(0.1)
+            return row, isinstance(app.screen, BenchmarkScreen)
+
+    row, still_open = _run(body)
+    assert row == ["Sentinel balanced PL4", "达标", "414/434 (95.39%)", "95.15%",
+                   "5/169", "2.96%", "123.4 req/s", "4.20s"]
+    assert still_open is False
+
+
 def test_tui_tab_and_shift_tab_cycle_modules(tui_config):
     async def body():
         app = SentinelTUI(tui_config, engine="python")

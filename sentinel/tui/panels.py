@@ -81,7 +81,8 @@ class DashboardPanel(_Panel):
     KEY = "1"
 
     def compose(self) -> ComposeResult:
-        yield Static("▤ 可视化安全运营与管理平台  —  实时态势", classes="panel-title")
+        yield Static("▤ 可视化安全运营与管理平台  —  实时态势 · b WAF Benchmark",
+                     classes="panel-title")
         with Horizontal(classes="row"):
             yield StatCard("总请求", id="st-requests")
             yield StatCard("已拦截", id="st-blocked", variant="bad")
@@ -98,6 +99,12 @@ class DashboardPanel(_Panel):
             yield Static("", id="lat-box", classes="card")
         yield Static("实时事件流  (最近 200 条)", classes="panel-title")
         yield RichLog(id="dash-log", markup=False, max_lines=200, wrap=False)
+
+    def vim_key(self, key: str, count: int = 1) -> bool:
+        if key == "b":
+            self.app.open_benchmark("waf")  # type: ignore[attr-defined]
+            return True
+        return False
 
     def refresh_data(self) -> None:
         snap = self.runtime.snapshot()
@@ -713,7 +720,7 @@ class ScanPanel(_Panel):
             self.start_multi_scan(deep=True)
             return True
         if key == "b":
-            self.app.open_benchmark()  # type: ignore[attr-defined]
+            self.app.open_benchmark("scanner")  # type: ignore[attr-defined]
             return True
         if key == "enter" and self.app.focused is self.query_one("#scan-target", Input):
             return False
