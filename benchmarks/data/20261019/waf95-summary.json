@@ -1,0 +1,241 @@
+{
+  "scope": "Complete fixed positive corpus and separately measured benign sets; not unknown-positive validation",
+  "configuration": {
+    "engine": "modsecurity",
+    "crs_profile": "balanced",
+    "blocking_pl": 4,
+    "detection_pl": 4,
+    "threshold": 5
+  },
+  "acceptance": {
+    "min_recall": 0.95,
+    "max_fpr_exclusive": 0.055,
+    "macro_definition": "equal weight over all 21 original positive categories",
+    "lower_fpr_is_acceptable": true
+  },
+  "checks": {
+    "overall_recall": true,
+    "category_macro_recall": true,
+    "original_benign_fpr": true,
+    "csic_regression_fpr": true,
+    "csic_holdout_fpr": true
+  },
+  "scope_passed": true,
+  "all_historical_partitions_passed": false,
+  "positive_corpus": {
+    "counts": {
+      "attack_total": 434,
+      "attack_blocked": 414,
+      "benign_total": 169,
+      "benign_blocked": 5
+    },
+    "recall": 0.9539170506912442,
+    "false_positive_rate": 0.029585798816568046,
+    "category_macro_recall": 0.9514991181657848,
+    "by_category": {
+      "CRLF Injection": {
+        "total": 21,
+        "blocked": 21
+      },
+      "GraphQL": {
+        "total": 12,
+        "blocked": 6
+      },
+      "LDAP Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "LFI": {
+        "total": 6,
+        "blocked": 6
+      },
+      "Mail Injection": {
+        "total": 6,
+        "blocked": 6
+      },
+      "NoSQL Injection": {
+        "total": 15,
+        "blocked": 15
+      },
+      "Path Traversal": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RCE": {
+        "total": 30,
+        "blocked": 30
+      },
+      "REST": {
+        "total": 21,
+        "blocked": 21
+      },
+      "REST non-CRUD": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RawRequest test": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SOAP": {
+        "total": 15,
+        "blocked": 15
+      },
+      "SQL Injection": {
+        "total": 21,
+        "blocked": 21
+      },
+      "SS Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SST Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "Shell": {
+        "total": 12,
+        "blocked": 12
+      },
+      "UserAgent": {
+        "total": 27,
+        "blocked": 13
+      },
+      "XSS": {
+        "total": 162,
+        "blocked": 162
+      },
+      "XXE": {
+        "total": 26,
+        "blocked": 26
+      },
+      "community-lfi-multipart": {
+        "total": 6,
+        "blocked": 6
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6
+      }
+    },
+    "meets_micro_gate": true,
+    "meets_macro_gate": true
+  },
+  "historical_validation_partition": {
+    "counts": {
+      "attack_total": 132,
+      "attack_blocked": 124,
+      "benign_total": 61,
+      "benign_blocked": 0
+    },
+    "recall": 0.9393939393939394,
+    "false_positive_rate": 0.0,
+    "category_macro_recall": 0.9222222222222223,
+    "by_category": {
+      "CRLF Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "GraphQL": {
+        "total": 3,
+        "blocked": 1
+      },
+      "LDAP Injection": {
+        "total": 3,
+        "blocked": 3
+      },
+      "Mail Injection": {
+        "total": 4,
+        "blocked": 4
+      },
+      "RCE": {
+        "total": 15,
+        "blocked": 15
+      },
+      "REST": {
+        "total": 3,
+        "blocked": 3
+      },
+      "RawRequest test": {
+        "total": 6,
+        "blocked": 6
+      },
+      "SOAP": {
+        "total": 3,
+        "blocked": 3
+      },
+      "SQL Injection": {
+        "total": 6,
+        "blocked": 6
+      },
+      "SS Injection": {
+        "total": 3,
+        "blocked": 3
+      },
+      "SST Injection": {
+        "total": 3,
+        "blocked": 3
+      },
+      "UserAgent": {
+        "total": 12,
+        "blocked": 6
+      },
+      "XSS": {
+        "total": 48,
+        "blocked": 48
+      },
+      "XXE": {
+        "total": 8,
+        "blocked": 8
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6
+      }
+    },
+    "meets_micro_gate": false,
+    "meets_macro_gate": false
+  },
+  "csic_regression": {
+    "profile": "balanced",
+    "pl": 4,
+    "total": 6000,
+    "false_positives": 316,
+    "false_positive_rate": 0.05266666666666667,
+    "methods": {
+      "GET": 4648,
+      "POST": 1352
+    },
+    "engine_errors": 0
+  },
+  "csic_holdout": {
+    "profile": "balanced",
+    "pl": 4,
+    "total": 10000,
+    "false_positives": 508,
+    "false_positive_rate": 0.0508,
+    "methods": {
+      "GET": 7795,
+      "POST": 2205
+    },
+    "engine_errors": 0
+  },
+  "csic_classified_unique": 16000,
+  "csic_collected": 36000,
+  "csic_not_classified": 20000,
+  "csic_overlap": 0,
+  "freeze_hashes_verified": true,
+  "frameworks": {
+    "total": 1080,
+    "exact": 1080,
+    "passive_passed": 432
+  },
+  "tests_passed": 958,
+  "tests_deselected": 10,
+  "limitations": [
+    "No unseen-positive validation",
+    "Old positive partition macro recall below 95 percent retained as failure",
+    "CSIC same-source synthetic normal holdout, not production distribution",
+    "Default standard profile unchanged"
+  ]
+}

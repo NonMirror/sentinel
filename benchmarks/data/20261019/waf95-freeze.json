@@ -1,0 +1,29 @@
+{
+  "frozen_at_utc": "2026-10-19T08:06:18.113742+00:00",
+  "acceptance": {
+    "min_recall": 0.95,
+    "max_fpr_exclusive": 0.055,
+    "macro_definition": "equal weight over all 21 original positive categories",
+    "lower_fpr_is_acceptable": true
+  },
+  "pending_validation": {
+    "source": "CSIC normal training",
+    "offset": 6000,
+    "sample_size": 10000,
+    "previously_classified": 6000,
+    "no_remaining_request_classification_before_freeze": true
+  },
+  "sha256": {
+    "sentinel/waf/crs_profiles.py": "738e74a88389c04857ea49573cab4208b4bb99bc76b1e3869206372694de5a7c",
+    "sentinel/waf/engines/modsecurity.py": "920e6de425bf0bb9d8596006b10a89a99353b0eb94d235c2a5edd844d85d3bca",
+    "sentinel/waf/secrule/variables.py": "04d55683c3186e070239d236c274ca20eda89827281074884af991306c06bfc7",
+    "sentinel/core/config.py": "e3a64f90538d6a0ce9f527ed6feb1a566ff7475d907e1b078507b454528d46f8",
+    "sentinel/__main__.py": "370477ea81010f56b1aafe9e1280940b551259a47bb75b476d912173eb82d2fe",
+    "examples/waf-balanced.toml": "ed7312db74c28892f55fa49ce49b7fd5d4c6bfe2b115576898c335b4e587c4aa",
+    "benchmarks/scripts/bench_csic_benign.py": "9cb5237ab7d811fec85c2d62d8df626438fbef65000b035f2914f0cd19d2cfca",
+    "benchmarks/scripts/bench_waf_acceptance.py": "b0d1184236c4fa15e314c595976b5834adc8907d1e80c76a5f1490cdf8bfbd84",
+    "benchmarks/scripts/bench_frameworks.py": "4c94769922ed7ee3911af8adf4bd3c384e5a34c1e7f1d2ef73c4d61d37df5d6f",
+    "tests/test_crs_profiles.py": "d2da481245d2bc8a74f53ccf3c5a85b50421bc3b0305f8c2adf2f332e20cd094",
+    "tests/test_balanced_syntax.py": "57b51e8f082ea6a6a77e8dd5fe9dd4dbf70d2f3260e8704617d4169c4f787866"
+  }
+}
