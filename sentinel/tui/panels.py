@@ -624,7 +624,7 @@ class AuditPanel(_Panel):
 class ScanPanel(_Panel):
     MODULE_NAME = "漏洞检测"
     MODULE_ICON = "◎"
-    KEY = "6"
+    KEY = "7"
 
     def compose(self) -> ComposeResult:
         yield Static("◎ 漏洞扫描子系统  —  Enter 输入目标 · s 扫描 · d 深度 · b 答辩 Benchmark",
@@ -797,7 +797,7 @@ class ScanPanel(_Panel):
 class VulnDbPanel(_Panel):
     MODULE_NAME = "漏洞库管理"
     MODULE_ICON = "☰"
-    KEY = "7"
+    KEY = "8"
 
     def compose(self) -> ComposeResult:
         yield Static("☰ 漏洞库与规则引擎  —  检测插件 / Payload / 匹配规则", classes="panel-title")
@@ -887,7 +887,7 @@ class VulnDbPanel(_Panel):
 class ReportPanel(_Panel):
     MODULE_NAME = "报告生成"
     MODULE_ICON = "✦"
-    KEY = "8"
+    KEY = "9"
 
     FORMATS = [("全部格式 (md + html + json)", ("md", "html", "json")),
                ("Markdown", ("md",)), ("HTML", ("html",)), ("JSON", ("json",))]
@@ -941,7 +941,7 @@ class ReportPanel(_Panel):
         text = Text()
         text.append("报告预览 (Markdown 摘要)\n\n", style=palette.OVERLAY1)
         if report is None:
-            text.append("暂无扫描结果 — 请先在 [6] 漏洞检测 面板执行扫描。", style=palette.OVERLAY0)
+            text.append("暂无扫描结果 — 请先在 [7] 漏洞检测 面板执行扫描。", style=palette.OVERLAY0)
         else:
             preview = render_markdown(report).splitlines()
             for line in preview[:26]:
@@ -977,7 +977,7 @@ class EnginesPanel(_Panel):
 
     MODULE_NAME = "引擎与资产"
     MODULE_ICON = "⚙"
-    KEY = "9"
+    KEY = "6"
 
     def compose(self) -> ComposeResult:
         yield Static("⚙ 引擎与资产  —  原生解释器 (进程内) · 内置规则/模板 · "

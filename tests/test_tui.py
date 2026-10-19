@@ -66,12 +66,12 @@ def test_tui_has_nine_modules_and_frappe_theme(tui_config):
             assert len(MODULES) == 9
             assert [panel[0].MODULE_NAME for panel in MODULES] == [
                 "WAF 可视化", "配置管理", "入侵检测管理", "规则防御管理", "日志审计管理",
-                "漏洞检测", "漏洞库管理", "报告生成", "引擎与资产"]
+                "引擎与资产", "漏洞检测", "漏洞库管理", "报告生成"]
             for index in range(1, 10):
                 assert app.query_one(f"#mod-{index}", Static) is not None
             assert str(app.query_one("#sidebar-group-blue", Static).render()) == "BLUE · WAF"
-            assert str(app.query_one("#sidebar-group-red", Static).render()) == "RED · 扫描器"
-            assert SIDEBAR_ORDER == (0, 1, 2, 3, 4, 8, 5, 6, 7)
+            assert str(app.query_one("#sidebar-group-red", Static).render()) == "RED · Scanner"
+            assert SIDEBAR_ORDER == tuple(range(9))
             assert app.theme == palette.THEME_NAME
             assert palette.BASE == "#303446" and palette.TEXT == "#c6d0f5"
             status = str(app.query_one(StatusBar).render())
@@ -155,7 +155,7 @@ def test_tui_scanner_benchmark_runs_and_shows_comparison(tui_config, monkeypatch
         app.runtime.scan_multi = fake_scan_multi
         async with app.run_test(size=(150, 46)) as pilot:
             await pilot.pause(0.3)
-            await pilot.press("6")
+            await pilot.press("7")
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "漏洞检测")
             await pilot.press("b")
             await settle(pilot, lambda: isinstance(app.screen, BenchmarkScreen))
@@ -299,8 +299,8 @@ def test_tui_sidebar_navigation_follows_blue_red_order(tui_config):
             first_blue = (app.active_index, app.focused.id)
             return after_blue, first_red, last_red, first_blue
 
-    assert _run(body) == ((8, "mod-9"), (5, "mod-6"),
-                          (7, "mod-8"), (0, "mod-1"))
+    assert _run(body) == ((5, "mod-6"), (6, "mod-7"),
+                          (8, "mod-9"), (0, "mod-1"))
 
 
 # --------------------------------------------------------------------------
@@ -311,7 +311,7 @@ def test_tui_vim_motions_on_engine_panel(tui_config):
         app = SentinelTUI(tui_config, engine="python")
         async with app.run_test(size=(150, 46)) as pilot:
             await pilot.pause(0.3)
-            await pilot.press("9")
+            await pilot.press("6")
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "引擎与资产")
             panel = app.active_panel
             table = panel.query_one("#engine-table", DataTable)
@@ -588,7 +588,7 @@ def test_tui_engine_panel_hot_switches_native_engine(tui_config):
         app = SentinelTUI(tui_config, engine="modsecurity")
         async with app.run_test(size=(150, 46)) as pilot:
             await pilot.pause(0.6)
-            await pilot.press("9")
+            await pilot.press("6")
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "引擎与资产"
                          and app.active_panel.query("#engine-table"))
             panel = app.active_panel
@@ -627,7 +627,7 @@ def test_tui_scan_panel_reflects_report(tui_config):
                 await pilot.pause(0.1)
                 if app.runtime.last_report is not None:
                     break
-            await pilot.press("6")
+            await pilot.press("7")
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "漏洞检测")
             app.active_panel.refresh_data()
             await pilot.pause(0.2)
@@ -656,7 +656,7 @@ def test_tui_multi_engine_scan_end_to_end(tui_config):
         app = SentinelTUI(tui_config, engine="python")
         async with app.run_test(size=(150, 46)) as pilot:
             await pilot.pause(0.4)
-            await pilot.press("6")
+            await pilot.press("7")
             await pilot.pause(0.5)
             app.run_command("scanall")
             panel = app.active_panel
@@ -787,7 +787,7 @@ def test_vim_jk_never_leaves_focus_in_a_hidden_panel(tui_config):
         app = SentinelTUI(tui_config, engine="python")
         async with app.run_test(size=(150, 46)) as pilot:
             await pilot.pause(0.4)
-            await pilot.press("9")                       # 引擎面板有表格
+            await pilot.press("6")                       # 引擎面板有表格
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "引擎与资产")
             await pilot.press("1")                       # 仪表盘没有可聚焦控件
             await settle(pilot, lambda: app.active_panel.MODULE_NAME == "WAF 可视化")

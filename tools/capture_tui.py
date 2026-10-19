@@ -100,8 +100,8 @@ async def capture(out: str, size: tuple[int, int], deep_scan: bool) -> None:
         await pilot.pause(0.3)
 
         names: list[str] = []
-        labels = ["dashboard", "config", "ids", "rules", "audit", "scan", "vulndb",
-                  "report", "engines"]
+        labels = ["dashboard", "config", "ids", "rules", "audit", "engines", "scan",
+                  "vulndb", "report"]
         for idx, label in enumerate(labels, 1):
             await pilot.press(str(idx))
             await pilot.pause(0.6)

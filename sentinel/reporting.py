@@ -839,10 +839,10 @@ def build_document(bench: dict, tests: dict, *, stamp: str,
               ("panel3-ids", "综设 II 入侵检测：逐条攻击判定与命中规则"),
               ("panel4-rules", "综设 II 规则防御：规则启停、导出 ModSecurity 语法"),
               ("panel5-audit", "综设 II 日志审计：结构化审计日志与 vim `dd` 冻结视图"),
-              ("panel6-scan", "综设 I 漏洞检测：单引擎/多引擎融合扫描"),
-              ("panel7-vulndb", "综设 I 漏洞库管理：插件与 OWASP/CWE 映射"),
-              ("panel8-report", "综设 I 报告生成：Markdown / HTML / JSON"),
-              ("panel9-engines", "综设 II WAF 引擎管理：ModSecurity / Naxsi / 内置热切换")]
+              ("panel6-engines", "综设 II WAF 引擎管理：ModSecurity / Naxsi / 内置热切换"),
+              ("panel7-scan", "综设 I 漏洞检测：单引擎/多引擎融合扫描"),
+              ("panel8-vulndb", "综设 I 漏洞库管理：插件与 OWASP/CWE 映射"),
+              ("panel9-report", "综设 I 报告生成：Markdown / HTML / JSON")]
     shots = [(SHOT_DIR / f"{name}.png", caption) for name, caption in panels
              if (SHOT_DIR / f"{name}.png").exists()]
     if shots:

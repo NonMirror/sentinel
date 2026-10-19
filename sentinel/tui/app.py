@@ -80,17 +80,17 @@ class ModuleItem(Static):
         return (f"[dim]{self.index}[/]  {self.panel_cls.MODULE_ICON}  "
                 f"{self.panel_cls.MODULE_NAME}")
 
-#: (面板类, 综合设计归属, 归属中文名) —— 顺序即 1-9 的模块编号
+#: (面板类, 综合设计归属, 归属中文名) —— BLUE 在前，RED 在后
 MODULES = [
     (DashboardPanel, "综设III", "管理平台"),
     (ConfigPanel, "综设III", "管理平台"),
     (IdsPanel, "综设II", "轻量级防火墙"),
     (RulesPanel, "综设II", "轻量级防火墙"),
     (AuditPanel, "综设II", "轻量级防火墙"),
+    (EnginesPanel, "综设II", "引擎与资产"),
     (ScanPanel, "综设I", "漏洞扫描子系统"),
     (VulnDbPanel, "综设I", "漏洞扫描子系统"),
     (ReportPanel, "综设I", "漏洞扫描子系统"),
-    (EnginesPanel, "综设II", "引擎与资产"),
 ]
 
 #: 模块编号 (1 起) -> 面板类, 用于命令与扫描动作的**按名寻址**。
@@ -99,8 +99,8 @@ MODULES = [
 MODULE_INDEX = {cls.__name__: index for index, (cls, _g, _n) in enumerate(MODULES, 1)}
 
 SIDEBAR_GROUPS = (
-    ("BLUE · WAF", "blue", (1, 2, 3, 4, 5, 9)),
-    ("RED · 扫描器", "red", (6, 7, 8)),
+    ("BLUE · WAF", "blue", (1, 2, 3, 4, 5, 6)),
+    ("RED · Scanner", "red", (7, 8, 9)),
 )
 SIDEBAR_ORDER = tuple(index - 1 for _label, _kind, indices in SIDEBAR_GROUPS
                       for index in indices)
@@ -110,8 +110,8 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
 [bold]架构映射[/]
   [cyan]综设III 管理平台[/]      \[1] WAF 可视化   \[2] 配置管理
   [cyan]综设II  轻量级防火墙[/]   \[3] 入侵检测     \[4] 规则防御     \[5] 日志审计
-  [cyan]综设II  引擎与资产[/]     \[9] 原生解释器 · 内置规则/模板 · 可选 C 数据面
-  [cyan]综设I   漏洞扫描子系统[/]  \[6] 漏洞检测     \[7] 漏洞库管理   \[8] 报告生成
+  [cyan]综设II  引擎与资产[/]     \[6] 原生解释器 · 内置规则/模板 · 可选 C 数据面
+  [cyan]综设I   漏洞扫描子系统[/]  \[7] 漏洞检测     \[8] 漏洞库管理   \[9] 报告生成
 
 [bold]Vim 键位[/]
   [yellow]1-9[/]        切换模块 (也可鼠标点击侧栏)   [yellow]j / k[/]  下 / 上移动
