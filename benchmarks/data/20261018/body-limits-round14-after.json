@@ -1,0 +1,3490 @@
+{
+  "scope": "self-authored upload-limit extension to the existing four-framework integration suite",
+  "limit_bytes": 1024,
+  "backend_timeout_s": 0.5,
+  "repeats": 3,
+  "frameworks": [
+    {
+      "framework": "django",
+      "packages": {
+        "sentinel": "1.0.0",
+        "django": "5.2.18",
+        "pydantic": "2.14.1",
+        "pydantic_core": "2.50.1",
+        "werkzeug": "3.1.9",
+        "starlette": "1.9.0",
+        "jinja2": "3.1.6",
+        "opentelemetry-api": "1.45.1",
+        "flask": "3.1.3",
+        "sqlparse": "0.6.0",
+        "uvicorn": "0.54.0",
+        "anyio": "4.15.1",
+        "itsdangerous": "2.2.0",
+        "python-multipart": "0.0.32",
+        "click": "8.5.0",
+        "idna": "3.20",
+        "asgiref": "3.12.1",
+        "blinker": "1.9.0",
+        "typing-inspection": "0.4.4",
+        "h11": "0.16.0",
+        "typing_extensions": "4.16.0",
+        "markupsafe": "3.0.4",
+        "annotated-types": "0.8.0",
+        "fastapi": "0.146.0",
+        "annotated-doc": "0.0.5"
+      }
+    },
+    {
+      "framework": "flask",
+      "packages": {
+        "sentinel": "1.0.0",
+        "django": "5.2.18",
+        "pydantic": "2.14.1",
+        "pydantic_core": "2.50.1",
+        "werkzeug": "3.1.9",
+        "starlette": "1.9.0",
+        "jinja2": "3.1.6",
+        "opentelemetry-api": "1.45.1",
+        "flask": "3.1.3",
+        "sqlparse": "0.6.0",
+        "uvicorn": "0.54.0",
+        "anyio": "4.15.1",
+        "itsdangerous": "2.2.0",
+        "python-multipart": "0.0.32",
+        "click": "8.5.0",
+        "idna": "3.20",
+        "asgiref": "3.12.1",
+        "blinker": "1.9.0",
+        "typing-inspection": "0.4.4",
+        "h11": "0.16.0",
+        "typing_extensions": "4.16.0",
+        "markupsafe": "3.0.4",
+        "annotated-types": "0.8.0",
+        "fastapi": "0.146.0",
+        "annotated-doc": "0.0.5"
+      }
+    },
+    {
+      "framework": "fastapi",
+      "packages": {
+        "sentinel": "1.0.0",
+        "django": "5.2.18",
+        "pydantic": "2.14.1",
+        "pydantic_core": "2.50.1",
+        "werkzeug": "3.1.9",
+        "starlette": "1.9.0",
+        "jinja2": "3.1.6",
+        "opentelemetry-api": "1.45.1",
+        "flask": "3.1.3",
+        "sqlparse": "0.6.0",
+        "uvicorn": "0.54.0",
+        "anyio": "4.15.1",
+        "itsdangerous": "2.2.0",
+        "python-multipart": "0.0.32",
+        "click": "8.5.0",
+        "idna": "3.20",
+        "asgiref": "3.12.1",
+        "blinker": "1.9.0",
+        "typing-inspection": "0.4.4",
+        "h11": "0.16.0",
+        "typing_extensions": "4.16.0",
+        "markupsafe": "3.0.4",
+        "annotated-types": "0.8.0",
+        "fastapi": "0.146.0",
+        "annotated-doc": "0.0.5"
+      }
+    },
+    {
+      "framework": "express",
+      "packages": {
+        "node": "v26.8.1",
+        "express": "5.3.0",
+        "multer": "2.4.0"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "body-1023",
+      "target": "/form",
+      "body_hex": "6e6f74653d61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "content_type": "application/x-www-form-urlencoded",
+      "expected": {
+        "method": "POST",
+        "path": "/form",
+        "query": {},
+        "files": {},
+        "json": null,
+        "form": {
+          "note": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "body_sha256": "0e401ca1d3fc7b4e8ad6ac7522aa12ff89a10d8e971206e5e30c3e4ade36e129"
+      }
+    },
+    {
+      "name": "body-1024",
+      "target": "/form",
+      "body_hex": "6e6f74653d6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "content_type": "application/x-www-form-urlencoded",
+      "expected": {
+        "method": "POST",
+        "path": "/form",
+        "query": {},
+        "files": {},
+        "json": null,
+        "form": {
+          "note": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "body_sha256": "b2665ebcedbc2e16fbb4b7b470c783d25d8ab86c59128e90ff43696b170b20f1"
+      }
+    },
+    {
+      "name": "body-1025",
+      "target": "/form",
+      "body_hex": "6e6f74653d616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "content_type": "application/x-www-form-urlencoded",
+      "expected": {
+        "method": "POST",
+        "path": "/form",
+        "query": {},
+        "files": {},
+        "json": null,
+        "form": {
+          "note": [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "body_sha256": "303eafe663dd118c492d3cc5eb4f0ea0adf9e11fc6330fba09b7e5b79ace982f"
+      }
+    }
+  ],
+  "corpus_sha256": "2805cdbaa3b41a0fc0c0d94a55bbc24ebd052a189ba2f1f9d1af01e19c28ad7e",
+  "rows": [
+    {
+      "framework": "django",
+      "engine": "python",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "python",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "python",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "naxsi",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "naxsi",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "naxsi",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "modsecurity",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "modsecurity",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "django",
+      "engine": "modsecurity",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "python",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "python",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "python",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "naxsi",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "naxsi",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "naxsi",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "modsecurity",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "modsecurity",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "flask",
+      "engine": "modsecurity",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "python",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "python",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "python",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "naxsi",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "naxsi",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "naxsi",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "modsecurity",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "modsecurity",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "fastapi",
+      "engine": "modsecurity",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "python",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "python",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "python",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "naxsi",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "naxsi",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "naxsi",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "modsecurity",
+      "mode": "block",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "modsecurity",
+      "mode": "detect",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "framework": "express",
+      "engine": "modsecurity",
+      "mode": "off",
+      "blocking_pl": 1,
+      "samples": [
+        {
+          "repeat": 0,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 0,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 1,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1023",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1024",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "body-1025",
+          "passed": true,
+          "status": 413,
+          "error": ""
+        },
+        {
+          "repeat": 2,
+          "case": "health-after-rejection",
+          "passed": true,
+          "status": 200,
+          "error": ""
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "passed": 432,
+    "total": 432
+  },
+  "limitations": [
+    "Ordinary Content-Length form uploads only; no chunked uploads or Expect handshake",
+    "No vulnerability scanning, attack recall or throughput measurement",
+    "Setup and direct oracle requests excluded; this is not a new public benchmark source",
+    "Post-rejection health checks use a new connection"
+  ]
+}

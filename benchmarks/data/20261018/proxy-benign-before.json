@@ -1,0 +1,290 @@
+{
+  "scope": "loopback benign forwarding with fresh TCP connections, not attack quality",
+  "python": "3.14.7",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "corpus_sha256": "d8527289ce64c5710b58f9bb0847deae513b5d4f9f130b1f14fdf8a3a31c0f86",
+  "case_count": 6,
+  "requests_per_run": 6,
+  "repeats": 1,
+  "audit_enabled": true,
+  "rows": [
+    {
+      "engine": "direct",
+      "paranoia_level": 0,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 6,
+          "concurrency": 1,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.0049,
+          "completed_rps": 1219.6,
+          "latency_ms": {
+            "p50": 0.705,
+            "p95": 0.904
+          },
+          "failures": []
+        },
+        {
+          "requests": 6,
+          "concurrency": 8,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.0045,
+          "completed_rps": 1342.45,
+          "latency_ms": {
+            "p50": 2.505,
+            "p95": 2.69
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "python",
+      "paranoia_level": 1,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 6,
+          "concurrency": 1,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.012,
+          "completed_rps": 500.19,
+          "latency_ms": {
+            "p50": 1.876,
+            "p95": 2.415
+          },
+          "failures": []
+        },
+        {
+          "requests": 6,
+          "concurrency": 8,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.0096,
+          "completed_rps": 622.17,
+          "latency_ms": {
+            "p50": 7.758,
+            "p95": 8.915
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 1,
+      "warmup_exact": 4,
+      "runs": [
+        {
+          "requests": 6,
+          "concurrency": 1,
+          "forwarded_exactly": 4,
+          "statuses": {
+            "200": 4,
+            "403": 2
+          },
+          "errors": {},
+          "seconds": 0.0072,
+          "completed_rps": 834.46,
+          "latency_ms": {
+            "p50": 1.306,
+            "p95": 1.824
+          },
+          "failures": [
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 0.6252200037124567
+            },
+            {
+              "case": 5,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 0.5336890026228502
+            }
+          ]
+        },
+        {
+          "requests": 6,
+          "concurrency": 8,
+          "forwarded_exactly": 4,
+          "statuses": {
+            "200": 4,
+            "403": 2
+          },
+          "errors": {},
+          "seconds": 0.0056,
+          "completed_rps": 1078.58,
+          "latency_ms": {
+            "p50": 4.14,
+            "p95": 4.902
+          },
+          "failures": [
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 2.330374001758173
+            },
+            {
+              "case": 5,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 2.3655120021430776
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 1,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 6,
+          "concurrency": 1,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.0387,
+          "completed_rps": 155.14,
+          "latency_ms": {
+            "p50": 6.034,
+            "p95": 8.286
+          },
+          "failures": []
+        },
+        {
+          "requests": 6,
+          "concurrency": 8,
+          "forwarded_exactly": 6,
+          "statuses": {
+            "200": 6
+          },
+          "errors": {},
+          "seconds": 0.0277,
+          "completed_rps": 216.63,
+          "latency_ms": {
+            "p50": 25.392,
+            "p95": 26.364
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 4,
+      "warmup_exact": 3,
+      "runs": [
+        {
+          "requests": 6,
+          "concurrency": 1,
+          "forwarded_exactly": 3,
+          "statuses": {
+            "200": 3,
+            "403": 3
+          },
+          "errors": {},
+          "seconds": 0.0402,
+          "completed_rps": 149.1,
+          "latency_ms": {
+            "p50": 6.567,
+            "p95": 8.598
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.597605999966618
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.404721996863373
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.914212000789121
+            }
+          ]
+        },
+        {
+          "requests": 6,
+          "concurrency": 8,
+          "forwarded_exactly": 3,
+          "statuses": {
+            "200": 3,
+            "403": 3
+          },
+          "errors": {},
+          "seconds": 0.042,
+          "completed_rps": 142.72,
+          "latency_ms": {
+            "p50": 16.699,
+            "p95": 24.563
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.498651998408604
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.93855699704727
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.45858400297584
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Synthetic benign corpus, no production traffic distribution",
+    "No TLS, keep-alive, attack traffic, CPU pinning or saturation search",
+    "Rates include client threads and echo backend; direct baseline reported separately"
+  ]
+}

@@ -1,0 +1,3064 @@
+{
+  "scope": "loopback benign forwarding with fresh TCP connections, not attack quality",
+  "python": "3.14.7",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "corpus_sha256": "d8527289ce64c5710b58f9bb0847deae513b5d4f9f130b1f14fdf8a3a31c0f86",
+  "case_count": 6,
+  "requests_per_run": 120,
+  "repeats": 3,
+  "audit_enabled": true,
+  "rows": [
+    {
+      "engine": "direct",
+      "paranoia_level": 0,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.067,
+          "completed_rps": 1789.84,
+          "latency_ms": {
+            "p50": 0.506,
+            "p95": 0.741
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0584,
+          "completed_rps": 2055.59,
+          "latency_ms": {
+            "p50": 0.449,
+            "p95": 0.605
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0576,
+          "completed_rps": 2083.94,
+          "latency_ms": {
+            "p50": 0.458,
+            "p95": 0.552
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0487,
+          "completed_rps": 2466.22,
+          "latency_ms": {
+            "p50": 3.051,
+            "p95": 3.747
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0507,
+          "completed_rps": 2366.53,
+          "latency_ms": {
+            "p50": 3.199,
+            "p95": 3.854
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0502,
+          "completed_rps": 2390.02,
+          "latency_ms": {
+            "p50": 3.114,
+            "p95": 3.958
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "python",
+      "paranoia_level": 1,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.2046,
+          "completed_rps": 586.64,
+          "latency_ms": {
+            "p50": 1.688,
+            "p95": 2.029
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.203,
+          "completed_rps": 591.22,
+          "latency_ms": {
+            "p50": 1.692,
+            "p95": 2.033
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.2033,
+          "completed_rps": 590.36,
+          "latency_ms": {
+            "p50": 1.676,
+            "p95": 2.079
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.1083,
+          "completed_rps": 1108.05,
+          "latency_ms": {
+            "p50": 6.532,
+            "p95": 10.849
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0973,
+          "completed_rps": 1233.08,
+          "latency_ms": {
+            "p50": 6.283,
+            "p95": 7.634
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0993,
+          "completed_rps": 1208.06,
+          "latency_ms": {
+            "p50": 6.397,
+            "p95": 7.628
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 1,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.1609,
+          "completed_rps": 745.92,
+          "latency_ms": {
+            "p50": 1.287,
+            "p95": 1.499
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.1582,
+          "completed_rps": 758.72,
+          "latency_ms": {
+            "p50": 1.301,
+            "p95": 1.515
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.1542,
+          "completed_rps": 778.3,
+          "latency_ms": {
+            "p50": 1.271,
+            "p95": 1.464
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0733,
+          "completed_rps": 1636.49,
+          "latency_ms": {
+            "p50": 4.605,
+            "p95": 6.772
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0717,
+          "completed_rps": 1673.02,
+          "latency_ms": {
+            "p50": 4.523,
+            "p95": 6.534
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.0872,
+          "completed_rps": 1376.1,
+          "latency_ms": {
+            "p50": 5.1,
+            "p95": 8.139
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 1,
+      "warmup_exact": 6,
+      "runs": [
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.6988,
+          "completed_rps": 171.73,
+          "latency_ms": {
+            "p50": 5.633,
+            "p95": 8.549
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.662,
+          "completed_rps": 181.27,
+          "latency_ms": {
+            "p50": 5.204,
+            "p95": 8.13
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.6873,
+          "completed_rps": 174.6,
+          "latency_ms": {
+            "p50": 5.547,
+            "p95": 8.246
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.4318,
+          "completed_rps": 277.88,
+          "latency_ms": {
+            "p50": 27.751,
+            "p95": 40.546
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.4463,
+          "completed_rps": 268.9,
+          "latency_ms": {
+            "p50": 28.672,
+            "p95": 45.647
+          },
+          "failures": []
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 120,
+          "statuses": {
+            "200": 120
+          },
+          "errors": {},
+          "seconds": 0.4434,
+          "completed_rps": 270.65,
+          "latency_ms": {
+            "p50": 28.224,
+            "p95": 36.834
+          },
+          "failures": []
+        }
+      ]
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 4,
+      "warmup_exact": 3,
+      "runs": [
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.7411,
+          "completed_rps": 161.91,
+          "latency_ms": {
+            "p50": 5.56,
+            "p95": 10.118
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.751816003699787
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.04627300001448
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.545936997805256
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.90251400071429
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.18659100291552
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.315340000379365
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.289457997307181
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.431377005355898
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.48801600234583
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.312344994512387
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.78538700210629
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.42627399408957
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.066152996732853
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.284989005711395
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.381909999414347
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.947053996962495
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.805414002679754
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.394779000198469
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.734563004807569
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.806825000036042
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.400711997936014
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.732486002671067
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.816566001158208
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.590264001511969
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.864735004957765
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.489517996669747
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.5260950030060485
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.860739001946058
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.572867001523264
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.566674000874627
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.005293995258398
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.22208900010446
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.743050001910888
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.243022999318782
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.730398000509012
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.627591999655124
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.758168998814654
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.635929000272881
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.950447004579473
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.408156997873448
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.391022998490371
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.2932340040570125
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.90822399762692
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.501940003654454
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.284974999492988
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.012224995880388
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.93823099997826
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.326594000507612
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.11796099919593
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.905164995056111
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.630943000141997
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.8145939983660355
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.489478000730742
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.944488999375608
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.321094999089837
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.656524999125395
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.416640998097137
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.948580994096119
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.105552002845798
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.553765004151501
+            }
+          ]
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.7593,
+          "completed_rps": 158.05,
+          "latency_ms": {
+            "p50": 5.606,
+            "p95": 10.38
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.0364080016152
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.255429001816083
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.511246003152337
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.872061003989074
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.491881002555601
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.528282999875955
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.7908059970941395
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.064721994334832
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.286127001454588
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.751974001119379
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.49947600060841
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.490348999155685
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.764521004399285
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.523927997681312
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.843007005751133
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.15578600304434
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.282793998660054
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.460909000248648
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.099559002905153
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.278849999944214
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.6682579961488955
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.16095399891492
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.574269003176596
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.405605003645178
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.988681997929234
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.25186799961375
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.74412500282051
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.833460993831977
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.843996002222411
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.15902999904938
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.985511998005677
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.767554004909471
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.507178000698332
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.885952999757137
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.772459000581875
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.480259002069943
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.530522998829838
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.550616996828467
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.127574998070486
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.774981000286061
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.380412000813521
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.448351999802981
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.194766003522091
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.303890000912361
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.733230005716905
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 9.803397995710839
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.916247003071476
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.6970700024976395
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.850879002537113
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.947365003521554
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.27644700196106
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.658393001998775
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.144847000541631
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.543751998629887
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.676610999624245
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.460894001065753
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.49629900342552
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.0534109943546355
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.126644999312703
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.357324000215158
+            }
+          ]
+        },
+        {
+          "requests": 120,
+          "concurrency": 1,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.6607,
+          "completed_rps": 181.63,
+          "latency_ms": {
+            "p50": 5.325,
+            "p95": 7.249
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.6068299963953905
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.751265001890715
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.43121400551172
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.5683820028207265
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.679129000985995
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.2581940035452135
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.715393999707885
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.511524996312801
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.52597099886043
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.899501000181772
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.325424001261126
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.57278699852759
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.909382994810585
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.819088997668587
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.469543997605797
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.8990930008585565
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.861416997504421
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.417769993073307
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.086635996121913
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.814306001411751
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.35093999496894
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.992584996216465
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.785839995951392
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.241668004600797
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.609762003587093
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.828682999184821
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.208153001149185
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.752569995820522
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.519896996906027
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.327181999746244
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.590116001258139
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.866898002044763
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.571441004576627
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.323302000761032
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.882031997316517
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.397435998020228
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.006080995372031
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.570952995389234
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.581703997449949
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.001280995202251
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.944397002167534
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.395271997258533
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.7152029947028495
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.72957500157645
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.445863003842533
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.866943996807095
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.883521000214387
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.446686998766381
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.463932997372467
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.891560002055485
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.46847300574882
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 4.964548999851104
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.878452000615653
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.500311999639962
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.009989004174713
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 8.339230997080449
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.5990340042626485
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.251060000271536
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 11.125361001177225
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 5.571053996391129
+            }
+          ]
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.584,
+          "completed_rps": 205.48,
+          "latency_ms": {
+            "p50": 32.061,
+            "p95": 68.489
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 19.555114005925134
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.704355003137607
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.94171600282425
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 6.03653299913276
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 12.597294000443071
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.625075001793448
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.754708998836577
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.79953400202794
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.42664000490913
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.7761719977716
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.40905099804513
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 15.901702005066909
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.519756997411605
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.976081996806897
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.585863001353573
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.529942002729513
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.81047899648547
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.27446299913572
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.899564001709223
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.60942599887494
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.79712999612093
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.63399000366917
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.652481003315188
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 36.64060799928848
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.72439899854362
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 33.69243199995253
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.744492999161594
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 20.20320899464423
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 30.550436000339687
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 30.60328799620038
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 10.157421995245386
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 15.607348002959043
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 12.286382007005159
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.910219001350924
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.76474100392079
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.21630999579793
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 12.28569799422985
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 14.429427996219601
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.46473000437254
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.757106002245564
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.662833998561837
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 20.909773993480485
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 15.369604996521957
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.31102400016971
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.936869001365267
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.374872998625506
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.753497001773212
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.369194996135775
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.32471199647989
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 19.544921000488102
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 13.08053499815287
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.580110995681025
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.643848993757274
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.259219001280144
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.908027998928446
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.7713910015882
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 14.883257004839834
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.100191999110393
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.506179992982652
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.436224998382386
+            }
+          ]
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.573,
+          "completed_rps": 209.44,
+          "latency_ms": {
+            "p50": 34.831,
+            "p95": 61.364
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.116385002736934
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 30.16258800198557
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 12.816891001421027
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 34.45512300095288
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 33.450399998400826
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 29.9724150027032
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.617620000441093
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 33.45878500113031
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 33.21978300664341
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.02412000246113
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.507358996430412
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.696368997567333
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.654893999861088
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.443722999014426
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.63043199694948
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.5744470054633
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.624593998130877
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.34146700234851
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.455401999759488
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.28510299755726
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.634833001589868
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.83367999654729
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.725141002505552
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.305477996065747
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.921827996266074
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.187336003407836
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.660828003718052
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.442294000124093
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.08236399665475
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.6167269993457
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 26.21404600358801
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.922525000874884
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 7.280951002030633
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.28319500258658
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.38194099481916
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.391873998567462
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.545263001229614
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.423058995627798
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.584791002969723
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.578909995791037
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.461246997409035
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 20.408760996360797
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.14639499754412
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.899849004810676
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.222046001639683
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.658759000478312
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.64673399622552
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.10811899608234
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.591855001228396
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 35.206369997467846
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.344896002323367
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.09537699876819
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 15.9230440040119
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.784467001154553
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.58999700198183
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.91397500084713
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.503419001121074
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.056702996545937
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.15695600293111
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.682201000861824
+            }
+          ]
+        },
+        {
+          "requests": 120,
+          "concurrency": 8,
+          "forwarded_exactly": 60,
+          "statuses": {
+            "200": 60,
+            "403": 60
+          },
+          "errors": {},
+          "seconds": 0.5864,
+          "completed_rps": 204.65,
+          "latency_ms": {
+            "p50": 37.383,
+            "p95": 63.093
+          },
+          "failures": [
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.62728300067829
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 40.90674500184832
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 40.69694799545687
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 40.38871899683727
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.020273001748137
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 12.98106699687196
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 39.54648399667349
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 33.92546399845742
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 34.07782399881398
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.281243996985722
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.350970000843517
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 30.93070499744499
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.933126001385972
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 20.852749999903608
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 20.6327119958587
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.728447000787128
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.270737994404044
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.606732998625375
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.314170004799962
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 19.082351005636156
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 25.06178699695738
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.114259998488706
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.800545998616144
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.118419999373145
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.38114099984523
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.039438998443075
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.98336499836296
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 29.013334002229385
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.81506399717182
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.619807001727168
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.159055006341077
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.067192003305536
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.89502499945229
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.25107300101081
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 32.60940100153675
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.89094600221142
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.18193900445476
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.966702999838162
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 31.452116003492847
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.473571006325074
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.154036000254564
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.068939997348934
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 37.116371997399256
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.441846995207015
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.93738000036683
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 17.382792000717018
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.51532999536721
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.096696999738924
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 18.310897001356352
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 23.071823998179752
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 36.17628299980424
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.491366005851887
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 22.94345599511871
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 28.6536569983582
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 24.48095900035696
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 26.862867998715956
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 21.262522001052275
+            },
+            {
+              "case": 1,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.10972700151615
+            },
+            {
+              "case": 3,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 27.502951998030767
+            },
+            {
+              "case": 4,
+              "status": 403,
+              "correct": false,
+              "error": "",
+              "ms": 16.17348899890203
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Synthetic benign corpus, no production traffic distribution",
+    "No TLS, keep-alive, attack traffic, CPU pinning or saturation search",
+    "Rates include client threads and echo backend; direct baseline reported separately"
+  ]
+}
