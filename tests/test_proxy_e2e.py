@@ -154,6 +154,8 @@ def test_proxy_returns_502_when_backend_is_down(tmp_path):
     config.listener.port = 0
     config.lab.base_port = 0
     config.lab.instances = 0        # 不启动靶场 -> 后端全部不可用
+    # 不保留默认后端 (9001-9003): 否则当开发机上正跑着 lab/TUI 时会误连到它而拿到 200。
+    config.backends = []
     config.waf.backend_timeout_s = 1.0
     config.audit_path = str(tmp_path / "audit.jsonl")
     runtime = SentinelRuntime(config, engine="python", start_lab=False).start()
