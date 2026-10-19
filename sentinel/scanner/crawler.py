@@ -6,9 +6,10 @@
 from __future__ import annotations
 
 import re
+from collections import deque
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
-from urllib.parse import parse_qs, urljoin, urlsplit, urlunsplit
+from urllib.parse import parse_qs, unquote, urljoin, urlsplit, urlunsplit
 
 from .client import HttpClient
 
@@ -16,7 +17,10 @@ FORM_PARAM_HINTS = ("q", "id", "name", "file", "url", "next", "callback", "path"
                     "page", "search", "query", "redirect", "return", "to", "target",
                     "filename", "img", "content", "data", "domain", "share")
 
-JS_ENDPOINT_RE = re.compile(r"""["'`]([/][A-Za-z0-9_\-./?=&%]{2,120})["'`]""")
+JS_ENDPOINT_RE = re.compile(r"""(?<![\\\w])(["'`])(/[A-Za-z0-9_\-./?=&%]{2,120})\1""")
+_UNSAFE_PATH_RE = re.compile(
+    r"(?:^|[/_.;-])(?:(?:log|sign)[-_]?(?:out|off)|delete|remove|destroy)"
+    r"(?:$|[/_.;-])", re.IGNORECASE)
 TECH_SIGNATURES = {
     "PHP": ("x-powered-by: php",),
     "Python": ("server: labhttp", "x-powered-by: flask", "server: werkzeug"),
@@ -24,6 +28,35 @@ TECH_SIGNATURES = {
     "nginx": ("server: nginx",),
     "Express": ("x-powered-by: express",),
 }
+
+
+def _crawl_url(base_url: str, candidate: str) -> str | None:
+    """拒绝越界、畸形以及可能改变会话或数据的发现地址。"""
+    if re.search(r"[\s\x00-\x1f\x7f\"'`\\]|%(?![0-9a-fA-F]{2})", candidate):
+        return None
+    try:
+        absolute = urljoin(base_url, candidate)
+        parts, base = urlsplit(absolute), urlsplit(base_url)
+        if parts.scheme not in ("http", "https") or parts.username is not None:
+            return None
+        origin = (parts.scheme, parts.hostname,
+                  parts.port if parts.port is not None else (443 if parts.scheme == "https" else 80))
+        base_origin = (base.scheme, base.hostname,
+                       base.port if base.port is not None else (443 if base.scheme == "https" else 80))
+        if not parts.hostname or origin != base_origin:
+            return None
+        path = unquote(parts.path)
+        if re.search(r"[\x00-\x1f\x7f\"'`\\]|https?:/", path, re.IGNORECASE):
+            return None
+        if _UNSAFE_PATH_RE.search(path):
+            return None
+        for name, values in parse_qs(parts.query).items():
+            if name.lower() in ("action", "do", "cmd", "operation"):
+                if any(_UNSAFE_PATH_RE.search(value) for value in values):
+                    return None
+        return urlunsplit((parts.scheme, parts.netloc, parts.path or "/", parts.query, ""))
+    except ValueError:
+        return None
 
 
 @dataclass(slots=True)
@@ -50,18 +83,19 @@ class Target:
     robots: list[str] = field(default_factory=list)
     title: str = ""
     status: int = 0
+    max_urls: int | None = None
 
     def add(self, url: str, method: str = "GET", params: list[str] | None = None,
             form_fields: list[str] | None = None, source: str = "crawl") -> None:
-        parts = urlsplit(url)
-        if not parts.scheme:
-            url = urljoin(self.base_url, url)
-            parts = urlsplit(url)
-        if parts.netloc and parts.netloc != urlsplit(self.base_url).netloc:
+        url = _crawl_url(self.base_url, url)
+        if url is None:
             return
+        parts = urlsplit(url)
         clean = urlunsplit((parts.scheme, parts.netloc, parts.path or "/", "", ""))
         ep = self.endpoints.get(clean)
         if ep is None:
+            if self.max_urls is not None and len(self.endpoints) >= self.max_urls:
+                return
             ep = Endpoint(url=clean, method=method, source=source)
             self.endpoints[clean] = ep
         if params:
@@ -130,12 +164,16 @@ class TargetRecognizer:
     def __init__(self, client: HttpClient, max_urls: int = 400, max_depth: int = 3,
                  include_paths: tuple[str, ...] = ()) -> None:
         self.client = client
-        self.max_urls = max_urls
+        self.max_urls = max(1, max_urls)
         self.max_depth = max_depth
         self.include_paths = include_paths
 
     def recognize(self, seed_url: str) -> Target:
-        target = Target(base_url=seed_url, host=urlsplit(seed_url).netloc)
+        seed_url = _crawl_url(seed_url, seed_url)
+        if seed_url is None:
+            raise ValueError("种子 URL 越界、格式非法或指向危险操作")
+        target = Target(base_url=seed_url, host=urlsplit(seed_url).netloc,
+                        max_urls=self.max_urls)
         seed = self.client.get(seed_url)
         target.status = seed.status
         target.server = seed.header("Server")
@@ -173,13 +211,19 @@ class TargetRecognizer:
             for loc in re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", sitemap.text):
                 target.add(loc, source="sitemap")
 
-        queue: list[tuple[str, int]] = [(seed_url, 0)]
+        queue = deque([(seed_url, 0)])
+        queued = {seed_url}
         for path in target.robots + list(self.include_paths):
-            queue.append((urljoin(root + "/", path.lstrip("/")), 1))
+            absolute = _crawl_url(root + "/", path)
+            if absolute is not None and absolute not in queued and len(queued) < self.max_urls:
+                queue.append((absolute, 1))
+                queued.add(absolute)
 
         visited: set[str] = set()
         while queue and target.url_count < self.max_urls:
-            url, depth = queue.pop(0)
+            url, depth = queue.popleft()
+            if _crawl_url(seed_url, url) is None:
+                continue
             norm = urlunsplit(urlsplit(url)[:3] + (urlsplit(url).query, ""))
             if norm in visited or depth > self.max_depth:
                 continue
@@ -200,8 +244,8 @@ class TargetRecognizer:
                 pass
 
             for href in page_parser.links:
-                absolute = urljoin(url, href)
-                if urlsplit(absolute).scheme not in ("http", "https"):
+                absolute = _crawl_url(url, href)
+                if absolute is None:
                     continue
                 params = list(parse_qs(urlsplit(absolute).query).keys())
                 target.add(absolute, params=params, source="crawl")
@@ -209,15 +253,19 @@ class TargetRecognizer:
                     for param in params:
                         target.add(urlunsplit(urlsplit(absolute)[:3] + ("", "")),
                                    params=[param], source="crawl")
-                if urlunsplit(urlsplit(absolute)[:3] + ("", "")) not in visited:
+                if absolute not in queued and len(queued) < self.max_urls:
                     queue.append((absolute, depth + 1))
+                    queued.add(absolute)
 
             for action, method, fields in page_parser.forms:
-                absolute = urljoin(url, action or url)
-                target.add(absolute, method=method, form_fields=fields, source="form")
+                absolute = _crawl_url(url, action or url)
+                if absolute is not None:
+                    target.add(absolute, method=method, form_fields=fields, source="form")
 
-            for endpoint in JS_ENDPOINT_RE.findall(html_text):
-                absolute = urljoin(url, endpoint)
+            for match in JS_ENDPOINT_RE.finditer(html_text):
+                absolute = _crawl_url(url, match.group(2))
+                if absolute is None:
+                    continue
                 params = list(parse_qs(urlsplit(absolute).query).keys())
                 if params:
                     target.add(absolute, params=params, source="js")
