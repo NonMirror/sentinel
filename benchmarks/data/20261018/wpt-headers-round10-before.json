@@ -1,0 +1,485 @@
+{
+  "source": "https://github.com/web-platform-tests/wpt",
+  "commit": "c47791d69da614474168c0f6c1ad9a1dbd0cf0d3",
+  "scope": "Offline adaptation: nosniff effective-value parsing and CORP invalid-value observations",
+  "source_files": [
+    {
+      "path": "fetch/nosniff/resources/x-content-type-options.json",
+      "sha256": "ed6c21ec1eda8d88c16f5b0057f44d5f6756e891b2fabd4f4faeef38905d8c81"
+    },
+    {
+      "path": "fetch/cross-origin-resource-policy/syntax.any.js",
+      "sha256": "0c47df66226bd5b8fede75fbc9270eca7d4e1ee8b16bec388474a62142ef02b7"
+    },
+    {
+      "path": "fetch/nosniff/parsing-nosniff.window.js",
+      "sha256": "6f4ad67ecd3ac23e084cf30156106bc908c055d67ef9c0d96e9bddfd20b77df8"
+    },
+    {
+      "path": "fetch/nosniff/resources/nosniff.py",
+      "sha256": "114539c3ebfe613a7881bdbde162ee163ef9692521de1695744a334d51802cb2"
+    }
+  ],
+  "totals": {
+    "total": 22,
+    "passed": 17
+  },
+  "by_category": {
+    "nosniff": {
+      "total": 15,
+      "passed": 10
+    },
+    "corp-invalid": {
+      "total": 7,
+      "passed": 7
+    }
+  },
+  "cases": [
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:0",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "NOSNIFF"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": false,
+      "proof": [],
+      "severities": []
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:1",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "x-content-type-OPTIONS",
+          "nosniff"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": false,
+      "proof": [],
+      "severities": []
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:2",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff,,@#$#%%&^&^*()()11!"
+        ]
+      ],
+      "expected": true,
+      "actual": false,
+      "passed": false,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:3",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "@#$#%%&^&^*()()11!,nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:4",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ],
+        [
+          "X-Content-Type-Options",
+          "no"
+        ]
+      ],
+      "expected": true,
+      "actual": false,
+      "passed": false,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:5",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "no"
+        ],
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:6",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          ""
+        ],
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:7",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ],
+        [
+          "X-Content-Type-Options",
+          "nosniff"
+        ]
+      ],
+      "expected": true,
+      "actual": false,
+      "passed": false,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:8",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          ",nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:9",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff\f"
+        ]
+      ],
+      "expected": false,
+      "actual": true,
+      "passed": false,
+      "configuration_alert": false,
+      "proof": [],
+      "severities": []
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:10",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff\u000b"
+        ]
+      ],
+      "expected": false,
+      "actual": true,
+      "passed": false,
+      "configuration_alert": false,
+      "proof": [],
+      "severities": []
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:11",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "nosniff\u000b,nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:12",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "'NosniFF'"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:13",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "X-Content-Type-Options",
+          "\"nosniFF\""
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/nosniff/resources/x-content-type-options.json:14",
+      "category": "nosniff",
+      "header_items": [
+        [
+          "Content-Type-Options",
+          "nosniff"
+        ]
+      ],
+      "expected": false,
+      "actual": false,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "缺少或无效的 nosniff 响应头；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:0",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "same"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:1",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "same, same-origin"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:2",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "SAME-ORIGIN"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:3",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "Same-Origin"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:4",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "same-origin, <>"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:5",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "same-origin, same-origin"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "fetch/cross-origin-resource-policy/syntax.any.js:6",
+      "category": "corp-invalid",
+      "header_items": [
+        [
+          "Cross-Origin-Resource-Policy",
+          "https://www.example.com"
+        ]
+      ],
+      "expected": true,
+      "actual": true,
+      "passed": true,
+      "configuration_alert": true,
+      "proof": [
+        "响应头取值无效，无法按该头限制跨来源资源读取；仅检查 HTTP 响应头，未评估 HTML meta 或浏览器行为，未确认可利用漏洞"
+      ],
+      "severities": [
+        "info"
+      ]
+    }
+  ],
+  "limitations": [
+    "Two selected WPT files, not the complete WPT suite or a browser run",
+    "nosniff activation and canonical configuration syntax are distinct; both are recorded",
+    "CORP assertions adapt only the upstream invalid-value table, not cross-origin enforcement",
+    "No network requests, script execution, active scans, MIME-type or destination checks"
+  ]
+}

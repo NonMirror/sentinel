@@ -1,0 +1,26 @@
+{
+  "label": "dvwa-low",
+  "seed": "http://127.0.0.1:8081/",
+  "deep": false,
+  "elapsed_s": 0.008,
+  "stats": {
+    "requests": 12,
+    "urls": 1,
+    "params": 0,
+    "plugins_run": 3,
+    "findings": 0,
+    "duration_s": 0.007,
+    "by_severity": {},
+    "by_type": {},
+    "errors": 0
+  },
+  "risk_score": 0,
+  "risk_level": "无",
+  "target": {
+    "server": "Apache/2.4.25 (Debian)",
+    "technologies": [],
+    "urls": 1,
+    "params": 0
+  },
+  "findings": []
+}

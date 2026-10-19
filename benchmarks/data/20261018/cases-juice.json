@@ -1,0 +1,10 @@
+{
+  "label": "juice-shop",
+  "cases": [
+    {"name": "Product search SQLi",      "endpoint": "http://127.0.0.1:3000/rest/products/search?q=apple", "param": "q", "position": "query", "expect": ["sqli"]},
+    {"name": "Login SQLi (auth bypass)", "endpoint": "http://127.0.0.1:3000/rest/user/login",             "param": "email", "position": "form", "expect": ["sqli"]},
+    {"name": "Open redirect (/redirect)", "endpoint": "http://127.0.0.1:3000/redirect?to=https://example.com", "param": "to", "position": "query", "expect": ["redirect", "url_redirect"]},
+    {"name": "Unauthorized API /api/Users", "endpoint": "http://127.0.0.1:3000/api/Users?q=1",           "param": "q", "position": "query", "expect": ["unauth", "info"]},
+    {"name": "Info disclosure (config)", "endpoint": "http://127.0.0.1:3000/rest/admin/application-configuration?q=1", "param": "q", "position": "query", "expect": ["info", "html_res_information_disclosure"]}
+  ]
+}

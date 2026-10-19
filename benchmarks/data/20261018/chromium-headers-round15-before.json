@@ -1,0 +1,164 @@
+{
+  "source": "https://chromium.googlesource.com/chromium/src/",
+  "commit": "92e02bfafbc4a8bd68d536fb88852e08f0aa5a12",
+  "source_files": [
+    {
+      "path": "third_party/blink/renderer/platform/weborigin/security_policy.cc",
+      "sha256": "2ac1c6c1d822f29bd0e410e49d757cc6d79ec78e03a8d91eb93d91d7d883eff7"
+    },
+    {
+      "path": "third_party/blink/renderer/platform/weborigin/security_policy_test.cc",
+      "sha256": "49fea886efb8075b0234ed9cde7133d3f26741a3cea7cbaf759cce9424639b28"
+    }
+  ],
+  "totals": {
+    "total": 15,
+    "executed": 14,
+    "passed": 13,
+    "failed": 1,
+    "unsupported": 1
+  },
+  "cases": [
+    {
+      "id": "ReferrerPolicyFromHeaderValue:0",
+      "input": "origin",
+      "expected_valid": true,
+      "expected_policy": "origin",
+      "actual_policy": "origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyFromHeaderValue:2",
+      "input": "none",
+      "expected_valid": false,
+      "expected_policy": "",
+      "actual_policy": "",
+      "actual_valid": false,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyFromHeaderValue:3",
+      "input": "foo",
+      "expected_valid": false,
+      "expected_policy": "",
+      "actual_policy": "",
+      "actual_valid": false,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyFromHeaderValue:4",
+      "input": "origin, foo",
+      "expected_valid": true,
+      "expected_policy": "origin",
+      "actual_policy": "origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyFromHeaderValue:5",
+      "input": "origin, foo-bar",
+      "expected_valid": true,
+      "expected_policy": "origin",
+      "actual_policy": "origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyFromHeaderValue:6",
+      "input": "origin, foo bar",
+      "expected_valid": false,
+      "expected_policy": "",
+      "actual_policy": "origin",
+      "actual_valid": true,
+      "passed": false
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:0",
+      "input": "no-referrer",
+      "expected_valid": true,
+      "expected_policy": "no-referrer",
+      "actual_policy": "no-referrer",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:1",
+      "input": "unsafe-url",
+      "expected_valid": true,
+      "expected_policy": "unsafe-url",
+      "actual_policy": "unsafe-url",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:2",
+      "input": "origin",
+      "expected_valid": true,
+      "expected_policy": "origin",
+      "actual_policy": "origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:3",
+      "input": "origin-when-cross-origin",
+      "expected_valid": true,
+      "expected_policy": "origin-when-cross-origin",
+      "actual_policy": "origin-when-cross-origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:4",
+      "input": "same-origin",
+      "expected_valid": true,
+      "expected_policy": "same-origin",
+      "actual_policy": "same-origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:5",
+      "input": "strict-origin",
+      "expected_valid": true,
+      "expected_policy": "strict-origin",
+      "actual_policy": "strict-origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:6",
+      "input": "strict-origin-when-cross-origin",
+      "expected_valid": true,
+      "expected_policy": "strict-origin-when-cross-origin",
+      "actual_policy": "strict-origin-when-cross-origin",
+      "actual_valid": true,
+      "passed": true
+    },
+    {
+      "id": "ReferrerPolicyToAndFromString:7",
+      "input": "no-referrer-when-downgrade",
+      "expected_valid": true,
+      "expected_policy": "no-referrer-when-downgrade",
+      "actual_policy": "no-referrer-when-downgrade",
+      "actual_valid": true,
+      "passed": true
+    }
+  ],
+  "skipped": [
+    {
+      "id": "ReferrerPolicyFromHeaderValue:1",
+      "input": "none",
+      "expected_valid": true,
+      "expected_policy": "no-referrer",
+      "reason": "Legacy meta keywords are outside HTTP header scope"
+    }
+  ],
+  "limitations": [
+    "Two selected unit-test tables, not all Chromium security tests or a browser run",
+    "Canonical string round-trip cases adapt only policy selection, not the native serializer",
+    "One legacy-keyword case is explicitly unsupported, not counted as passed",
+    "HTTP header parsing only; no DOM/meta, referrer URL generation or active scans"
+  ]
+}

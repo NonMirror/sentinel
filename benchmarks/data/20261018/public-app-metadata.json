@@ -1,0 +1,24 @@
+{
+  "scope": "One ordinary GET to each local login/home page; no login, form submission, or active scan",
+  "applications": [
+    {
+      "name": "juice-shop",
+      "source": "https://github.com/juice-shop/juice-shop",
+      "image_id": "sha256:42843723a7bf4246aa5d63c324978b17ef296ac78434aeddd34c427bfb5853f4",
+      "path": "/"
+    },
+    {
+      "name": "dvwa",
+      "source": "https://github.com/digininja/DVWA",
+      "image_id": "sha256:dae203fe11646a86937bf04db0079adef295f426da68a92b40e3b181f337daa7",
+      "path": "/login.php"
+    },
+    {
+      "name": "webgoat",
+      "source": "https://github.com/WebGoat/WebGoat",
+      "image": "webgoat/webgoat@sha256:95c23e70502d0e0e11a826a73889e2ca93f965171202c17c0c59353ba67be86a",
+      "path": "/WebGoat/login",
+      "lifecycle": "Created for this benchmark, stopped and auto-removed after capture"
+    }
+  ]
+}

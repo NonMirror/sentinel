@@ -1,0 +1,139 @@
+{
+  "label": "juice-shop",
+  "seed": "http://127.0.0.1:3000/",
+  "deep": false,
+  "elapsed_s": 0.117,
+  "stats": {
+    "requests": 63,
+    "urls": 18,
+    "params": 0,
+    "plugins_run": 37,
+    "findings": 9,
+    "duration_s": 0.117,
+    "by_severity": {
+      "medium": 9
+    },
+    "by_type": {
+      "html_res_information_disclosure": 9
+    },
+    "errors": 0
+  },
+  "risk_score": 27.0,
+  "risk_level": "高",
+  "target": {
+    "server": "",
+    "technologies": [],
+    "urls": 18,
+    "params": 0
+  },
+  "findings": [
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/coupons_2013.md.bak",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1665697
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/eastere.gg",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1700222
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/encrypt.pyc",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1712482
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/quarantine",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": " color: #303030;\n}\n#stacktrace {\n  margin-top: 15px;\n}\n.directory h1 {\n  margin-bottom: 15px;\n  font-size: 18p",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1715927
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": " color: #303030;\n}\n#stacktrace {\n  margin-top: 15px;\n}\n.directory h1 {\n  margin-bottom: 15px;\n  font-size: 18p",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1718652
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/package.json.bak",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1975193
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/package-lock.json.bak",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.1985643
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/suspicious_errors.yml",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.198959
+    },
+    {
+      "vuln_type": "html_res_information_disclosure",
+      "url": "http://127.0.0.1:3000/ftp/",
+      "severity": "medium",
+      "method": "GET",
+      "param": "",
+      "payload": "",
+      "evidence": " color: #303030;\n}\n#stacktrace {\n  margin-top: 15px;\n}\n.directory h1 {\n  margin-bottom: 15px;\n  font-size: 18p",
+      "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+      "confidence": 0.8,
+      "created_at": 1792379778.200032
+    }
+  ]
+}

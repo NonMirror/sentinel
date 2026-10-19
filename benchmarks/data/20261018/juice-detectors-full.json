@@ -1,0 +1,148 @@
+{
+  "label": "juice-shop",
+  "hit": 2,
+  "expected": 5,
+  "results": [
+    {
+      "name": "Product search SQLi",
+      "endpoint": "http://127.0.0.1:3000/rest/products/search?q=apple",
+      "param": "q",
+      "position": "query",
+      "expect": [
+        "sqli"
+      ],
+      "found": [
+        "sqli_error",
+        "xss"
+      ],
+      "hit": true,
+      "seconds": 0.136,
+      "findings": [
+        {
+          "vuln_type": "sqli_error",
+          "url": "http://127.0.0.1:3000/rest/products/search?q=%27%29",
+          "severity": "critical",
+          "method": "GET",
+          "param": "q",
+          "payload": "')",
+          "evidence": " \n    <title>Error: SQLITE_ERROR: near &quot;)&quot;: syntax error</title>\n    <sty",
+          "proof": "注入 \"')\" 触发数据库报错 (HTTP 500)",
+          "confidence": 0.95,
+          "created_at": 1792380492.461341
+        },
+        {
+          "vuln_type": "xss",
+          "url": "http://127.0.0.1:3000/rest/products/search?q=%3Cscript%3Ealert%28%27sentinelXSS9137%27%29%3C%2Fscript%3E",
+          "severity": "high",
+          "method": "GET",
+          "param": "q",
+          "payload": "<script>alert('sentinelXSS9137')</script>",
+          "evidence": "E_ERROR: near &quot;sentinelXSS9137&quot;: syntax error</title>\n    <style>* {\n  margin: 0;\n  p",
+          "proof": "载荷未经过 HTML 实体编码直接回显到响应体",
+          "confidence": 0.92,
+          "created_at": 1792380492.4947436
+        }
+      ]
+    },
+    {
+      "name": "Login SQLi (auth bypass)",
+      "endpoint": "http://127.0.0.1:3000/rest/user/login",
+      "param": "email",
+      "position": "form",
+      "expect": [
+        "sqli"
+      ],
+      "found": [
+        "html_res_information_disclosure"
+      ],
+      "hit": false,
+      "seconds": 0.073,
+      "findings": [
+        {
+          "vuln_type": "html_res_information_disclosure",
+          "url": "http://127.0.0.1:3000/rest/user/login",
+          "severity": "medium",
+          "method": "GET",
+          "param": "",
+          "payload": "",
+          "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+          "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+          "confidence": 0.8,
+          "created_at": 1792380492.625755
+        }
+      ]
+    },
+    {
+      "name": "Open redirect (/redirect)",
+      "endpoint": "http://127.0.0.1:3000/redirect?to=https://example.com",
+      "param": "to",
+      "position": "query",
+      "expect": [
+        "redirect",
+        "url_redirect"
+      ],
+      "found": [
+        "html_res_information_disclosure"
+      ],
+      "hit": false,
+      "seconds": 0.048,
+      "findings": [
+        {
+          "vuln_type": "html_res_information_disclosure",
+          "url": "http://127.0.0.1:3000/redirect?to=https://example.com",
+          "severity": "medium",
+          "method": "GET",
+          "param": "",
+          "payload": "",
+          "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+          "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+          "confidence": 0.8,
+          "created_at": 1792380492.6772711
+        }
+      ]
+    },
+    {
+      "name": "Unauthorized API /api/Users",
+      "endpoint": "http://127.0.0.1:3000/api/Users?q=1",
+      "param": "q",
+      "position": "query",
+      "expect": [
+        "unauth",
+        "info"
+      ],
+      "found": [
+        "html_res_information_disclosure"
+      ],
+      "hit": true,
+      "seconds": 0.031,
+      "findings": [
+        {
+          "vuln_type": "html_res_information_disclosure",
+          "url": "http://127.0.0.1:3000/api/Users?q=1",
+          "severity": "medium",
+          "method": "GET",
+          "param": "",
+          "payload": "",
+          "evidence": "ist-style: none;\n}\n#stacktrace {\n  margin-left: 60px;\n}\n</style>\n  </head>\n  <body>\n    <div id=\"wrapper\">\n   ",
+          "proof": "响应中泄露堆栈/异常信息, 可用于辅助攻击",
+          "confidence": 0.8,
+          "created_at": 1792380492.7119718
+        }
+      ]
+    },
+    {
+      "name": "Info disclosure (config)",
+      "endpoint": "http://127.0.0.1:3000/rest/admin/application-configuration?q=1",
+      "param": "q",
+      "position": "query",
+      "expect": [
+        "info",
+        "html_res_information_disclosure"
+      ],
+      "found": [],
+      "hit": false,
+      "seconds": 0.119,
+      "findings": []
+    }
+  ]
+}

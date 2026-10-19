@@ -1,0 +1,17 @@
+{
+  "label": "juice-shop",
+  "urls": [
+    "http://127.0.0.1:3000/rest/products/search?q=apple",
+    "http://127.0.0.1:3000/rest/user/login",
+    "http://127.0.0.1:3000/rest/products/reviews",
+    "http://127.0.0.1:3000/api/Users",
+    "http://127.0.0.1:3000/api/Products",
+    "http://127.0.0.1:3000/rest/admin/application-configuration",
+    "http://127.0.0.1:3000/rest/admin/application-version",
+    "http://127.0.0.1:3000/metrics",
+    "http://127.0.0.1:3000/ftp/",
+    "http://127.0.0.1:3000/robots.txt",
+    "http://127.0.0.1:3000/.well-known/security.txt",
+    "http://127.0.0.1:3000/redirect?to=https://example.com"
+  ]
+}

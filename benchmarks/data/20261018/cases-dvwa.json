@@ -1,0 +1,11 @@
+{
+  "label": "dvwa-low",
+  "cases": [
+    {"name": "SQL injection (error)",   "endpoint": "http://127.0.0.1:8081/vulnerabilities/sqli/?id=1&Submit=Submit",       "param": "id",   "position": "query", "expect": ["sqli"]},
+    {"name": "SQL injection (blind)",   "endpoint": "http://127.0.0.1:8081/vulnerabilities/sqli_blind/?id=1&Submit=Submit", "param": "id",   "position": "query", "expect": ["sqli"]},
+    {"name": "XSS reflected",           "endpoint": "http://127.0.0.1:8081/vulnerabilities/xss_r/?name=sentinel",           "param": "name", "position": "query", "expect": ["xss"]},
+    {"name": "Command injection",       "endpoint": "http://127.0.0.1:8081/vulnerabilities/exec/?ip=127.0.0.1&Submit=Submit", "param": "ip",   "position": "query", "expect": ["rce", "cmd", "command"]},
+    {"name": "File inclusion (LFI)",    "endpoint": "http://127.0.0.1:8081/vulnerabilities/fi/?page=include.php",           "param": "page", "position": "query", "expect": ["file_read", "lfi", "traversal"]},
+    {"name": "Reflected XSS (xss_d)",   "endpoint": "http://127.0.0.1:8081/vulnerabilities/xss_d/?default=English",         "param": "default", "position": "query", "expect": ["xss"]}
+  ]
+}

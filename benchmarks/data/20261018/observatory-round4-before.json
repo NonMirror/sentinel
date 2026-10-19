@@ -1,0 +1,611 @@
+{
+  "source": "https://github.com/mdn/mdn-http-observatory",
+  "commit": "c33d9fccd75088d4f9c48d2d379a2f2ae371136b",
+  "fixture_sha256": "c68306399f5d303daa966d74463067377c617480037f5610a19927f28f39c543",
+  "detector_available": true,
+  "totals": {
+    "total": 52,
+    "passed": 40,
+    "expected_alerts": 24,
+    "false_positives": 0,
+    "missed": 12
+  },
+  "by_header": {
+    "x-content-type-options": {
+      "total": 5,
+      "passed": 5,
+      "expected_alerts": 3,
+      "false_positives": 0,
+      "missed": 0
+    },
+    "cross-origin-resource-policy": {
+      "total": 6,
+      "passed": 6,
+      "expected_alerts": 2,
+      "false_positives": 0,
+      "missed": 0
+    },
+    "referrer-policy": {
+      "total": 14,
+      "passed": 14,
+      "expected_alerts": 7,
+      "false_positives": 0,
+      "missed": 0
+    },
+    "cross-origin-opener-policy": {
+      "total": 14,
+      "passed": 8,
+      "expected_alerts": 6,
+      "false_positives": 0,
+      "missed": 6
+    },
+    "cross-origin-embedder-policy": {
+      "total": 13,
+      "passed": 7,
+      "expected_alerts": 6,
+      "false_positives": 0,
+      "missed": 6
+    }
+  },
+  "cases": [
+    {
+      "id": "test/x-content-type-options.test.js:checks for missing:0",
+      "header": "x-content-type-options",
+      "value": null,
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/x-content-type-options.test.js:checks header validity:0",
+      "header": "x-content-type-options",
+      "value": "whimsy",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/x-content-type-options.test.js:checks header validity:1",
+      "header": "x-content-type-options",
+      "value": "nosniff, nosniff",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/x-content-type-options.test.js:checks for nosniff:0",
+      "header": "x-content-type-options",
+      "value": "nosniff",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/x-content-type-options.test.js:checks for nosniff:1",
+      "header": "x-content-type-options",
+      "value": "nosniff ",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks for missing:0",
+      "header": "cross-origin-resource-policy",
+      "value": null,
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks header validity:0",
+      "header": "cross-origin-resource-policy",
+      "value": "whimsy",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks for same-site:0",
+      "header": "cross-origin-resource-policy",
+      "value": "same-site",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks for same-origin:0",
+      "header": "cross-origin-resource-policy",
+      "value": "same-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks for cross-origin:0",
+      "header": "cross-origin-resource-policy",
+      "value": "cross-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-resource-policy.test.js:checks for multiple headers:0",
+      "header": "cross-origin-resource-policy",
+      "value": "same-origin, cross-origin",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for private referrer header:0",
+      "header": "referrer-policy",
+      "value": "no-referrer",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for private referrer header:1",
+      "header": "referrer-policy",
+      "value": "same-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for private referrer header:2",
+      "header": "referrer-policy",
+      "value": "strict-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for private referrer header:3",
+      "header": "referrer-policy",
+      "value": "STRICT-ORIGIN",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for private referrer header:4",
+      "header": "referrer-policy",
+      "value": "strict-origin-when-cross-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for missing referrer header:0",
+      "header": "referrer-policy",
+      "value": null,
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for invalid referrer header:0",
+      "header": "referrer-policy",
+      "value": "whimsy",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for unsafe referrer header:0",
+      "header": "referrer-policy",
+      "value": "origin",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for unsafe referrer header:1",
+      "header": "referrer-policy",
+      "value": "origin-when-cross-origin",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for unsafe referrer header:2",
+      "header": "referrer-policy",
+      "value": "unsafe-url",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for multiple valid referrer headers:0",
+      "header": "referrer-policy",
+      "value": "origin-when-cross-origin, no-referrer, unsafe-url",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for multiple valid referrer headers:1",
+      "header": "referrer-policy",
+      "value": "no-referrer, unsafe-url",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for multiple referrer headers with valid and invalid mixed:0",
+      "header": "referrer-policy",
+      "value": "no-referrer, whimsy",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/referrer-policy.test.js:checks for multiple invalid referrer headers:0",
+      "header": "referrer-policy",
+      "value": "whimsy, whimsy1, whimsy2",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:invalidHeaders:0",
+      "header": "cross-origin-opener-policy",
+      "value": "whimsy",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:invalidHeaders:1",
+      "header": "cross-origin-opener-policy",
+      "value": "\"same-origin\"",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:invalidHeaders:2",
+      "header": "cross-origin-opener-policy",
+      "value": "Same-Origin",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:invalidHeaders:3",
+      "header": "cross-origin-opener-policy",
+      "value": "SAME-ORIGIN",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:invalidHeaders:4",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin; report-to=coop endpoint",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:0",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:1",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin-allow-popups",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:2",
+      "header": "cross-origin-opener-policy",
+      "value": "noopener-allow-popups",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:3",
+      "header": "cross-origin-opener-policy",
+      "value": "unsafe-none",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:4",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin; report-to=\"coop-endpoint\"",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:5",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin-allow-popups; report-to=\"coop-endpoint\"",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:validHeaders:6",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin; report-to",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:checks for missing",
+      "header": "cross-origin-opener-policy",
+      "value": null,
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-opener-policy.test.js:checks for multiple headers",
+      "header": "cross-origin-opener-policy",
+      "value": "same-origin, unsafe-none",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:invalidHeaders:0",
+      "header": "cross-origin-embedder-policy",
+      "value": "whimsy",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:invalidHeaders:1",
+      "header": "cross-origin-embedder-policy",
+      "value": "\"require-corp\"",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:invalidHeaders:2",
+      "header": "cross-origin-embedder-policy",
+      "value": "Require-Corp",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:invalidHeaders:3",
+      "header": "cross-origin-embedder-policy",
+      "value": "REQUIRE-CORP",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:invalidHeaders:4",
+      "header": "cross-origin-embedder-policy",
+      "value": "require-corp; report-to=coep endpoint",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:0",
+      "header": "cross-origin-embedder-policy",
+      "value": "require-corp",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:1",
+      "header": "cross-origin-embedder-policy",
+      "value": "credentialless",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:2",
+      "header": "cross-origin-embedder-policy",
+      "value": "unsafe-none",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:3",
+      "header": "cross-origin-embedder-policy",
+      "value": "require-corp; report-to=\"coep-endpoint\"",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:4",
+      "header": "cross-origin-embedder-policy",
+      "value": "credentialless; report-to=\"coep-endpoint\"",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:validHeaders:5",
+      "header": "cross-origin-embedder-policy",
+      "value": "require-corp; report-to",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:checks for missing",
+      "header": "cross-origin-embedder-policy",
+      "value": null,
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "severities": []
+    },
+    {
+      "id": "test/cross-origin-embedder-policy.test.js:checks for multiple headers",
+      "header": "cross-origin-embedder-policy",
+      "value": "require-corp, unsafe-none",
+      "expected_alert": true,
+      "actual_alert": false,
+      "passed": false,
+      "requests": 1,
+      "severities": []
+    }
+  ],
+  "skipped": [
+    {
+      "id": "test/referrer-policy.test.js:meta:meta-only",
+      "reason": "HTML meta precedence outside header-only scope"
+    },
+    {
+      "id": "test/referrer-policy.test.js:meta:meta-and-http",
+      "reason": "HTML meta precedence outside header-only scope"
+    }
+  ],
+  "limitations": [
+    "Selected header-only assertions from five upstream test files",
+    "No official runner, site grade, CSP, TLS, cookies, meta or browser evaluation",
+    "No HTTP requests or active vulnerability probes"
+  ]
+}

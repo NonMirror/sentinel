@@ -1,0 +1,204 @@
+{
+  "scope": "passive fixture compatibility and page metadata/boundaries only; not vulnerability recall",
+  "zap_source": "https://github.com/zaproxy/zap-extensions",
+  "zap_commit": "15fc3d10ae9358ae72b57caba79009e3efca69eb",
+  "source_files": [
+    {
+      "path": "addOns/pscanrules/src/test/java/org/zaproxy/zap/extension/pscanrules/InformationDisclosureDebugErrorsScanRuleUnitTest.java",
+      "sha256": "1b59cabe366b71656c56d2c23413b0f94ca0ab8c4c56632fc36270da109afd1f"
+    },
+    {
+      "path": "addOns/pscanrules/src/test/java/org/zaproxy/zap/extension/pscanrules/ApplicationErrorScanRuleBundledStringsUnitTest.java",
+      "sha256": "7b6fafaa4ccdc5970b17a03219756cc0b43ca24eab1c32259147c246a38c164c"
+    }
+  ],
+  "passive_cases": [
+    {
+      "id": "debug-positive-0",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-positive-1",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-positive-2",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-positive-3",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-lower",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-upper",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    },
+    {
+      "id": "debug-negative-0",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [],
+      "severities": []
+    },
+    {
+      "id": "debug-negative-1",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [],
+      "severities": []
+    },
+    {
+      "id": "debug-negative-2",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [],
+      "severities": []
+    },
+    {
+      "id": "debug-negative-3",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [],
+      "severities": []
+    },
+    {
+      "id": "debug-empty",
+      "expected_alert": false,
+      "actual_alert": false,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [],
+      "severities": []
+    },
+    {
+      "id": "application-error-express",
+      "expected_alert": true,
+      "actual_alert": true,
+      "passed": true,
+      "requests": 1,
+      "finding_types": [
+        "response_error"
+      ],
+      "severities": [
+        "info"
+      ]
+    }
+  ],
+  "passive_passed": 12,
+  "passive_total": 12,
+  "pages": [
+    {
+      "application": "juice-shop",
+      "status": 200,
+      "body_sha256": "21cbe884eaf2c3b3ef828e127b2c735f280c7cb10cbfe0299c94a910e20a1b3e",
+      "title": "OWASP Juice Shop",
+      "urls": 1,
+      "requests": 3,
+      "checks": {
+        "title": true,
+        "endpoint_budget": true,
+        "request_budget": true,
+        "same_origin": true
+      }
+    },
+    {
+      "application": "dvwa",
+      "status": 200,
+      "body_sha256": "9dadd94effeeb9219464a142cc9e91159f69be91054e62eac97d1efc39ec175d",
+      "title": "Login :: Damn Vulnerable Web Application (DVWA) v1.10 *Development*",
+      "urls": 1,
+      "requests": 3,
+      "checks": {
+        "title": true,
+        "endpoint_budget": true,
+        "request_budget": true,
+        "same_origin": true
+      }
+    },
+    {
+      "application": "webgoat",
+      "status": 200,
+      "body_sha256": "61153914d077b9f99ead10a536133564d2988ad5f6eaa74ad2300867dc2249dd",
+      "title": "Login Page",
+      "urls": 3,
+      "requests": 5,
+      "checks": {
+        "title": true,
+        "endpoint_budget": true,
+        "request_budget": true,
+        "same_origin": true
+      }
+    }
+  ],
+  "limitations": [
+    "Selected two ZAP unit-test classes, not a full ZAP run",
+    "ZAP generic-error alerts and Sentinel detailed-disclosure alerts have different scope",
+    "Only captured login/home pages, no authentication, browser or active exploit validation"
+  ]
+}

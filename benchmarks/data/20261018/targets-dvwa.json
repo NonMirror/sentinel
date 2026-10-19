@@ -1,0 +1,15 @@
+{
+  "label": "dvwa-low",
+  "urls": [
+    "http://127.0.0.1:8081/vulnerabilities/sqli/?id=1&Submit=Submit",
+    "http://127.0.0.1:8081/vulnerabilities/sqli_blind/?id=1&Submit=Submit",
+    "http://127.0.0.1:8081/vulnerabilities/xss_r/?name=sentinel",
+    "http://127.0.0.1:8081/vulnerabilities/exec/?ip=127.0.0.1&Submit=Submit",
+    "http://127.0.0.1:8081/vulnerabilities/fi/?page=include.php",
+    "http://127.0.0.1:8081/vulnerabilities/brute/?username=admin&password=password&Login=Login",
+    "http://127.0.0.1:8081/vulnerabilities/csrf/?password_new=abc123&password_conf=abc123&Change=Change",
+    "http://127.0.0.1:8081/vulnerabilities/weak_id/",
+    "http://127.0.0.1:8081/vulnerabilities/upload/",
+    "http://127.0.0.1:8081/vulnerabilities/view_source.php?id=1&security=low"
+  ]
+}

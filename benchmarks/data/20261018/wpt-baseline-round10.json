@@ -1,0 +1,6 @@
+{
+  "implementation_sha256": {
+    "sentinel/scanner/headers.py": "a4657bb6f1137c0e71c898b8f1889a79ab5160720d8954ce09f73bbafd3dc0c8"
+  },
+  "note": "Baseline has_nosniff is an extraction of the pre-existing whole-value strip/lower check; observed alert behavior is unchanged. Benchmark, WPT source and expected values are identical before/after."
+}
