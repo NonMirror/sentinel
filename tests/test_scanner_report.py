@@ -257,6 +257,24 @@ def test_render_json_roundtrip():
     assert payload["engine_runs"] == []
 
 
+def test_informational_findings_are_not_reported_as_confirmed_vulnerability_count():
+    report = ScanReport(seed="http://fixture.local/", stats=ScanStats(findings=1, by_severity={"info": 1}),
+                        findings=[Finding(vuln_type="security_headers", url="http://fixture.local/",
+                                          severity=Severity.INFO, param="X-Content-Type-Options")])
+    markdown, html = render_markdown(report), render_html(report)
+    assert "记录 **1** 条发现" in markdown and "个漏洞" not in markdown
+    assert "发现总数" in html and "漏洞总数" not in html
+    assert "发现包含信息提示" in markdown and "发现包含信息提示" in html
+    payload = json.loads(render_json(report))
+    assert payload["stats"]["findings"] == 1 and payload["findings"][0]["severity"] == "info"
+
+
+def test_empty_report_does_not_claim_target_has_no_vulnerabilities():
+    report = ScanReport(seed="http://fixture.local/")
+    assert "本次检查未记录发现；不代表目标不存在漏洞" in render_markdown(report)
+    assert "本次检查未记录发现；不代表目标不存在漏洞" in render_html(report)
+
+
 def test_write_report_creates_three_formats(tmp_path):
     paths = write_report(_report(), str(tmp_path), "sentinel-scan")
     assert set(paths) == {"md", "html", "json"}

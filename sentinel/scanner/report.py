@@ -20,6 +20,8 @@ TYPE_ZH = {
     "url_redirect": "开放重定向",
     "unauth": "未授权访问",
     "html_res_information_disclosure": "敏感信息泄露",
+    "response_error": "响应错误页面提示（待复核）",
+    "security_headers": "HTTP 响应头配置提示",
 }
 REMEDIATION = {
     "sqli_error": "使用参数化查询/预编译语句, 禁止字符串拼接 SQL; 对数据库账号最小授权。",
@@ -32,6 +34,8 @@ REMEDIATION = {
     "url_redirect": "跳转目标使用服务端映射白名单, 禁止直接把用户参数写入 Location。",
     "unauth": "为管理/调试接口增加统一鉴权与最小权限控制, 生产环境关闭调试端点。",
     "html_res_information_disclosure": "生产环境关闭调试模式, 统一异常处理, 移除响应中的密钥与堆栈。",
+    "response_error": "结合服务端日志核查错误原因；普通错误页面提示不等于敏感信息泄露或已确认漏洞。",
+    "security_headers": "按业务要求配置 nosniff、Referrer-Policy、CORP、COOP 与 COEP；结合 HTML meta 和浏览器行为复核，不将提示视为漏洞利用证明。",
 }
 OWASP_ZH = {"A01:2021": "A01 权限控制失效", "A03:2021": "A03 注入",
             "A05:2021": "A05 安全配置错误", "A10:2021": "A10 服务端请求伪造"}
@@ -61,11 +65,12 @@ def render_markdown(report: ScanReport, title: str = "漏洞扫描报告") -> st
     lines.append("")
     # ``plugins_run`` 统计的是**执行次数** (每个「接口 x 参数 x 插件」算一次),
     # 不是插件个数 —— 早期写成「N 个检测插件」会让报告里的数字对不上插件清单。
-    lines.append(f"共执行 **{stats.plugins_run}** 次检测插件, 发现 **{stats.findings}** 个漏洞, "
+    lines.append(f"共执行 **{stats.plugins_run}** 次检测插件, 记录 **{stats.findings}** 条发现, "
                  f"风险评分 **{report.risk_score}** (等级: **{report.risk_level}**)。")
+    lines.append("发现包含信息提示；评分为发现等级的加权摘要，不代表已确认可利用漏洞的数量。")
     if stats.findings == 0:
         lines.append("")
-        lines.append("未发现可复现的漏洞。")
+        lines.append("本次检查未记录发现；不代表目标不存在漏洞。")
     lines.append("")
     lines.append("| 严重级别 | 数量 |")
     lines.append("| --- | --- |")
@@ -76,12 +81,12 @@ def render_markdown(report: ScanReport, title: str = "漏洞扫描报告") -> st
     lines.append(f"| **合计** | **{stats.findings}** |")
     lines.append("")
 
-    lines.append("## 二、漏洞清单")
+    lines.append("## 二、发现清单")
     lines.append("")
     if not report.findings:
         lines.append("_无_")
     else:
-        lines.append("| # | 漏洞类型 | 级别 | 位置 | 参数 | 置信度 |")
+        lines.append("| # | 发现类型 | 级别 | 位置 | 参数 | 置信度 |")
         lines.append("| --- | --- | --- | --- | --- | --- |")
         for idx, finding in enumerate(report.findings, 1):
             lines.append(
@@ -91,7 +96,7 @@ def render_markdown(report: ScanReport, title: str = "漏洞扫描报告") -> st
     lines.append("")
 
     if report.findings:
-        lines.append("## 三、漏洞详情与修复建议")
+        lines.append("## 三、发现详情与修复建议")
         lines.append("")
         for idx, finding in enumerate(report.findings, 1):
             title_zh = TYPE_ZH.get(finding.vuln_type, finding.vuln_type)
@@ -216,18 +221,19 @@ footer{{color:#838ba7}}
 <div class="summary">
 <div>目标<br><code>{_esc(report.seed)}</code></div>
 <div>风险评分<br><b style="font-size:22px">{report.risk_score}</b> ({report.risk_level})</div>
-<div>漏洞总数<br><b style="font-size:22px">{stats.findings}</b></div>
+<div>发现总数<br><b style="font-size:22px">{stats.findings}</b></div>
 <div>请求数<br><b style="font-size:22px">{stats.requests}</b></div>
 <div>耗时<br><b style="font-size:22px">{stats.duration_s:.2f}s</b></div>
 </div>
+<p>发现包含信息提示；评分为发现等级的加权摘要，不代表已确认可利用漏洞的数量。</p>
 <h2>严重级别分布</h2><ul>{by_sev}</ul>
-<h2>漏洞清单</h2>
+<h2>发现清单</h2>
 <table><tr><th>#</th><th>类型</th><th>级别</th><th>位置</th><th>参数</th><th>置信度</th></tr>
-{''.join(rows) or '<tr><td colspan="6">未发现漏洞</td></tr>'}</table>
+{''.join(rows) or '<tr><td colspan="6">本次检查未记录发现；不代表目标不存在漏洞。</td></tr>'}</table>
 <h2>多引擎融合执行记录</h2>
 <table><tr><th>引擎</th><th>执行</th><th>发现</th><th>耗时(s)</th><th>目标数</th><th>备注</th></tr>
 {engine_rows or '<tr><td colspan="6">单引擎扫描 (内置检测器)</td></tr>'}</table>
-<h2>漏洞详情</h2>
+<h2>发现详情</h2>
 {''.join(details) or '<p>无</p>'}
 <hr><footer>本报告由 Sentinel 可视化安全运营与管理平台自动生成</footer>
 </body></html>"""
