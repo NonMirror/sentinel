@@ -14,10 +14,10 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-_ARG_RE = re.compile(r'"((?:[^"\\]|\\.)*)"')
+_ARG_RE = re.compile(r'''"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'|([^\s;]+)''')
 _ID_RE = re.compile(r"\bid:(\d+)")
 _SCORE_RE = re.compile(r"\$([A-Za-z_]+)\s*:\s*(\d+)")
-_THRESHOLD_RE = re.compile(r'\$([A-Za-z_]+)\s*(>=|>|==|=)\s*(\d+)')
+_THRESHOLD_RE = re.compile(r'\$([A-Za-z_]+)\s*(>=|<=|>|<|==|=)\s*(\d+)')
 
 #: Naxsi 官方示例 nginx 配置的默认判定阈值 (规则文件中不存在 CheckRule)
 DEFAULT_THRESHOLDS = {
@@ -40,6 +40,9 @@ class MainRule:
     compiled: re.Pattern[str] | None = None
     #: ``d:`` 指令 (内部规则, 不作为检测信号)
     internal: bool = False
+    negative: bool = False
+    action: str = ""
+    zone_patterns: dict[str, re.Pattern[str]] = field(default_factory=dict)
 
     @property
     def points(self) -> int:
@@ -56,6 +59,17 @@ class CheckRule:
     action: str = "BLOCK"
     raw: str = ""
 
+    def matches(self, score: int) -> bool:
+        if self.operator == ">":
+            return score > self.threshold
+        if self.operator == ">=":
+            return score >= self.threshold
+        if self.operator == "<":
+            return score < self.threshold
+        if self.operator == "<=":
+            return score <= self.threshold
+        return self.operator in ("=", "==") and score == self.threshold
+
 
 @dataclass(slots=True)
 class NaxsiRuleSet:
@@ -68,7 +82,7 @@ class NaxsiRuleSet:
     sources: list[str] = field(default_factory=list)
 
     def thresholds(self, tightening: int = 0) -> dict[str, int]:
-        """按 ``tightening`` (paranoia level - 1) 收紧各分区阈值.
+        """默认阈值按 ``tightening`` 收紧；显式 CheckRule 保持原表达式.
 
         ``naxsi_core.rules`` **只有 MainRule**: ``CheckRule`` 历来写在 nginx
         配置里, 不在规则文件中。因此没有显式 CheckRule 时回落到 Naxsi 官方
@@ -77,9 +91,11 @@ class NaxsiRuleSet:
         base: dict[str, int] = {} if self.checks else dict(DEFAULT_THRESHOLDS)
         for check in self.checks:
             current = base.get(check.variable)
-            # 同名变量取最严格的一条
+            # Legacy display value only; checks retain all comparisons/actions.
             base[check.variable] = (check.threshold if current is None
                                     else min(current, check.threshold))
+        if self.checks:
+            return base
         delta = max(0, tightening)
         return {name: max(1, value - delta) for name, value in base.items()}
 
@@ -110,7 +126,8 @@ class NaxsiRuleSet:
 # --------------------------------------------------------------------------
 def parse_main_rule(statement: str) -> MainRule | None:
     """解析一条 ``MainRule``."""
-    args = _ARG_RE.findall(statement)
+    args = [next(part for part in match.groups() if part is not None)
+            for match in _ARG_RE.finditer(statement)]
     if len(args) < 2:
         return None
     rule_id_match = _ID_RE.search(statement)
@@ -130,15 +147,18 @@ def parse_main_rule(statement: str) -> MainRule | None:
             # 检测时只需要小写化待检值一次。
             rule.pattern = _unescape(body)
         elif prefix == "msg":
-            rule.message = body
+            rule.message = _unescape(body)
         elif prefix == "mz":
-            rule.zones = tuple(part.strip() for part in body.split("|") if part.strip())
+            rule.zones = tuple(part.strip() for part in _unescape(body).split("|") if part.strip())
         elif prefix == "s":
             rule.scores.update(
                 {name: int(value) for name, value in _SCORE_RE.findall(body)})
+            if body.upper() in {"BLOCK", "DROP", "ALLOW", "LOG"}:
+                rule.action = body.upper()
         elif prefix in ("d", "c", "f"):
             internal = True
     rule.internal = internal
+    rule.negative = "negative" in args
     if rule.kind == "rx" and rule.pattern:
         try:
             # Naxsi 编译 rx: 时固定带 PCRE_CASELESS | PCRE_MULTILINE
@@ -154,6 +174,14 @@ def parse_main_rule(statement: str) -> MainRule | None:
     if not rule.zones:
         rule.zones = ("ARGS", "BODY", "URL", "HEADERS")
     rule.zones = tuple(_normalise_zone(z) for z in rule.zones)
+    for zone in rule.zones:
+        selector, separator, expression = zone.partition(":")
+        if separator and selector in {"URL_X", "ARGS_VAR_X", "BODY_VAR_X", "HEADERS_VAR_X"}:
+            try:
+                rule.zone_patterns[zone] = re.compile(expression, re.IGNORECASE | re.MULTILINE)
+            except re.error:
+                # An invalid selector must never widen the rule to its whole zone.
+                continue
     return rule
 
 
@@ -166,9 +194,14 @@ def _unescape(text: str) -> str:
     while index < len(text):
         char = text[index]
         if char == "\\" and index + 1 < len(text):
-            out.append(text[index + 1])
-            index += 2
-            continue
+            following = text[index + 1]
+            # nginx removes only its own quoted-string escapes; e.g. regex
+            # \\d and \\. must retain their backslash.
+            escapes = {"t": "\t", "r": "\r", "n": "\n", "\\": "\\", '"': '"', "'": "'"}
+            if following in escapes:
+                out.append(escapes[following])
+                index += 2
+                continue
         out.append(char)
         index += 1
     return "".join(out)

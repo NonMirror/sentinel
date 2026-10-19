@@ -131,6 +131,53 @@ class TestThresholds:
 # --------------------------------------------------------------------------
 class TestScoring:
     @pytest.mark.parametrize("target", [
+        "/search?q=select+the+best+laptop", "/search?q=union+station",
+        "/search?q=C%2B%2B+tutorial", "/files/report%202026.pdf",
+        "/search?q=100%25+cotton",
+    ])
+    def test_transport_encoding_and_single_signals_do_not_block(self, engine, target):
+        verdict = engine.inspect(request(target))
+        assert not verdict.blocked, verdict.as_dict()
+
+    def test_query_signal_is_scored_once(self, engine):
+        verdict = engine.inspect(request("/search?q=union+station"))
+        assert verdict.scores == {"SQL": 4}
+        assert [(h.rule_id, h.zone) for h in verdict.hits] == [(1000, "ARGS")]
+
+    def test_core_rules_have_known_false_positive_for_comma_separated_ids(self, engine):
+        # Native Naxsi counts both commas (rule 1015, 4 points each).
+        # Retain the legitimate input as a documented policy false positive.
+        verdict = engine.inspect(request("/api/items?ids=1,2,3"))
+        assert verdict.scores == {"SQL": 8}
+        assert verdict.blocked
+
+    def test_form_fields_are_decoded_in_body_zone(self, engine):
+        verdict = engine.inspect(request(
+            "/search", method="POST", ctype="application/x-www-form-urlencoded",
+            body=b"q=union+station&lang=en"))
+        assert not verdict.blocked
+        assert verdict.scores == {"SQL": 4}
+        assert [(h.rule_id, h.zone) for h in verdict.hits] == [(1000, "BODY")]
+
+    @pytest.mark.parametrize("query,body", [
+        ("q=C%2B%2B+tutorial", b""), ("", b"q=C%2B%2B+tutorial"),
+    ])
+    def test_normal_encoding_is_not_double_encoding(self, engine, query, body):
+        verdict = engine.inspect(request(
+            "/search?" + query, method="POST" if body else "GET", body=body,
+            ctype="application/x-www-form-urlencoded" if body else ""))
+        assert verdict.scores == {}
+
+    def test_double_encoding_signal_is_still_inspected(self, engine):
+        verdict = engine.inspect(request("/search?q=%2520"))
+        assert 1315 in verdict.matched_rules()
+
+    def test_field_names_and_repeated_fields_are_still_inspected(self, engine):
+        verdict = engine.inspect(request("/search?select=1&select=2"))
+        assert verdict.scores == {"SQL": 8}
+        assert verdict.blocked
+
+    @pytest.mark.parametrize("target", [
         "/search?q=1'%20or%20'1'%3D'1",
         "/product?id=1%20union%20select%201,2%20from%20users",
         "/page?name=%3Cscript%3Ealert(1)%3C/script%3E",

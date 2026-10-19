@@ -4,25 +4,27 @@
 
 1. 把请求摊平成 Naxsi 的**检测面** (URL / ARGS / BODY / HEADERS / FILE_EXT);
 2. 每条 ``MainRule`` 在它声明的 ``mz:`` 面上匹配, 命中就按 ``s:$KEY:n`` 加分;
-3. 与 ``CheckRule`` 的阈值比较, 任一计分项越线即判定拦截。
+3. 每次命中后执行显式 ``CheckRule``；没有显式配置时使用默认分区阈值。
 
-与 ModSecurity 侧最大的差别在于「没有规则命中 = 没有信号」: 单条规则命中只
-意味着加分, 是否拦截由**累计分数**决定 —— 这也是 Naxsi 误报低、漏报相对高的
-根本原因 (README 的实测数据同样呈现这个特征)。
+重复匹配会累计分数；规则也可直接 BLOCK/DROP。实际误报取决于规则和业务输入。
 """
 from __future__ import annotations
 
 import time
+import re
 from dataclasses import dataclass, field
+from urllib.parse import unquote, urlsplit
 
 from ...core.models import HttpRequest, Severity
-from .syntax import MainRule, NaxsiRuleSet
+from ..parser import parse_json_arguments, parse_multipart, parse_xml_values
+from .syntax import CheckRule, MainRule, NaxsiRuleSet
 
 #: Naxsi 的检测面 -> 中文说明 (供 TUI 展示)
 ZONE_LABELS = {
     "URL": "请求 URL", "ARGS": "参数值", "BODY": "请求体",
     "HEADERS": "请求头", "RAW": "原始报文", "FILE_EXT": "文件扩展名",
 }
+_INVALID_PERCENT = re.compile(r"%(?![0-9a-fA-F]{2})")
 
 
 @dataclass(slots=True)
@@ -48,6 +50,9 @@ class NaxsiVerdict:
     status: int = 403
     elapsed_ms: float = 0.0
     evaluated: int = 0
+    checks: tuple[CheckRule, ...] = ()
+    policy_blocked: bool = False
+    check_breaches: dict[str, int] = field(default_factory=dict)
 
     @property
     def total(self) -> int:
@@ -55,6 +60,8 @@ class NaxsiVerdict:
 
     @property
     def breached(self) -> dict[str, int]:
+        if self.checks:
+            return dict(self.check_breaches)
         return {name: score for name, score in self.scores.items()
                 if score >= self.thresholds.get(name, 1 << 30)}
 
@@ -103,8 +110,6 @@ class NativeNaxsiEngine:
         self.stats = {"inspected": 0, "scored": 0, "blocked": 0}
         #: 只保留非内部规则 (d:/c:/f: 是 Naxsi 的内部信号, 不是检测规则)
         self._rules: list[MainRule] = [r for r in ruleset.rules if not r.internal]
-        self._string_rules = [r for r in self._rules if r.kind == "str"]
-        self._regex_rules = [r for r in self._rules if r.kind == "rx"]
 
     # ------------------------------------------------------------------
     @classmethod
@@ -124,26 +129,43 @@ class NativeNaxsiEngine:
     # ------------------------------------------------------------------
     def inspect(self, request: HttpRequest) -> NaxsiVerdict:
         started = time.perf_counter()
-        verdict = NaxsiVerdict(thresholds=dict(self.thresholds))
+        # Explicit CheckRule expressions are policy: PL tightening applies only
+        # to the fallback thresholds, not to arbitrary < / == / ALLOW checks.
+        verdict = NaxsiVerdict(thresholds=dict(self.thresholds), checks=tuple(self.ruleset.checks))
         self.stats["inspected"] += 1
         if not self.enabled or self.mode == "off":
             verdict.elapsed_ms = (time.perf_counter() - started) * 1000.0
             return verdict
 
-        surfaces = self._surfaces(request)
-        # 大小写不敏感匹配是 Naxsi 的语义 (见 syntax.py 的注释)。待检值只小写
-        # 一次, 而不是每条规则各转一遍 —— 46 条规则 x 每个参数, 差别很实在。
-        lowered = {zone: [value.lower() for value in values]
-                   for zone, values in surfaces.items()}
-        for rule in self._string_rules:
-            self._score_string_rule(rule, lowered, verdict)
-        for rule in self._regex_rules:
-            self._score_regex_rule(rule, surfaces, verdict)
+        self._encoding_signals(request, verdict)
+        fields = self._fields(request)
+        lowered: dict[str, str] = {}
+        # Core rules share a handful of match zones. Resolve each selection
+        # once per request instead of rebuilding it for every pattern.
+        selections: dict[tuple[tuple[str, ...], bool], list[tuple[str, str]]] = {}
+        for rule in self._rules:
+            key = (rule.zones, rule.negative)
+            if key not in selections:
+                selections[key] = list(self._rule_values(rule, fields))
+            for zone, value in selections[key]:
+                verdict.evaluated += 1
+                if rule.kind == "str":
+                    if value not in lowered:
+                        lowered[value] = value.lower()
+                    count = self._string_count(rule.pattern, lowered[value])
+                elif rule.compiled is not None:
+                    count = self._regex_count(rule, value)
+                else:
+                    continue
+                if rule.negative:
+                    count = int(count == 0)
+                if count:
+                    self._add(rule, zone, rule.pattern, value, verdict, count)
 
         if verdict.scores:
             self.stats["scored"] += 1
         breached = verdict.breached
-        if breached and self.mode == "block":
+        if (breached or verdict.policy_blocked) and self.mode == "block":
             verdict.blocked = True
             self.stats["blocked"] += 1
         verdict.elapsed_ms = (time.perf_counter() - started) * 1000.0
@@ -153,66 +175,189 @@ class NativeNaxsiEngine:
     # 检测面
     # ------------------------------------------------------------------
     @staticmethod
+    def _encoding_signals(request: HttpRequest, verdict: NaxsiVerdict) -> None:
+        # Validate only transport surfaces that are actually URL-decoded.
+        # A literal percent in a JSON value, text body or Cookie is not an
+        # invalid URL escape. Encoded literal percents are not decoded twice.
+        uri = urlsplit(request.target)
+        encoded = [("URL", uri.path), ("ARGS", request.query)]
+        media_type = request.content_type.partition(";")[0].strip().lower()
+        if media_type == "application/x-www-form-urlencoded":
+            encoded.append(("BODY", request.body.decode("latin-1")))
+        for zone, value in encoded:
+            if "\x00" in value or "%00" in value or _INVALID_PERCENT.search(value):
+                verdict.policy_blocked = True
+                verdict.hits.append(NaxsiHit(10, "无效 URL 编码或空字节", zone, 0,
+                                             "encoding", value[:120]))
+        for name, value in request.headers.items():
+            if "\x00" in name or "\x00" in value:
+                verdict.policy_blocked = True
+                verdict.hits.append(NaxsiHit(10, "请求头包含空字节", "HEADERS", 0,
+                                             "null-byte", value[:120]))
+
+    @staticmethod
     def _surfaces(request: HttpRequest) -> dict[str, list[str]]:
-        """把请求摊平成 zone -> 待检测字符串列表."""
-        out: dict[str, list[str]] = {"URL": [], "ARGS": [], "BODY": [],
-                                     "HEADERS": [], "HEADERS_VAR:Cookie": [],
-                                     "FILE_EXT": [], "RAW": []}
+        """Compatibility view; inspection retains the field names separately."""
+        fields = NativeNaxsiEngine._fields(request)
+        out = {zone: [part for name, value in pairs
+                      for part in ((value,) if name is None or zone == "HEADERS" else (name, value))]
+               for zone, pairs in fields.items()}
+        out["HEADERS_VAR:Cookie"] = [value for name, value in fields["HEADERS"]
+                                     if name is not None and name.lower() == "cookie"]
+        return out
+
+    @staticmethod
+    def _fields(request: HttpRequest) -> dict[str, list[tuple[str | None, str]]]:
+        out: dict[str, list[tuple[str | None, str]]] = {
+            zone: [] for zone in ("URL", "ARGS", "BODY", "HEADERS", "FILE_EXT", "RAW")}
         if request.target:
-            out["URL"].append(request.target)
+            out["URL"].append((None, unquote(urlsplit(request.target).path or "/")))
         if request.query:
-            out["ARGS"].extend(
-                value for _key, value in _query_pairs(request.query))
+            out["ARGS"].extend(_query_pairs(request.query))
         body = request.body.decode("latin-1", "replace")
         if body:
-            out["BODY"].append(body)
+            media_type = request.content_type.lower().partition(";")[0].strip()
+            # 表单属于 BODY；只检查解码后的字段，避免分隔符和传输编码重复计分。
             if "application/x-www-form-urlencoded" in request.content_type.lower():
-                out["ARGS"].extend(
-                    value for _key, value in _query_pairs(body))
+                out["BODY"].extend(_query_pairs(body))
+            elif media_type == "application/json" or media_type.endswith("+json"):
+                # Array indexes are our metadata, not bytes supplied in key names.
+                fields = parse_json_arguments(request.body, indexed_arrays=False)
+                if fields is None:
+                    out["BODY"].append((None, body))
+                else:
+                    out["BODY"].extend(fields)
+            elif media_type == "multipart/form-data":
+                parsed = parse_multipart(request.body, request.content_type)
+                for part in parsed.parts:
+                    if part.filename is None:
+                        out["BODY"].append((part.name, part.value.decode("latin-1")))
+                    else:
+                        # Naxsi FILE_EXT inspects the upload field and filename, not file bytes.
+                        out["FILE_EXT"].append((part.name, part.filename))
+                if parsed.errors:
+                    out["BODY"].append((None, body))
+            elif media_type in ("application/xml", "text/xml") or media_type.endswith("+xml"):
+                parsed = parse_xml_values(request.body)
+                if parsed is None:
+                    out["BODY"].append((None, body))
+                else:
+                    text, attributes = parsed
+                    out["BODY"].append((None, text))
+                    out["BODY"].extend(attributes)
+            else:
+                out["BODY"].append((None, body))
         for name, value in request.headers.items():
-            out["HEADERS"].append(value)
-            if name.lower() == "cookie":
-                out["HEADERS_VAR:Cookie"].append(value)
+            out["HEADERS"].append((name, value))
         basename = (request.path or "/").rsplit("/", 1)[-1]
         if "." in basename:
-            out["FILE_EXT"].append(basename.rsplit(".", 1)[-1])
-        out["RAW"].append(f"{request.method} {request.target} {request.version}")
+            out["FILE_EXT"].append((None, basename.rsplit(".", 1)[-1]))
+        out["RAW"].append((None, f"{request.method} {request.target} {request.version}"))
         return out
 
     # ------------------------------------------------------------------
     # 计分
     # ------------------------------------------------------------------
-    def _score_string_rule(self, rule: MainRule, surfaces: dict[str, list[str]],
-                           verdict: NaxsiVerdict) -> None:
-        if not rule.pattern:
-            return
-        needle = rule.pattern
-        for zone in rule.zones:
-            for value in surfaces.get(zone, ()):
-                verdict.evaluated += 1
-                if needle in value:
-                    self._add(rule, zone, needle, value, verdict)
+    @staticmethod
+    def _rule_values(rule: MainRule, fields: dict[str, list[tuple[str | None, str]]]):
+        path = fields["URL"][0][1] if fields["URL"] else "/"
+        for selector in rule.zones:
+            kind, separator, target = selector.partition(":")
+            if separator and kind in {"URL", "URL_X"}:
+                if kind == "URL" and path.lower() != target.lower():
+                    return
+                if kind == "URL_X" and (selector not in rule.zone_patterns
+                                         or not rule.zone_patterns[selector].search(path)):
+                    return
+                break  # upstream uses the first URL constraint
 
-    def _score_regex_rule(self, rule: MainRule, surfaces: dict[str, list[str]],
-                          verdict: NaxsiVerdict) -> None:
-        pattern = rule.compiled
-        if pattern is None:
-            return
-        for zone in rule.zones:
-            for value in surfaces.get(zone, ()):
-                verdict.evaluated += 1
-                if pattern.search(value):
-                    self._add(rule, zone, rule.pattern, value, verdict)
+        seen = set()
+        for selector in rule.zones:
+            kind, separator, target = selector.partition(":")
+            custom = separator and kind in {"ARGS_VAR", "BODY_VAR", "HEADERS_VAR",
+                                           "ARGS_VAR_X", "BODY_VAR_X", "HEADERS_VAR_X"}
+            zone = kind.split("_VAR", 1)[0] if custom else kind
+            if separator and not custom:
+                continue
+            for index, (name, value) in enumerate(fields.get(zone, ())):
+                if custom:
+                    if name is None:
+                        continue
+                    if kind.endswith("_X"):
+                        if selector not in rule.zone_patterns or not rule.zone_patterns[selector].search(name):
+                            continue
+                    elif name.lower() != target.lower():
+                        continue
+                # Custom locations inspect values and (unless negative) names.
+                # NAME limits only zone-wide rules, as in naxsi_runtime.c.
+                candidates = []
+                if custom or "NAME" not in rule.zones:
+                    candidates.append((False, value))
+                if name is not None and not rule.negative:
+                    candidates.append((True, name))
+                for is_name, candidate in candidates:
+                    identity = (zone, index, is_name, bool(custom))
+                    if identity not in seen:
+                        seen.add(identity)
+                        yield zone, candidate
+
+    @staticmethod
+    def _regex_count(rule: MainRule, value: str) -> int:
+        if not value:
+            return 0
+        count = 0
+        # finditer guarantees progress for zero-width matches. Upstream's
+        # offset loop stops at the buffer end, even if another empty match
+        # could follow a nonempty match there.
+        for match in rule.compiled.finditer(value):
+            count += 1
+            if rule.compiled.groups:
+                # PCRE includes slots through the highest participating group.
+                count += max((i for i, span in enumerate(match.regs[1:], 1)
+                              if span != (-1, -1)), default=0)
+            if match.end() == len(value):
+                break
+        return count
+
+    @staticmethod
+    def _string_count(needle: str, value: str) -> int:
+        if not needle:
+            return 0
+        if len(needle) == 1:
+            return value.count(needle)
+        count, offset = 0, 0
+        while (offset := value.find(needle, offset)) != -1:
+            count += 1
+            offset += 1  # Naxsi includes overlapping string occurrences.
+        return count
 
     @staticmethod
     def _add(rule: MainRule, zone: str, keyword: str, value: str,
-             verdict: NaxsiVerdict) -> None:
+             verdict: NaxsiVerdict, count: int) -> None:
         for name, points in rule.scores.items():
-            verdict.scores[name] = verdict.scores.get(name, 0) + points
+            verdict.scores[name] = verdict.scores.get(name, 0) + points * count
+        blocked, dropped = rule.action == "BLOCK", rule.action == "DROP"
+        breaches: dict[str, int] = {}
+        # Check after every field match: a <= boundary may trigger before
+        # later fields increase the score beyond it. Preserve that decision.
+        # Within one update, upstream checks run in score/tag order; ALLOW/LOG
+        # clear BLOCK, while DROP remains terminal.
+        for name, score in verdict.scores.items():
+            for check in verdict.checks:
+                if check.variable == name and check.matches(score):
+                    blocked = check.action == "BLOCK"
+                    dropped = dropped or check.action == "DROP"
+                    if check.action in {"BLOCK", "DROP"}:
+                        breaches[name] = score
+                    elif not dropped:
+                        breaches.clear()
+        if blocked or dropped:
+            verdict.policy_blocked = True
+            verdict.check_breaches.update(breaches)
         verdict.hits.append(NaxsiHit(
             rule_id=rule.id,
             message=rule.message or f"命中 MainRule {rule.id}",
-            zone=zone, points=rule.points, keyword=keyword[:60],
+            zone=zone, points=rule.points * count, keyword=keyword[:60],
             value=value[:120],
         ))
 
@@ -228,6 +373,8 @@ class NativeNaxsiEngine:
             "kind": rule.kind,
             "pattern": rule.pattern[:120],
             "internal": rule.internal,
+            "negative": rule.negative,
+            "action": rule.action,
         } for rule in self.ruleset.rules]
         return out
 

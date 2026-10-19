@@ -4,12 +4,8 @@
 ``sentinel/vendor/naxsi/naxsi_config/naxsi_core.rules``, 评分与判定由
 :mod:`sentinel.waf.naxsi` 在进程内完成。
 
-Naxsi 与 ModSecurity 的模型差异很大, 这也决定了两个引擎在质量指标上的
-不同画像 (见 README 的实测表):
-
-* 只有「加分」没有「命中即拦」, 拦截由**累计分数越过 CheckRule 阈值**决定;
-* 因此对单点特征不明显的攻击 (例如只有一处可疑关键字) 容易漏报,
-  但对正常流量几乎不误报 —— 本项目的基准数据正是这个形态。
+判定支持累计评分、显式 CheckRule 与直接处置；内部编码信号也可以拒绝请求。
+实际漏报和误报取决于规则与业务输入，见 benchmark 报告。
 """
 from __future__ import annotations
 
@@ -141,7 +137,7 @@ class NaxsiEngine(InProcessEngine):
                 severity=Severity.CRITICAL if points >= 16 else (
                     Severity.HIGH if points >= 8 else Severity.MEDIUM),
                 category=(next(iter(view["scores"]), "generic").lower()),
-                action="score",
+                action=str(view["action"]).lower() or "score",
                 enabled=not view["internal"],
                 source="naxsi_core.rules",
                 variables=list(view["zones"]),
@@ -162,17 +158,34 @@ class NaxsiEngine(InProcessEngine):
             "",
         ]
         count = 0
-        for view in self.engine.rule_views():
-            if view["internal"]:
-                continue
-            scores = ",".join(f"${k}:{v}" for k, v in view["scores"].items())
-            lines.append(
-                f'MainRule "{view["kind"]}:{view["pattern"]}" '
-                f'"msg:{view["description"]}" '
-                f'"mz:{"|".join(view["zones"])}" "s:{scores}" id:{view["id"]};')
+        # Export full rule data, not the truncated strings used for UI previews.
+        for rule in self.engine.active_rules:
+            parts = ["MainRule"]
+            if rule.negative:
+                parts.append("negative")
+            zones = "|".join("$" + zone if ":" in zone else zone for zone in rule.zones)
+            parts.extend((_quote(f'{rule.kind}:{rule.pattern}'),
+                          _quote(f'msg:{rule.message}'), _quote(f'mz:{zones}')))
+            if rule.scores:
+                scores = ",".join(f"${k}:{v}" for k, v in rule.scores.items())
+                parts.append(_quote(f"s:{scores}"))
+            if rule.action:
+                parts.append(_quote(f's:{rule.action}'))
+            parts.append(f'id:{rule.id};')
+            lines.append(" ".join(parts))
             count += 1
         lines.append("")
-        for name, value in sorted(self.engine.thresholds.items()):
-            lines.append(f'CheckRule "${name} >= {value}" BLOCK;')
+        if self.engine.ruleset.checks:
+            for check in self.engine.ruleset.checks:
+                lines.append(f'CheckRule "${check.variable} {check.operator} {check.threshold}" {check.action};')
+        else:
+            for name, value in sorted(self.engine.thresholds.items()):
+                lines.append(f'CheckRule "${name} >= {value}" BLOCK;')
         Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
         return count
+
+
+def _quote(value: str) -> str:
+    value = value.replace("\\", "\\\\").replace('"', '\\"')
+    value = value.replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
+    return f'"{value}"'
