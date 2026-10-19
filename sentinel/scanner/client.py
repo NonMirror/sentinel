@@ -22,6 +22,9 @@ class HttpResult:
     error: str = ""
     raw_request: bytes = b""
     elapsed_s: float = 0.0
+    # Preserve repeated fields for passive checks; the legacy dict API remains
+    # available for existing consumers that expect one value per spelling.
+    header_items: list[tuple[str, str]] = field(default_factory=list)
 
     @property
     def text(self) -> str:
@@ -104,7 +107,8 @@ class HttpClient:
             conn.endheaders(body or None)
             resp = conn.getresponse()
             result.status = resp.status
-            result.headers = {k: v for k, v in resp.getheaders()}
+            result.header_items = resp.getheaders()
+            result.headers = dict(result.header_items)
             result.body = resp.read(self.max_body)
         except (socket.timeout, TimeoutError):
             result.error = "timeout"

@@ -1,4 +1,4 @@
-"""漏洞检测模块 — 10 类主动/被动检测插件.
+"""漏洞与配置检查模块 — 主动检测和被动响应检查插件.
 
 插件签名统一为 ``fn(ctx: DetectorContext) -> list[Finding]``, 便于组合、单测与扩展。
 """
@@ -14,6 +14,7 @@ from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 from ..core.models import Finding, Severity
 from .client import HttpClient, HttpResult
 from .crawler import Endpoint, Target
+from .headers import inspect_security_headers
 from .vulndb import (FILE_READ_PAYLOADS, JSONP_MARKER, JSONP_PARAMS,
                      REDIRECT_MARKER, SECRET_RE, SSRF_MARKER, TRACEBACK_RE,
                      UNAUTH_PATHS, XSS_MARKER, XSS_PAYLOADS, VulnDB)
@@ -309,6 +310,13 @@ def detect_unauth(ctx: DetectorContext) -> list[Finding]:
 # --------------------------------------------------------------------------
 # 10. 信息泄露
 # --------------------------------------------------------------------------
+_RESPONSE_ERROR_RE = re.compile(
+    r"<(?:title|h[1-6]|pre|html)\b[^>]*>\s*(?:500\s+)?"
+    r"(?P<message>Internal Server Error\b|There seems to have been a problem with the\b|"
+    r"This error page might contain sensitive information because ASP\.NET\b|"
+    r"PHP Error\b|(?:Syntax|Type|Reference|Range)Error:\s*[^<\r\n]{1,160})", re.I)
+
+
 def detect_information_disclosure(ctx: DetectorContext) -> list[Finding]:
     res = ctx.raw(ctx.endpoint.url)
     if res.status == 0 or not res.body:
@@ -328,7 +336,20 @@ def detect_information_disclosure(ctx: DetectorContext) -> list[Finding]:
             method="GET", param="", payload="", evidence=_evidence(body, match.group(0), 40),
             severity=Severity.MEDIUM, confidence=0.75,
             proof="响应中泄露口令/密钥/敏感文件内容")]
+    error = _RESPONSE_ERROR_RE.search(body)
+    if error:
+        return [ctx.add(
+            vuln_type="response_error", url=ctx.endpoint.url,
+            method="GET", param="", payload="", evidence=error.group("message"),
+            severity=Severity.INFO, confidence=0.6,
+            proof="响应包含错误页面提示；未确认漏洞或敏感信息泄露，需人工复核")]
     return []
+
+
+def detect_security_headers(ctx: DetectorContext) -> list[Finding]:
+    findings = inspect_security_headers(ctx.raw(ctx.endpoint.url))
+    ctx.findings.extend(findings)
+    return findings
 
 
 DETECTORS: dict[str, Callable[[DetectorContext], list[Finding]]] = {
@@ -342,10 +363,11 @@ DETECTORS: dict[str, Callable[[DetectorContext], list[Finding]]] = {
     "url_redirect": detect_url_redirect,
     "unauth": detect_unauth,
     "html_res_information_disclosure": detect_information_disclosure,
+    "security_headers": detect_security_headers,
 }
 
 # 无需参数、按端点执行的插件
-ENDPOINT_LEVEL = {"cors", "unauth", "html_res_information_disclosure"}
+ENDPOINT_LEVEL = {"cors", "unauth", "html_res_information_disclosure", "security_headers"}
 
 
 def run_detectors(ctx: DetectorContext, names: list[str] | None = None) -> list[Finding]:
