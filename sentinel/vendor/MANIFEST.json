@@ -15,147 +15,147 @@
         [
           "rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example",
           10051,
-          "c0716562cecb533d"
+          "85fc04314d11090d"
         ],
         [
           "rules/REQUEST-901-INITIALIZATION.conf",
-          15958,
-          "0617276a891bc881"
+          18747,
+          "73daf9b5c13cb3b3"
         ],
         [
           "rules/REQUEST-905-COMMON-EXCEPTIONS.conf",
           1652,
-          "b9cafbae872ff266"
+          "8ccb1be745329169"
         ],
         [
           "rules/REQUEST-911-METHOD-ENFORCEMENT.conf",
           3012,
-          "d7a4362cf16debf1"
+          "3d2032b56ba047fa"
         ],
         [
           "rules/REQUEST-913-SCANNER-DETECTION.conf",
           3649,
-          "a1abaa94d44f95ab"
+          "e6164e6f4960d251"
         ],
         [
           "rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
-          69282,
-          "2b29b1d50e636051"
+          69280,
+          "526c55ddd6a38448"
         ],
         [
           "rules/REQUEST-921-PROTOCOL-ATTACK.conf",
-          24111,
-          "184758fe19ffc07e"
+          24092,
+          "c55917901396afc2"
         ],
         [
           "rules/REQUEST-922-MULTIPART-ATTACK.conf",
-          6928,
-          "8da6689673a86f0a"
+          7648,
+          "eb99b6bd86d9daa7"
         ],
         [
           "rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf",
           9554,
-          "882a1272d19e7927"
+          "3e946fb3f6670271"
         ],
         [
           "rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf",
           9752,
-          "90caf7474b2f7b6d"
+          "6878e556f0bae02c"
         ],
         [
           "rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf",
-          207664,
-          "bbf5f51a96f2f08a"
+          216507,
+          "04eaa71fda834f0c"
         ],
         [
           "rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf",
-          71113,
-          "471a56082eeaa033"
+          71147,
+          "b92f19df90dfe6e7"
         ],
         [
           "rules/REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
           27262,
-          "8e30b31845066f82"
+          "f3221be93d3b5324"
         ],
         [
           "rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf",
           55892,
-          "6f7a087302bd7971"
+          "baa69f75dae1a62a"
         ],
         [
           "rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
           99237,
-          "4d5297b8b352022d"
+          "b5d356a6ef0c79db"
         ],
         [
           "rules/REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf",
           6859,
-          "89991381f6e92860"
+          "c441766f87ce601e"
         ],
         [
           "rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
-          23633,
-          "10fe9497232671b8"
+          23742,
+          "c6df7bb7c8f54b04"
         ],
         [
           "rules/REQUEST-949-BLOCKING-EVALUATION.conf",
           8205,
-          "a7955760b2859a76"
+          "3fa3e9b35b64aab9"
         ],
         [
           "rules/REQUEST-999-COMMON-EXCEPTIONS-AFTER.conf",
-          4802,
-          "70cbab87d554a6cb"
+          4817,
+          "910b6e4f9e79f873"
         ],
         [
           "rules/RESPONSE-950-DATA-LEAKAGES.conf",
-          6647,
-          "509e63c49c76a973"
+          6683,
+          "13cd9d8b3c5560a8"
         ],
         [
           "rules/RESPONSE-951-DATA-LEAKAGES-SQL.conf",
-          19492,
-          "1322c4f43d1c526e"
+          19916,
+          "c5ca060277c0228b"
         ],
         [
           "rules/RESPONSE-952-DATA-LEAKAGES-JAVA.conf",
-          3771,
-          "a8394f93cf27fbe7"
+          3440,
+          "d3077758ddb1a345"
         ],
         [
           "rules/RESPONSE-953-DATA-LEAKAGES-PHP.conf",
-          6499,
-          "a2970946514740b2"
+          6152,
+          "d5cdc284f4611fce"
         ],
         [
           "rules/RESPONSE-954-DATA-LEAKAGES-IIS.conf",
-          6502,
-          "d2d513e5bca37f54"
+          6173,
+          "3f884835414f7937"
         ],
         [
           "rules/RESPONSE-955-WEB-SHELLS.conf",
-          19756,
-          "5e6f2b2f7321c04e"
+          19441,
+          "914c94c8af40968a"
         ],
         [
           "rules/RESPONSE-956-DATA-LEAKAGES-RUBY.conf",
-          4165,
-          "bf2648c9d945e7de"
+          3834,
+          "d1b7a6c455db93fc"
         ],
         [
           "rules/RESPONSE-959-BLOCKING-EVALUATION.conf",
-          8879,
-          "4dd4f6f401213b35"
+          8931,
+          "0e9f7eb6c1bf28fa"
         ],
         [
           "rules/RESPONSE-980-CORRELATION.conf",
           7686,
-          "feb0872fc3e1aed0"
+          "3a7c11e5cf0e6896"
         ],
         [
           "rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example",
           3428,
-          "ae1bcbb64d230278"
+          "be40c72f421e9e21"
         ],
         [
           "rules/ai-critical-artifacts.data",
@@ -179,8 +179,8 @@
         ],
         [
           "rules/lfi-os-files.data",
-          18327,
-          "7da503faf3213b9b"
+          18677,
+          "2404760c4e8c4970"
         ],
         [
           "rules/php-errors.data",
@@ -199,13 +199,8 @@
         ],
         [
           "rules/restricted-files.data",
-          11016,
-          "1ef0d650f6883112"
-        ],
-        [
-          "rules/restricted-upload.data",
-          6928,
-          "ae69b132c08eb819"
+          11366,
+          "17b0ab9a5be2901a"
         ],
         [
           "rules/ruby-errors.data",
@@ -273,8 +268,26 @@
           "676a192d3fc5205a"
         ]
       ],
-      "file_count": 52,
-      "total_bytes": 969504
+      "file_count": 51,
+      "total_bytes": 974624
+    },
+    {
+      "key": "modsecurity",
+      "title": "ModSecurity unicode mapping",
+      "upstream": "https://github.com/owasp-modsecurity/ModSecurity",
+      "license": "Apache-2.0",
+      "target": "modsecurity",
+      "notes": "t:urlDecodeUni / t:utf8toUnicode 的全宽映射表。",
+      "missing_sources": [],
+      "files": [
+        [
+          "unicode.mapping",
+          53146,
+          "5e4500ef82e45c49"
+        ]
+      ],
+      "file_count": 1,
+      "total_bytes": 53146
     },
     {
       "key": "naxsi",
@@ -298,24 +311,6 @@
       ],
       "file_count": 2,
       "total_bytes": 41474
-    },
-    {
-      "key": "modsecurity",
-      "title": "ModSecurity unicode mapping",
-      "upstream": "https://github.com/owasp-modsecurity/ModSecurity",
-      "license": "Apache-2.0",
-      "target": "modsecurity",
-      "notes": "t:urlDecodeUni / t:utf8toUnicode 的全宽映射表。",
-      "missing_sources": [],
-      "files": [
-        [
-          "unicode.mapping",
-          53146,
-          "5e4500ef82e45c49"
-        ]
-      ],
-      "file_count": 1,
-      "total_bytes": 53146
     },
     {
       "key": "nuclei-templates",
@@ -58613,7 +58608,7 @@
   ],
   "totals": {
     "collections": 4,
-    "files": 11711,
-    "bytes": 37036566
+    "files": 11710,
+    "bytes": 37041686
   }
 }
