@@ -70,7 +70,7 @@ class HttpRequest:
 
     @property
     def content_type(self) -> str:
-        return self.headers.get("Content-Type", self.headers.get("content-type", ""))
+        return self.get_header("Content-Type")
 
     @property
     def user_agent(self) -> str:

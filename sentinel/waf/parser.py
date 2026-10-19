@@ -6,7 +6,14 @@
 from __future__ import annotations
 
 import json
-from urllib.parse import parse_qsl, unquote_plus, urlsplit
+import re
+from dataclasses import dataclass
+from email import policy
+from email.errors import HeaderParseError
+from email.parser import BytesHeaderParser
+from email.utils import collapse_rfc2231_value
+from urllib.parse import parse_qsl, unquote, unquote_plus, urlsplit
+from xml.etree import ElementTree
 
 from ..core.models import HttpRequest
 
@@ -90,7 +97,7 @@ def parse_request(data: bytes, remote_addr: str = "0.0.0.0", remote_port: int = 
         remote_addr=remote_addr,
         remote_port=remote_port,
         host=_get(headers, "host"),
-        path=unquote_plus(split.path) or "/",
+        path=unquote(split.path) or "/",
         query=split.query,
         raw_head=head,
         truncated=truncated,
@@ -138,62 +145,179 @@ def _parse_body_args(req: HttpRequest, limit: int = 1 << 17) -> list[tuple[str, 
     if not body:
         return []
     sniffed = body.lstrip()[:1]
-    if "application/json" in ctype or (sniffed in ("{", "[") and "json" not in ctype):
-        try:
-            obj = json.loads(body)
-        except (ValueError, RecursionError):
-            obj = None
-        if obj is not None:
-            args: list[tuple[str, str]] = []
-            _flatten_json(obj, args)
+    media_type = ctype.partition(";")[0].strip()
+    is_json = media_type == "application/json" or media_type.endswith("+json")
+    if is_json or (sniffed in ("{", "[") and "json" not in ctype):
+        args = parse_json_arguments(body)
+        if args is not None:
             return args
+        if is_json:
+            return [("BODY", body)]
     if "application/x-www-form-urlencoded" in ctype or (not ctype and "=" in body):
         return parse_qsl(body, keep_blank_values=True)
-    if "application/json" in ctype:
-        args: list[tuple[str, str]] = []
-        try:
-            obj = json.loads(body)
-        except (ValueError, RecursionError):
-            return [("BODY", body)]
-        _flatten_json(obj, args)
-        return args
     if "multipart/form-data" in ctype:
-        return _parse_multipart(body)
+        parsed = parse_multipart(req.body[:limit], req.content_type)
+        fields = [(part.name, part.value.decode("utf-8", "replace")) for part in parsed.parts]
+        return fields + ([("BODY", body)] if parsed.errors else [])
     return [("BODY", body)]
 
 
-def _flatten_json(obj, out: list[tuple[str, str]], prefix: str = "", depth: int = 0) -> None:
+class _JsonObject(list):
+    """Preserve duplicate object keys without confusing objects with arrays."""
+
+
+def _reject_json_constant(value: str):
+    raise ValueError(f"Invalid JSON constant: {value}")
+
+
+def parse_json_arguments(body: str | bytes, *, indexed_arrays: bool = True,
+                         array_prefix: str | None = None) -> list[tuple[str, str]] | None:
+    """Return decoded fields; an array_prefix selects dotted rather than bracketed indices.
+
+    None as the result requests raw inspection on invalid/deep JSON.
+    """
+    try:
+        # Inspect received numeric text without float rounding or integer size limits.
+        obj = json.loads(body, object_pairs_hook=_JsonObject, parse_int=str, parse_float=str,
+                         parse_constant=_reject_json_constant)
+        args: list[tuple[str, str]] = []
+        _flatten_json(obj, args, indexed_arrays=indexed_arrays, array_prefix=array_prefix)
+        return args
+    except (ValueError, UnicodeError, RecursionError):
+        return None
+
+
+def _flatten_json(obj, out: list[tuple[str, str]], prefix: str = "", depth: int = 0,
+                  *, indexed_arrays: bool = True, array_prefix: str | None = None) -> None:
     if depth > 8:
-        return
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            _flatten_json(value, out, f"{prefix}.{key}" if prefix else str(key), depth + 1)
+        raise ValueError("JSON nesting exceeds inspection depth")
+    if isinstance(obj, (dict, _JsonObject)):
+        for key, value in (obj.items() if isinstance(obj, dict) else obj):
+            _flatten_json(value, out, f"{prefix}.{key}" if prefix else str(key), depth + 1,
+                          indexed_arrays=indexed_arrays, array_prefix=array_prefix)
     elif isinstance(obj, (list, tuple)):
         for idx, value in enumerate(obj):
-            _flatten_json(value, out, f"{prefix}[{idx}]", depth + 1)
+            child = prefix
+            if indexed_arrays:
+                if array_prefix is None:
+                    child = f"{prefix}[{idx}]"
+                else:
+                    index_name = f"{array_prefix}{idx}"
+                    child = f"{prefix}.{index_name}" if prefix else index_name
+            _flatten_json(value, out, child, depth + 1,
+                          indexed_arrays=indexed_arrays, array_prefix=array_prefix)
+    elif obj is True:
+        out.append((prefix, "true"))
+    elif obj is False:
+        out.append((prefix, "false"))
     else:
         out.append((prefix, "" if obj is None else str(obj)))
 
 
-def _parse_multipart(body: str) -> list[tuple[str, str]]:
-    args: list[tuple[str, str]] = []
-    import re
+class _InspectionXmlBuilder(ElementTree.TreeBuilder):
+    def __init__(self):
+        super().__init__()
+        self.depth = 0
 
-    for part in re.split(r"-{2,}[^\r\n]{0,120}", body):
-        if "Content-Disposition" not in part:
-            continue
-        name_match = re.search(r'name="([^"]*)"', part)
-        if not name_match:
-            continue
-        _, _, content = part.partition("\r\n\r\n")
-        if not content:
-            _, _, content = part.partition("\n\n")
-        args.append((name_match.group(1), content.strip()))
-    return args
+    def doctype(self, name, pubid, system):
+        raise ValueError("DTD processing is disabled")
+
+    def start(self, tag, attrs):
+        self.depth += 1
+        if self.depth > 32:
+            raise ValueError("XML nesting exceeds inspection depth")
+        return super().start(tag, attrs)
+
+    def end(self, tag):
+        self.depth -= 1
+        return super().end(tag)
+
+
+def parse_xml_values(body: bytes) -> tuple[str, list[tuple[str, str]]] | None:
+    """Read element text and attributes without DTDs or external resources."""
+    try:
+        root = ElementTree.fromstring(body, parser=ElementTree.XMLParser(target=_InspectionXmlBuilder()))
+        return "".join(root.itertext()), [(k, v) for node in root.iter() for k, v in node.attrib.items()]
+    except (ElementTree.ParseError, ValueError, LookupError):
+        return None
+
+
+@dataclass
+class MultipartPart:
+    name: str
+    filename: str | None
+    value: bytes
+    headers: tuple[str, ...]
+
+
+@dataclass
+class MultipartBody:
+    parts: list[MultipartPart]
+    errors: list[str]
+
+
+def parse_multipart(body: bytes, content_type: str) -> MultipartBody:
+    """Parse bounded form parts in memory; preserve bytes, duplicates and raw headers."""
+    try:
+        return _parse_multipart(body, content_type)
+    except (ValueError, RecursionError, HeaderParseError):
+        return MultipartBody([], ["malformed multipart header"])
+
+
+def _parse_multipart(body: bytes, content_type: str) -> MultipartBody:
+    result = MultipartBody([], [])
+    if "\r" in content_type or "\n" in content_type:
+        result.errors.append("invalid content type")
+        return result
+    parser = BytesHeaderParser(policy=policy.default)
+    parameter_parser = BytesHeaderParser(policy=policy.compat32)
+    header = parser.parsebytes(b"Content-Type: " + content_type.encode("utf-8") + b"\r\n\r\n")
+    boundary = header.get_boundary()
+    if not boundary or not re.fullmatch(r"[0-9A-Za-z'()+_,./:=? -]{1,70}", boundary) or boundary.endswith(" "):
+        result.errors.append("invalid boundary")
+        return result
+    delimiter = re.compile(rb"(?:\A|\r?\n)--" + re.escape(boundary.encode()) + rb"(--)?[ \t]*(?:\r?\n|\Z)")
+    previous = None
+    closed = False
+    count = 0
+    for current in delimiter.finditer(body):
+        if previous is not None:
+            count += 1
+            if count > 1000:
+                result.errors.append("part limit exceeded")
+                break
+            segment = body[previous.end():current.start()]
+            raw_headers, sep, value = segment.partition(b"\r\n\r\n")
+            if not sep:
+                raw_headers, sep, value = segment.partition(b"\n\n")
+            if not sep or len(raw_headers) > 16384:
+                result.errors.append("invalid part headers")
+            else:
+                part = parser.parsebytes(raw_headers + b"\r\n\r\n")
+                # HTTP uploads retain unknown backslash escapes; MIME's default
+                # header registry removes them. Keep its defect checks below.
+                parameters = parameter_parser.parsebytes(raw_headers + b"\r\n\r\n")
+                name = parameters.get_param("name", header="content-disposition")
+                if part.get_content_disposition() != "form-data" or name is None:
+                    result.errors.append("missing form disposition or name")
+                else:
+                    if isinstance(name, tuple):
+                        name = collapse_rfc2231_value(name)
+                    result.parts.append(MultipartPart(name, parameters.get_filename(), value,
+                                                      tuple(raw_headers.decode("latin-1").splitlines())))
+                if part.defects or any(getattr(h, "defects", ()) for h in part.values()):
+                    result.errors.append("malformed part header")
+        if current[1]:
+            closed = True
+            break
+        previous = current
+    if not closed:
+        result.errors.append("missing closing boundary")
+    return result
 
 
 def collect_arguments(req: HttpRequest) -> dict[str, str]:
-    """合并 query + body 参数 (重复键取首个, 与 ARGS 语义一致)."""
+    """合并 query + body 参数，保留历史字典接口的首值语义。"""
     args: dict[str, str] = {}
     for key, value in parse_qsl(req.query, keep_blank_values=True):
         args.setdefault(key, value)
@@ -215,11 +339,10 @@ def iter_variable_values(req: HttpRequest, selector: str) -> list[str]:
     arg = arg.strip()
 
     if name == "ARGS":
-        args = collect_arguments(req)
+        pairs = parse_qsl(req.query, keep_blank_values=True) + _parse_body_args(req)
         if arg:
-            key = _match_key(args, arg)
-            return [args[key]] if key is not None else []
-        return list(args.values())
+            return [value for key, value in pairs if key.lower() == arg.lower()]
+        return [value for _, value in pairs]
     if name == "ARGS_NAMES":
         return list(collect_arguments(req).keys())
     if name in ("REQUEST_URI", "URL"):
@@ -259,8 +382,10 @@ def iter_variable_values(req: HttpRequest, selector: str) -> list[str]:
         return [req.remote_addr]
     if name in ("XML", "REQUEST_XML"):
         return [req.body_text()] if "xml" in req.content_type.lower() else []
-    if name == "FILES_NAMES":
-        return [k for k, _ in parse_qsl(req.body_text(), keep_blank_values=True)]
+    if name in ("FILES", "FILES_NAMES") and "multipart/form-data" in req.content_type.lower():
+        parts = parse_multipart(req.body, req.content_type).parts
+        return [(p.name if name == "FILES_NAMES" else p.filename) for p in parts
+                if p.filename is not None and (not arg or p.name == arg)]
     return []
 
 
