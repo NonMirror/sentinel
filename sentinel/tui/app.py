@@ -50,9 +50,31 @@ def _scroller(panel):
 
 
 class ModuleItem(Static):
-    """Focusable sidebar row used as the initial navigation surface."""
+    """侧栏一行: 模块名 + 右对齐徽标 (两列布局).
+
+    名字与徽标拆成**两个子控件**, 徽标固定占行尾的窄列 —— 对齐交给布局
+    引擎, 而不是手动补空格。这样即使某个图标字节宽与终端实际渲染宽度
+    不一致 (字体缺字时回退到更宽的符号字体, 会多占一列), 也不影响徽标
+    所在列。图标本身仍应尽量选用终端主字体覆盖的字形。
+    """
 
     can_focus = True
+
+    def __init__(self, index: int, panel_cls, **kwargs) -> None:
+        kwargs.setdefault("classes", "module")
+        kwargs.setdefault("id", f"mod-{index}")
+        super().__init__(**kwargs)
+        self.index = index
+        self.panel_cls = panel_cls
+
+    def compose(self) -> ComposeResult:
+        yield Static(self.label_markup(), id=f"mod-{self.index}-label",
+                     classes="module-label")
+        yield Static("", id=f"mod-{self.index}-badge", classes="module-badge")
+
+    def label_markup(self) -> str:
+        return (f"[dim]{self.index}[/]  {self.panel_cls.MODULE_ICON}  "
+                f"{self.panel_cls.MODULE_NAME}")
 
 #: (面板类, 综合设计归属, 归属中文名) —— 顺序即 1-9 的模块编号
 MODULES = [
@@ -309,10 +331,8 @@ class SentinelTUI(App):
         with Horizontal(id="body"):
             with VerticalScroll(id="sidebar"):
                 yield Static("模块导航", id="sidebar-title")
-                for index, (panel_cls, group, _group_name) in enumerate(MODULES, 1):
-                    yield ModuleItem(
-                        f"[dim]{index}[/]  {panel_cls.MODULE_ICON}  {panel_cls.MODULE_NAME}",
-                        classes="module", id=f"mod-{index}")
+                for index, (panel_cls, _group, _group_name) in enumerate(MODULES, 1):
+                    yield ModuleItem(index, panel_cls)
                 yield Static("", id="sidebar-info")
             yield ContentSwitcher(id="main")
         yield Input(placeholder="", id="cmdbar")
@@ -370,14 +390,12 @@ class SentinelTUI(App):
         for index, (panel_cls, _group, _name) in enumerate(MODULES, 1):
             count, color = badges.get(panel_cls, (0, palette.OVERLAY0))
             try:
-                widget = self.query_one(f"#mod-{index}", Static)
+                widget = self.query_one(f"#mod-{index}-badge", Static)
             except Exception:                   # noqa: BLE001
                 continue
-            badge = (f"  [bold {color}]{fmt_num(float(count))}[/]"
-                     if count else "")
-            widget.update(
-                f"[dim]{index}[/]  {panel_cls.MODULE_ICON}  "
-                f"{panel_cls.MODULE_NAME}{badge}")
+            # 徽标是独立控件, 由布局引擎锚定在行尾窄列 —— 与图标/名字的
+            # 实际渲染宽度无关, 因此不会因终端把 ambiguous 图标画成双宽而错位。
+            widget.update(f"[bold {color}]{fmt_num(float(count))}[/]" if count else "")
 
         try:
             info = self.query_one("#sidebar-info", Static)
@@ -407,13 +425,16 @@ class SentinelTUI(App):
 
     def on_click(self, event) -> None:
         """鼠标点击侧栏模块即切换 (TUI 也是 GUI)."""
+        # 点击可能落在行内的名字/徽标子控件上, 因此向上找到整行 (ModuleItem)
         widget = getattr(event, "widget", None)
-        widget_id = getattr(widget, "id", "") or ""
-        if widget_id.startswith("mod-"):
-            try:
-                self.select_module(int(widget_id.split("-", 1)[1]) - 1, focus="main")
-            except (IndexError, ValueError):
-                pass
+        while widget is not None and not isinstance(widget, ModuleItem):
+            widget = getattr(widget, "parent", None)
+        if widget is None:
+            return
+        try:
+            self.select_module(widget.index - 1, focus="main")
+        except (AttributeError, IndexError, ValueError):
+            pass
 
     # ------------------------------------------------------------------
     # 模块与刷新

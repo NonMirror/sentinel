@@ -416,11 +416,11 @@ class IdsPanel(_Panel):
 # ==========================================================================
 class RulesPanel(_Panel):
     MODULE_NAME = "规则防御管理"
-    MODULE_ICON = "⛨"
+    MODULE_ICON = "◈"
     KEY = "4"
 
     def compose(self) -> ComposeResult:
-        yield Static("⛨ 规则防御模块 (ModSecurity 兼容)  —  j/k 移动 · x 启停 · / 过滤 · :export 导出",
+        yield Static("◈ 规则防御模块 (ModSecurity 兼容)  —  j/k 移动 · x 启停 · / 过滤 · :export 导出",
                      classes="panel-title")
         with Horizontal(classes="row"):
             yield StatCard("规则总数", id="rule-total", variant="info")
@@ -616,11 +616,11 @@ class AuditPanel(_Panel):
 # ==========================================================================
 class ScanPanel(_Panel):
     MODULE_NAME = "漏洞检测"
-    MODULE_ICON = "⌖"
+    MODULE_ICON = "◎"
     KEY = "6"
 
     def compose(self) -> ComposeResult:
-        yield Static("⌖ 漏洞扫描子系统  —  目标识别 -> 漏洞检测  (Enter 输入目标 · s 扫描 · d 深度扫描)",
+        yield Static("◎ 漏洞扫描子系统  —  目标识别 -> 漏洞检测  (Enter 输入目标 · s 扫描 · d 深度扫描)",
                     classes="panel-title")
         with Horizontal(classes="row"):
             yield Input(placeholder="http://127.0.0.1:8080/ 或 直接回车使用靶场地址",

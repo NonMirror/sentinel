@@ -63,21 +63,26 @@ Screen {
     padding: 0 1;
     color: #a5adce;
     border-left: thick #292c3c;
+    layout: horizontal;
 }
+
+/* 名字占满剩余宽度; 徽标固定占行尾窄列, 由布局引擎对齐 */
+.module-label { width: 1fr; color: #a5adce; }
+.module-badge { width: 7; text-align: right; }
 
 .module.active {
     background: #414559;
-    color: #c6d0f5;
     border-left: thick #ca9ee6;
-    text-style: bold;
 }
+
+.module.active .module-label { color: #c6d0f5; text-style: bold; }
 
 .module:focus {
     background: #51576d;
-    color: #f2d5cf;
     border-left: thick #85c1dc;
-    text-style: bold;
 }
+
+.module:focus .module-label { color: #f2d5cf; text-style: bold; }
 
 .module:hover { background: #414559; }
 
