@@ -1,0 +1,508 @@
+{
+  "status": "OK",
+  "data": {
+    "id": 380,
+    "identifier": "redata/RWUUSV",
+    "persistentUrl": "https://doi.org/10.60895/redata/RWUUSV",
+    "protocol": "doi",
+    "authority": "10.60895",
+    "publisher": "Repositorio de datos abiertos de investigaci\u00f3n de Uruguay",
+    "publicationDate": "2024-04-03",
+    "storageIdentifier": "file://10.60895/redata/RWUUSV",
+    "datasetType": "dataset",
+    "latestVersion": {
+      "id": 79,
+      "datasetId": 380,
+      "datasetPersistentId": "doi:10.60895/redata/RWUUSV",
+      "storageIdentifier": "file://10.60895/redata/RWUUSV",
+      "versionNumber": 1,
+      "versionMinorNumber": 0,
+      "versionState": "RELEASED",
+      "latestVersionPublishingState": "RELEASED",
+      "distributionDate": "2020-02-11",
+      "UNF": "UNF:6:ZdGpBDUZL6QhW6hQvNXRoQ==",
+      "lastUpdateTime": "2024-04-23T17:59:54Z",
+      "releaseTime": "2024-04-03T22:02:10Z",
+      "createTime": "2024-04-03T17:10:14Z",
+      "publicationDate": "2024-04-03",
+      "citationDate": "2024-04-03",
+      "license": {
+        "name": "CC BY 4.0",
+        "uri": "http://creativecommons.org/licenses/by/4.0",
+        "iconUri": "https://licensebuttons.net/l/by/4.0/88x31.png"
+      },
+      "fileAccessRequest": true,
+      "metadataBlocks": {
+        "citation": {
+          "displayName": "Citation Metadata",
+          "name": "citation",
+          "fields": [
+            {
+              "typeName": "title",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "WebRequests"
+            },
+            {
+              "typeName": "alternativeURL",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "https://hdl.handle.net/20.500.12381/475"
+            },
+            {
+              "typeName": "author",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Biardo, Deborah"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Universidad ORT Uruguay"
+                  }
+                },
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Gonz\u00e1lez, Guzm\u00e1n"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Universidad ORT Uruguay"
+                  }
+                },
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Lanzotti, Sabrina"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Universidad ORT Uruguay"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "datasetContact",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "datasetContactName": {
+                    "typeName": "datasetContactName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Redata, Administrador"
+                  },
+                  "datasetContactAffiliation": {
+                    "typeName": "datasetContactAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Agencia Nacional de Investigaci\u00f3n e Innovaci\u00f3n"
+                  },
+                  "datasetContactEmail": {
+                    "typeName": "datasetContactEmail",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "manuel.podetti@anii.org.uy"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "dsDescription",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "dsDescriptionValue": {
+                    "typeName": "dsDescriptionValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "A dataset of labeled requests assembled from several public datasets, namely, Malicious-URLs, PKDD, and CSIC 2010 (also included).\n\nTo merge the datasets, only the URI of each web request was used. To construct a feature vector to train the networks, each URI was tokenized in unigrams following a bag-of-words approach.\n\nFor each URI, the values of the unigrams were computed using term frequency\u2013inverse document frequency (TF\u2013IDF). Each URI was represented by an l1-normalized vector composed of the 500 most frequent tokens across the entire dataset."
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "subject",
+              "multiple": true,
+              "typeClass": "controlledVocabulary",
+              "value": [
+                "Computer and Information Science"
+              ]
+            },
+            {
+              "typeName": "keyword",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Web requests"
+                  }
+                },
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Attack detection"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "grantNumber",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "grantNumberAgency": {
+                    "typeName": "grantNumberAgency",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Agencia Nacional de Investigaci\u00f3n e Innovaci\u00f3n (ANII)"
+                  },
+                  "grantNumberValue": {
+                    "typeName": "grantNumberValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "FSDA_1_2018_1_154419"
+                  }
+                },
+                {
+                  "grantNumberAgency": {
+                    "typeName": "grantNumberAgency",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Agencia Nacional de Investigaci\u00f3n e Innovaci\u00f3n (ANII)"
+                  },
+                  "grantNumberValue": {
+                    "typeName": "grantNumberValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "POS_ICT4V_2016_1_15"
+                  }
+                },
+                {
+                  "grantNumberAgency": {
+                    "typeName": "grantNumberAgency",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Agencia Nacional de Investigaci\u00f3n e Innovaci\u00f3n (ANII)"
+                  },
+                  "grantNumberValue": {
+                    "typeName": "grantNumberValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "FMV_1_2019_1_155913."
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "distributionDate",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "2020-02-11"
+            },
+            {
+              "typeName": "depositor",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "Redata, Administrador"
+            },
+            {
+              "typeName": "dateOfDeposit",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "2020-02-11"
+            }
+          ]
+        }
+      },
+      "files": [
+        {
+          "label": "badqueries.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 385,
+            "persistentId": "",
+            "filename": "badqueries.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 3374922,
+            "storageIdentifier": "file://18ea4f04d51-0e1ff455e90a",
+            "rootDataFileId": -1,
+            "md5": "0941595f9cd58e804b8c75dbf9e38b4d",
+            "checksum": {
+              "type": "MD5",
+              "value": "0941595f9cd58e804b8c75dbf9e38b4d"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "csic_2010_anomalousTrafficTest.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 383,
+            "persistentId": "",
+            "filename": "csic_2010_anomalousTrafficTest.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 16090299,
+            "storageIdentifier": "file://18ea4f04f9f-b5f60a920976",
+            "rootDataFileId": -1,
+            "md5": "d03503ed45d198b4cebdefec1f540131",
+            "checksum": {
+              "type": "MD5",
+              "value": "d03503ed45d198b4cebdefec1f540131"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "csic_2010_normalTrafficTest.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 390,
+            "persistentId": "",
+            "filename": "csic_2010_normalTrafficTest.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 20643204,
+            "storageIdentifier": "file://18ea4f04d74-1a1a3e379313",
+            "rootDataFileId": -1,
+            "md5": "475d761acdb349a5d2e5404e9f3a4ebb",
+            "checksum": {
+              "type": "MD5",
+              "value": "475d761acdb349a5d2e5404e9f3a4ebb"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "csic_2010_normalTrafficTraining.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 389,
+            "persistentId": "",
+            "filename": "csic_2010_normalTrafficTraining.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 20640988,
+            "storageIdentifier": "file://18ea4f054e5-5fe2a25cfb04",
+            "rootDataFileId": -1,
+            "md5": "80dc393c73afd08df28351e1470e3bbf",
+            "checksum": {
+              "type": "MD5",
+              "value": "80dc393c73afd08df28351e1470e3bbf"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "goodqueries.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 384,
+            "persistentId": "",
+            "filename": "goodqueries.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 24063954,
+            "storageIdentifier": "file://18ea4f04e20-b9641e5c1e61",
+            "rootDataFileId": -1,
+            "md5": "e9fa698904cf0936e6d970cc622936b2",
+            "checksum": {
+              "type": "MD5",
+              "value": "e9fa698904cf0936e6d970cc622936b2"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "test.csv",
+          "restricted": false,
+          "directoryLabel": "WebRequests/unigrams",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 381,
+            "persistentId": "",
+            "filename": "test.csv",
+            "contentType": "text/csv",
+            "friendlyType": "Valores separados por comas",
+            "filesize": 859351778,
+            "storageIdentifier": "file://18ea4f02ab8-c8bf1d899285",
+            "rootDataFileId": -1,
+            "md5": "ef4b0baf581b954a4875ee1422b8fdb8",
+            "checksum": {
+              "type": "MD5",
+              "value": "ef4b0baf581b954a4875ee1422b8fdb8"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "train.csv",
+          "restricted": false,
+          "directoryLabel": "WebRequests/unigrams",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 382,
+            "persistentId": "",
+            "filename": "train.csv",
+            "contentType": "text/csv",
+            "friendlyType": "Valores separados por comas",
+            "filesize": 479983940,
+            "storageIdentifier": "file://18ea4f04197-146f16e6d839",
+            "rootDataFileId": -1,
+            "md5": "eb163e2db90422348eb7ac2043b18910",
+            "checksum": {
+              "type": "MD5",
+              "value": "eb163e2db90422348eb7ac2043b18910"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "val.csv",
+          "restricted": false,
+          "directoryLabel": "WebRequests/unigrams",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 387,
+            "persistentId": "",
+            "filename": "val.csv",
+            "contentType": "text/csv",
+            "friendlyType": "Valores separados por comas",
+            "filesize": 225837056,
+            "storageIdentifier": "file://18ea4f0251c-b017af8185ab",
+            "rootDataFileId": -1,
+            "md5": "e48ec45b743df2c951989c13eb192187",
+            "checksum": {
+              "type": "MD5",
+              "value": "e48ec45b743df2c951989c13eb192187"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "xml_test.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 388,
+            "persistentId": "",
+            "filename": "xml_test.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 42041312,
+            "storageIdentifier": "file://18ea4f05268-496da14f5f60",
+            "rootDataFileId": -1,
+            "md5": "3fc21fe82e80a3c6128063804d5eec22",
+            "checksum": {
+              "type": "MD5",
+              "value": "3fc21fe82e80a3c6128063804d5eec22"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        },
+        {
+          "label": "xml_train.txt",
+          "restricted": false,
+          "directoryLabel": "WebRequests/raw",
+          "version": 1,
+          "datasetVersionId": 79,
+          "dataFile": {
+            "id": 386,
+            "persistentId": "",
+            "filename": "xml_train.txt",
+            "contentType": "text/plain",
+            "friendlyType": "Texto plano",
+            "filesize": 40658137,
+            "storageIdentifier": "file://18ea4f0500d-78f12f07f038",
+            "rootDataFileId": -1,
+            "md5": "73cb4cb647fd94ad99c18f3732cb5e6f",
+            "checksum": {
+              "type": "MD5",
+              "value": "73cb4cb647fd94ad99c18f3732cb5e6f"
+            },
+            "tabularData": false,
+            "creationDate": "2024-04-03",
+            "publicationDate": "2024-04-03",
+            "fileAccessRequest": true
+          }
+        }
+      ]
+    }
+  }
+}
