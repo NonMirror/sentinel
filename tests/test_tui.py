@@ -9,13 +9,15 @@ import asyncio
 import time
 import urllib.error
 import urllib.request
+from types import SimpleNamespace
 
 import pytest
-from textual.widgets import DataTable, Input, RichLog, Static
+from textual.widgets import DataTable, Input, Markdown, RichLog, Static
 
 from sentinel.core.config import Config
 from sentinel.tui import palette
-from sentinel.tui.app import MODULES, HelpScreen, ModuleItem, NavigatorScreen, SentinelTUI
+from sentinel.tui.app import (MODULES, BenchmarkScreen, HelpScreen, ModuleItem,
+                              NavigatorScreen, SentinelTUI, _read_benchmark_report)
 from sentinel.tui.widgets import StatusBar
 
 
@@ -122,6 +124,56 @@ def test_tui_quick_navigator_opens_and_jumps(tui_config):
 
     opened, index, still_open = _run(body)
     assert opened is True and index == 1 and still_open is False
+
+
+def test_tui_scanner_benchmark_runs_and_shows_markdown(tui_config, monkeypatch):
+    class Reachable:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return False
+
+    monkeypatch.setattr("sentinel.tui.app.urlopen", lambda *_args, **_kwargs: Reachable())
+
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+
+        def fake_scan_multi(targets, **_kwargs):
+            juice = ":3000" in targets[0]
+            stats = {"endpoints": 75 if juice else 26,
+                     "findings": 14 if juice else 27,
+                     "requests": 2878 if juice else 1851,
+                     "errors": 0, "seconds": 0.2}
+            app.runtime.scanner_manager.engines["w13scan"].stats = stats
+            return SimpleNamespace(runs=[SimpleNamespace(
+                ok=True, findings=stats["findings"], seconds=stats["seconds"])])
+
+        app.runtime.scan_multi = fake_scan_multi
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            await pilot.press("6")
+            await settle(pilot, lambda: app.active_panel.MODULE_NAME == "漏洞检测")
+            await pilot.press("b")
+            await settle(pilot, lambda: isinstance(app.screen, BenchmarkScreen))
+            screen = app.screen
+            report_mounted = screen.query_one("#benchmark-report", Markdown) is not None
+            await pilot.press("r")
+            await settle(pilot, lambda: not screen._benchmark_running
+                         and len(screen._results) == 2)
+            table = screen.query_one("#benchmark-live", DataTable)
+            rows = table.get_row("dvwa"), table.get_row("juice"), table.get_row("total")
+            await pilot.press("escape")
+            await pilot.pause(0.1)
+            return report_mounted, rows, isinstance(app.screen, BenchmarkScreen)
+
+    report_mounted, rows, still_open = _run(body)
+    assert "Sentinel balanced PL4" in _read_benchmark_report()
+    assert report_mounted is True
+    assert rows[0][1:] == ["完成", "26", "27", "1851", "0", "0.20s"]
+    assert rows[1][1:] == ["完成", "75", "14", "2878", "0", "0.20s"]
+    assert rows[2][1:6] == ["2/2", "101", "41", "4729", "0"]
+    assert still_open is False
 
 
 def test_tui_tab_and_shift_tab_cycle_modules(tui_config):

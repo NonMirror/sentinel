@@ -620,7 +620,7 @@ class ScanPanel(_Panel):
     KEY = "6"
 
     def compose(self) -> ComposeResult:
-        yield Static("◎ 漏洞扫描子系统  —  目标识别 -> 漏洞检测  (Enter 输入目标 · s 扫描 · d 深度扫描)",
+        yield Static("◎ 漏洞扫描子系统  —  Enter 输入目标 · s 扫描 · d 深度 · b 答辩 Benchmark",
                     classes="panel-title")
         with Horizontal(classes="row"):
             yield Input(placeholder="http://127.0.0.1:8080/ 或 直接回车使用靶场地址",
@@ -711,6 +711,9 @@ class ScanPanel(_Panel):
             return True
         if key == "A":
             self.start_multi_scan(deep=True)
+            return True
+        if key == "b":
+            self.app.open_benchmark()  # type: ignore[attr-defined]
             return True
         if key == "enter" and self.app.focused is self.query_one("#scan-target", Input):
             return False

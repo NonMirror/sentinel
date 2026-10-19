@@ -11,15 +11,19 @@ Vim 键位:
 """
 from __future__ import annotations
 
+import threading
 import time
 from dataclasses import dataclass
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
-from textual.widgets import (ContentSwitcher, DataTable, Input, RichLog,
-                             Static)
+from textual.widgets import (Button, ContentSwitcher, DataTable, Input, Markdown,
+                             RichLog, Static)
 
 from ..core.config import Config
 from ..runtime import SentinelRuntime
@@ -114,6 +118,7 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   [yellow]/[/]          搜索过滤                [yellow]:[/]          命令模式
   [yellow]r[/]          刷新 / 重载引擎         [yellow]s / D[/]      普通 / 深度扫描
   [yellow]a / A[/]      多引擎融合扫描 / 深度融合扫描 (模板 + 插件 + 内置)
+  [yellow]b[/]          扫描器答辩 Benchmark (本机 DVWA + Juice Shop)
   [yellow]Ctrl-O[/]     打开快速导航 (模块 / 常用动作)
   [yellow]Tab[/]        下一模块                [yellow]?[/]          本帮助
   [yellow]q[/]          退出
@@ -129,10 +134,207 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   :vendor               内置第三方资产 (规则/模板) 的来源与完整性
   :scan [url]            :scan! [url]   (深度扫描)
   :scanall [url]         :scanall! [url] 多引擎融合扫描 (模板+插件+内置)
+  :benchmark            运行并展示扫描器答辩 Benchmark
   :report [md|html|json] :export        导出当前引擎规则
   :reload               重载引擎规则     :clear  清空事件
 
 [dim]按 Esc 或 ? 关闭 · j/k 滚动帮助[/]"""
+
+
+BENCHMARK_PATH = Path(__file__).resolve().parents[2] / "benchmark.md"
+BENCHMARK_TARGETS = (
+    ("dvwa", "DVWA", "http://127.0.0.1:8081/"),
+    ("juice", "OWASP Juice Shop", "http://127.0.0.1:3000/"),
+)
+
+
+def _read_benchmark_report() -> str:
+    try:
+        return BENCHMARK_PATH.read_text(encoding="utf-8")
+    except OSError as exc:
+        return f"# Benchmark 报告不可用\n\n无法读取 `{BENCHMARK_PATH}`：{exc}"
+
+
+class BenchmarkScreen(ModalScreen):
+    """答辩用扫描器基准：重跑本地双靶场，并原样展示 benchmark.md。"""
+
+    BINDINGS = [
+        Binding("escape", "dismiss", "关闭"),
+        Binding("q", "dismiss", "关闭"),
+        Binding("r", "run", "运行"),
+        Binding("j", "scroll_down", "下移", show=False),
+        Binding("down", "scroll_down", "下移", show=False),
+        Binding("k", "scroll_up", "上移", show=False),
+        Binding("up", "scroll_up", "上移", show=False),
+        Binding("g", "scroll_home", "顶部", show=False),
+        Binding("G", "scroll_end", "底部", show=False),
+    ]
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._benchmark_running = False
+        self._results: dict[str, dict] = {}
+
+    def compose(self) -> ComposeResult:
+        with Vertical(id="benchmark"):
+            yield Static("扫描器答辩 Benchmark", classes="benchmark-title")
+            yield Static(
+                "固定目标：本机 DVWA :8081 + Juice Shop :3000 · W13Scan 原生引擎深度扫描",
+                classes="benchmark-hint")
+            with Horizontal(id="benchmark-actions"):
+                yield Button("运行双靶场 Benchmark [r]", id="benchmark-run", variant="primary")
+                yield Button("关闭 [Esc]", id="benchmark-close")
+            yield Static("就绪；下方直接呈现 benchmark.md。", id="benchmark-status")
+            yield DataTable(id="benchmark-live", zebra_stripes=True)
+            yield Static(
+                "实时表为当前原始扫描统计；报告中的对照分数为经复核统一结果，口径不同。",
+                classes="benchmark-hint")
+            with VerticalScroll(id="benchmark-report-scroll"):
+                yield Markdown(_read_benchmark_report(), id="benchmark-report")
+
+    def on_mount(self) -> None:
+        table = self.query_one("#benchmark-live", DataTable)
+        for label, key in (("目标", "target"), ("状态", "state"),
+                           ("接口", "endpoints"), ("原始发现", "findings"),
+                           ("请求", "requests"), ("错误", "errors"),
+                           ("耗时", "seconds")):
+            table.add_column(label, key=key)
+        for key, label, _url in BENCHMARK_TARGETS:
+            table.add_row(label, "待运行", "-", "-", "-", "-", "-", key=key)
+        table.add_row("合计", "待运行", "-", "-", "-", "-", "-", key="total")
+        self.query_one("#benchmark-run", Button).focus()
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "benchmark-run":
+            self.action_run()
+        elif event.button.id == "benchmark-close":
+            self.dismiss()
+
+    def on_key(self, event) -> None:
+        actions = {"r": self.action_run, "j": self.action_scroll_down,
+                   "down": self.action_scroll_down, "k": self.action_scroll_up,
+                   "up": self.action_scroll_up, "g": self.action_scroll_home,
+                   "G": self.action_scroll_end}
+        action = actions.get(event.key)
+        if action is not None:
+            action()
+            event.stop()
+            event.prevent_default()
+
+    def action_dismiss(self) -> None:
+        self.dismiss()
+
+    def action_run(self) -> None:
+        if self._benchmark_running:
+            self.app.notify("Benchmark 正在运行", timeout=2)
+            return
+        self._benchmark_running = True
+        self._results.clear()
+        self.query_one("#benchmark-run", Button).disabled = True
+        self.query_one("#benchmark-status", Static).update("正在检查本地靶场 ...")
+        for key, _label, _url in BENCHMARK_TARGETS:
+            self._set_row(key, {"state": "等待", "endpoints": "-", "findings": "-",
+                                "requests": "-", "errors": "-", "seconds": "-"})
+        threading.Thread(target=self._run_benchmark, name="sentinel-benchmark",
+                         daemon=True).start()
+
+    def _run_benchmark(self) -> None:
+        for index, (key, label, url) in enumerate(BENCHMARK_TARGETS, 1):
+            self.app.call_from_thread(
+                self._set_phase, key, f"运行中 {index}/{len(BENCHMARK_TARGETS)}：{label}")
+            try:
+                try:
+                    with urlopen(Request(url, method="HEAD"), timeout=2):
+                        pass
+                except HTTPError:
+                    pass  # HTTP 错误仍证明本机目标可达。
+                outcome = self.app.runtime.scan_multi(  # type: ignore[attr-defined]
+                    [url], engines=["w13scan"], deep=True, timeout_s=300.0)
+                engine = self.app.runtime.scanner_manager.engines["w13scan"]  # type: ignore[attr-defined]
+                stats = dict(engine.stats)
+                run = outcome.runs[0]
+                result = {
+                    "state": "完成" if run.ok else "有错误",
+                    "endpoints": int(stats.get("endpoints", 0)),
+                    "findings": int(stats.get("findings", run.findings)),
+                    "requests": int(stats.get("requests", 0)),
+                    "errors": int(stats.get("errors", 0)),
+                    "seconds": f"{float(stats.get('seconds', run.seconds)):.2f}s",
+                }
+            except (OSError, URLError) as exc:
+                result = {"state": "不可达", "endpoints": "-", "findings": "-",
+                          "requests": "-", "errors": 1, "seconds": "-",
+                          "message": str(exc)}
+            except Exception as exc:  # noqa: BLE001 - 单目标失败不应中断另一目标
+                result = {"state": "失败", "endpoints": "-", "findings": "-",
+                          "requests": "-", "errors": 1, "seconds": "-",
+                          "message": str(exc)}
+            self.app.call_from_thread(self._set_result, key, result)
+        self.app.call_from_thread(self._finish)
+
+    def _set_phase(self, key: str, message: str) -> None:
+        if not self.is_mounted:
+            return
+        self._set_row(key, {"state": "运行中"})
+        self.query_one("#benchmark-status", Static).update(message)
+
+    def _set_result(self, key: str, result: dict) -> None:
+        if not self.is_mounted:
+            return
+        self._results[key] = result
+        self._set_row(key, result)
+        self._update_total()
+
+    def _finish(self) -> None:
+        self._benchmark_running = False
+        if not self.is_mounted:
+            return
+        failures = [result for result in self._results.values()
+                    if result.get("state") != "完成"]
+        message = f"Benchmark 完成：{len(self._results) - len(failures)}/2 个目标成功"
+        if failures:
+            detail = next((r.get("message") for r in failures if r.get("message")), "")
+            message += f"；{len(failures)} 个失败" + (f"（{detail}）" if detail else "")
+        self.query_one("#benchmark-status", Static).update(message)
+        self.query_one("#benchmark-run", Button).disabled = False
+        self.app.notify(message, timeout=4,
+                        severity="warning" if failures else "information")
+
+    def _set_row(self, row: str, values: dict) -> None:
+        table = self.query_one("#benchmark-live", DataTable)
+        for column in ("state", "endpoints", "findings", "requests", "errors", "seconds"):
+            if column in values:
+                table.update_cell(row, column, str(values[column]))
+
+    def _update_total(self) -> None:
+        numeric = ("endpoints", "findings", "requests", "errors")
+        totals = {name: sum(int(result.get(name, 0)) for result in self._results.values()
+                            if isinstance(result.get(name), (int, float)))
+                  for name in numeric}
+        totals["state"] = f"{len(self._results)}/{len(BENCHMARK_TARGETS)}"
+        totals["seconds"] = "-"
+        self._set_row("total", totals)
+
+    def _scroll(self, direction: str) -> None:
+        scroll = self.query_one("#benchmark-report-scroll", VerticalScroll)
+        if direction == "home":
+            scroll.scroll_home(animate=False)
+        elif direction == "end":
+            scroll.scroll_end(animate=False)
+        else:
+            scroll.scroll_relative(y=2 if direction == "down" else -2, animate=False)
+
+    def action_scroll_down(self) -> None:
+        self._scroll("down")
+
+    def action_scroll_up(self) -> None:
+        self._scroll("up")
+
+    def action_scroll_home(self) -> None:
+        self._scroll("home")
+
+    def action_scroll_end(self) -> None:
+        self._scroll("end")
 
 
 class HelpScreen(ModalScreen):
@@ -220,6 +422,7 @@ class NavigatorScreen(ModalScreen):
         for key, label, description in (
             ("s", "普通扫描", "打开漏洞检测面板并开始扫描"),
             ("a", "融合扫描", "运行模板、插件和内置引擎"),
+            ("b", "答辩 Benchmark", "运行本机双靶场并展示 benchmark.md"),
             ("e", "引擎管理", "打开引擎与资产面板"),
             ("r", "报告生成", "打开报告面板"),
             ("?", "帮助", "查看完整快捷键与命令"),
@@ -272,6 +475,9 @@ class NavigatorScreen(ModalScreen):
             self.app.select_module(MODULE_INDEX[ReportPanel.__name__] - 1, focus="main")
         elif action == "?":
             self.app.push_screen(HelpScreen())
+        elif action == "b":
+            self.app.select_module(MODULE_INDEX[ScanPanel.__name__] - 1, focus="main")
+            self.app.open_benchmark()
         elif action in ("s", "a"):
             self.app.select_module(MODULE_INDEX[ScanPanel.__name__] - 1, focus="main")
             panel = self.app.panel_for(ScanPanel)
@@ -501,6 +707,10 @@ class SentinelTUI(App):
         if not isinstance(self.screen, NavigatorScreen):
             self.push_screen(NavigatorScreen())
 
+    def open_benchmark(self) -> None:
+        if not isinstance(self.screen, BenchmarkScreen):
+            self.push_screen(BenchmarkScreen())
+
     def refresh_active(self) -> None:
         for panel in self._panels:
             if panel is self.active_panel:
@@ -638,7 +848,7 @@ class SentinelTUI(App):
             self.active_panel.refresh_data()
         elif key == "s":
             self.active_panel.vim_key("s", count)
-        elif key in ("a", "A", "D"):
+        elif key in ("a", "A", "D", "b"):
             # 面板级动作: 多引擎融合扫描 (a/A) 与深度扫描 (D)
             self.active_panel.vim_key(key, count)
         elif key == "slash":
@@ -841,6 +1051,9 @@ class SentinelTUI(App):
             if args:
                 panel.query_one("#scan-target", Input).value = args[0]
             panel.start_scan(deep=name.endswith("!"))
+        elif name in ("benchmark", "bench"):
+            self.goto(ScanPanel)
+            self.open_benchmark()
         elif name == "report":
             fmt = args[0] if args else "md"
             if self.runtime.last_report is None:
