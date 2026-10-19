@@ -4,7 +4,9 @@
   * 编排出 "反向代理 -> 负载均衡 -> 多后端" 的真实拓扑
   * 作为漏洞扫描子系统的靶场, 提供 10 类可复现漏洞
 
-每个漏洞端点都带有稳定的 "特征字符串", 便于扫描器与自动化测试断言.
+每个漏洞端点都带有稳定的 "特征字符串", 便于扫描器与自动化测试断言;
+每个漏洞还对应一个独立的 flag —— **所有 flag 都在 ``sentinel/lab/flags.py`` 里定义,
+改那一个文件即可**。
 """
 from __future__ import annotations
 
@@ -21,11 +23,19 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
+from .flags import flag
+
 LAB_DIR = os.path.dirname(os.path.abspath(__file__))
 VAULT = os.path.join(LAB_DIR, "vault")
-FLAG = "FLAG{sentinel_waf_and_scanner_united}"
+
+#: 向后兼容别名: 目录穿越 ``/download?file=../vault/flag.txt`` 读取到的 flag。
+FLAG = flag("lfi")
 
 SQL_ERROR = "You have an error in your SQL syntax; check the manual near '''"
+
+#: 判定输入是否构成 XSS 载荷 (反射型/存储型 flag 的触发条件)。
+_XSS_RE = re.compile(r"(?i)<\s*script|<\s*svg|<\s*img|onerror\s*=|onload\s*=|"
+                     r"onmouseover\s*=|javascript\s*:")
 
 COMMENTS: list[dict] = []
 
@@ -41,7 +51,7 @@ class LabApp:
         self.name = name
         os.makedirs(VAULT, exist_ok=True)
         with open(os.path.join(VAULT, "flag.txt"), "w", encoding="utf-8") as fh:
-            fh.write(FLAG + "\n")
+            fh.write(flag("lfi") + "\n")
 
     # ---------------- 路由 ----------------
     def handle(self, method: str, target: str, headers: dict[str, str],
@@ -83,7 +93,8 @@ class LabApp:
             "/go": lambda: self._redirect(q.get("next", "")),
             "/admin": lambda: (200, None,
                                "<h1 id='admin-panel'>管理后台</h1>"
-                               "<p>admin-panel: 未鉴权可访问</p>"),
+                               "<p>admin-panel: 未鉴权可访问</p>"
+                               f"<p id='admin-flag'>{flag('admin')}</p>"),
             "/debug": lambda: self._debug(),
             "/api/orders": lambda: self._orders(),
         }
@@ -100,7 +111,8 @@ class LabApp:
             time.sleep(2.0)
             return 200, None, "<p>耗时查询完成</p>"
         if re.search(r"(?i)\bor\b\s+1\s*=\s*1|' ?or ?'?1'? ?= ?'?1", q):
-            return 200, None, "<table><tr><td>alice</td><td>root</td><td>secret-row</td></tr></table>"
+            return 200, None, ("<table><tr><td>alice</td><td>root</td>"
+                               f"<td>secret-row</td><td>{flag('sqli')}</td></tr></table>")
         if "'" in q or '"' in q or re.search(r"(?i)\bunion\b|\bselect\b|\bfrom\b", q):
             return 500, None, f"<h1>数据库错误</h1><pre>{SQL_ERROR}</pre>"
         return 200, None, f"<ul><li>结果: {html.escape(q) or 'all'}</li></ul>"
@@ -113,23 +125,32 @@ class LabApp:
             item = USER_DB[pid]
             return 200, None, f"<h2>product</h2><p>{item['name']} / {item['role']}</p>"
         if "'" in pid or re.search(r"(?i)\bor\b\s+\d+\s*=\s*\d+|\bunion\b", pid):
-            return 200, None, ("<h2>product</h2><p>alice</p><p>bob</p><p>root</p>")
+            return 200, None, ("<h2>product</h2><p>alice</p><p>bob</p><p>root</p>"
+                               f"<p id='product-flag'>{flag('sqli')}</p>")
         return 500, None, f"<pre>{SQL_ERROR}</pre>"
 
     def _comments(self):
         rows = "".join(f"<div class='c'>{c['message']}</div>" for c in COMMENTS)
-        return 200, None, f"<h2>留言板</h2>{rows}"
+        body = f"<h2>留言板</h2>{rows}"
+        if any(_XSS_RE.search(c["message"]) for c in COMMENTS):
+            body += f"<div id='stored-xss-flag'>{flag('xss_stored')}</div>"
+        return 200, None, body
 
     def _comment(self, method: str, form: dict[str, str]):
         if method != "POST":
             return 405, None, "<p>仅支持 POST</p>"
         COMMENTS.append({"name": form.get("name", ""), "message": form.get("message", "")})
-        return 200, None, (
-            f"<h2>提交成功</h2><div class='c'>{form.get('message', '')}</div>"
-            "<a href='/comments'>查看全部</a>")
+        message = form.get("message", "")
+        body = f"<h2>提交成功</h2><div class='c'>{message}</div>"
+        if _XSS_RE.search(message):
+            body += f"<div id='stored-xss-flag'>{flag('xss_stored')}</div>"
+        return 200, None, body + "<a href='/comments'>查看全部</a>"
 
     def _page(self, name: str):
-        return 200, None, f"<h1>Hello</h1><div id='greet'>{name}</div>"
+        body = f"<h1>Hello</h1><div id='greet'>{name}</div>"
+        if _XSS_RE.search(name):
+            body += f"<div id='xss-flag'>{flag('xss_reflected')}</div>"
+        return 200, None, body
 
     def _fetch(self, url: str):
         if not url:
@@ -138,13 +159,15 @@ class LabApp:
         if low.startswith("file://"):
             try:
                 with open(low[7:], "r", encoding="utf-8", errors="replace") as fh:
-                    return 200, None, f"<pre>sentinel-ssrf-ok\n{html.escape(fh.read()[:256])}</pre>"
+                    return 200, None, (f"<pre>sentinel-ssrf-ok\n{html.escape(fh.read()[:256])}"
+                                       f"\n{flag('ssrf')}</pre>")
             except OSError as exc:
                 return 500, None, f"<pre>sentinel-ssrf-error {exc}</pre>"
         if re.search(r"(?:127\.0\.0\.1|localhost|169\.254\.169\.254|10\.\d+\.\d+\.\d+|192\.168\.)", low):
             body = "sentinel-ssrf-ok internal-service-reached"
             if "169.254.169.254" in low:
                 body += " iam-credentials(accessKeyId=AKIA-SENTINEL)"
+            body += f"\n{flag('ssrf')}"
             return 200, None, f"<pre>{body}</pre>"
         if "://" in url:
             return 200, None, f"<pre>external fetch simulated: {html.escape(url)}</pre>"
@@ -157,7 +180,9 @@ class LabApp:
                 origin = value
         extra = {"Access-Control-Allow-Origin": origin or "*",
                  "Access-Control-Allow-Credentials": "true"}
-        body = json.dumps({"user": "alice", "token": "sentinel-cors-token", "role": "user"})
+        # 反射的 Origin 使得任意站点都能带凭证读取该响应; flag 即"被读走的数据".
+        body = json.dumps({"user": "alice", "token": "sentinel-cors-token",
+                           "flag": flag("cors"), "role": "user"})
         extra["Content-Type"] = "application/json"
         return 200, extra, body
 
@@ -166,7 +191,8 @@ class LabApp:
             return 200, {"Content-Type": "application/json"}, '{"error":"missing callback"}'
         if not re.fullmatch(r"[A-Za-z0-9_$.]{1,64}", callback):
             return 400, None, "<p>非法 callback</p>"
-        body = f"{callback}({{\"user\":\"alice\",\"token\":\"sentinel-jsonp-token\"}});"
+        body = (f"{callback}({{\"user\":\"alice\",\"token\":\"sentinel-jsonp-token\","
+                f"\"flag\":\"{flag('jsonp')}\"}});")
         return 200, {"Content-Type": "application/javascript"}, body
 
     def _download(self, name: str):
@@ -187,7 +213,11 @@ class LabApp:
     def _redirect(self, target: str):
         if not target:
             return 400, None, "<p>缺少 next 参数</p>"
-        return 302, {"Location": target}, "<p>redirecting</p>"
+        body = "<p>redirecting</p>"
+        # 仅当 next 是绝对/协议相对地址 (真正的开放重定向) 时才泄漏 flag.
+        if "://" in target or target.startswith("//"):
+            body += f"<p id='open-redirect-flag'>{flag('open_redirect')}</p>"
+        return 302, {"Location": target}, body
 
     def _debug(self):
         try:
@@ -196,14 +226,15 @@ class LabApp:
             tb = traceback.format_exc()
         body = (
             "<h1>调试信息</h1>"
-            f"<pre>FLAG{sorted(os.environ.items())[:0]}{FLAG}</pre>"
+            f"<pre>{flag('debug')}</pre>"
             f"<pre>DB_PASSWORD=sentinel-db-pass-2026</pre>"
             f"<pre>{tb[:600]}</pre>")
         return 200, None, body
 
     def _orders(self):
         return 200, {"Content-Type": "application/json"}, json.dumps(
-            {"orders": [{"id": 1, "amount": 42}], "debug_error": SQL_ERROR})
+            {"orders": [{"id": 1, "amount": 42}], "debug_error": SQL_ERROR,
+             "flag": flag("api_leak")})
 
 
 _HOME = """<!doctype html><html lang="zh"><head><meta charset="utf-8">

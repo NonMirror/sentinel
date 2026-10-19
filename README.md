@@ -136,6 +136,15 @@ each — the same scan went from **87 s to 1.5 s**. Opt out with
 | Component III | Operations & management console | `sentinel/tui/` | dashboard / config / IDS / rules / audit / engines & assets |
 | Backend | Vulnerable web lab | `sentinel/lab/` | multi-instance lab with ten planted vulnerability classes |
 
+### Lab flags
+
+Every planted vulnerability has its own flag. All flags live in one place:
+[`sentinel/lab/flags.py`](sentinel/lab/flags.py) — edit the `FLAGS` dict and the lab
+picks up the new values immediately. Each endpoint only reveals its flag once the
+vulnerability is actually triggered (e.g. `/download?file=../vault/flag.txt` for the
+path-traversal flag). You can also override flags without touching the source, via
+`SENTINEL_FLAG_<KEY>` env vars or a JSON file pointed to by `SENTINEL_LAB_FLAGS`.
+
 ## Vendored third-party assets
 
 Third-party **data** (not code) is pulled from upstream into `sentinel/vendor/`
