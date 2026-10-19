@@ -15,6 +15,7 @@ import statistics
 import sys
 import time
 from pathlib import Path
+from typing import Callable
 from urllib.parse import urlsplit
 
 _HERE = Path(__file__).resolve()
@@ -47,45 +48,40 @@ def raw_status(base: str, raw: bytes, timeout: float = 15.0) -> tuple[int, float
     return status, (time.perf_counter() - t0) * 1000.0
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--engine", default="modsecurity")
-    ap.add_argument("--endpoint", default="")
-    ap.add_argument("--source", default="")
-    ap.add_argument("--attacks", type=int, default=400)
-    ap.add_argument("--benign", type=int, default=120)
-    ap.add_argument("--profile", choices=("standard", "balanced"), default="standard")
-    ap.add_argument("--paranoia", type=int, choices=range(1, 5), default=1)
-    ap.add_argument("--threshold", type=int, default=5)
-    ap.add_argument("--out", default="")
-    ns = ap.parse_args()
-
-    attacks, _meta = build_attacks(4096, ns.source or None)
-    benign, _ = load_benign()
+def run_benchmark(*, engine: str = "modsecurity", endpoint: str = "",
+                  source: str = "", attacks: int = 400, benign: int = 120,
+                  profile: str = "standard", paranoia: int = 1,
+                  threshold: int = 5,
+                  progress: Callable[[str, int, int], None] | None = None) -> dict:
+    """Run the same proxy benchmark as the CLI and return its JSON result."""
+    attack_rows, _meta = build_attacks(4096, source or None)
+    benign_rows, _ = load_benign()
     # 均匀抽样, 覆盖全部类别
-    step = max(1, len(attacks) // ns.attacks)
-    sample = attacks[::step][:ns.attacks]
-    bstep = max(1, len(benign) // ns.benign)
-    bsample = benign[::bstep][:ns.benign]
+    step = max(1, len(attack_rows) // attacks)
+    sample = attack_rows[::step][:attacks]
+    bstep = max(1, len(benign_rows) // benign)
+    bsample = benign_rows[::bstep][:benign]
 
     cfg = Config()
-    cfg.waf.crs_profile = ns.profile
-    cfg.waf.paranoia_level = ns.paranoia
-    cfg.waf.detection_paranoia_level = ns.paranoia
-    cfg.waf.anomaly_threshold = ns.threshold
+    cfg.waf.crs_profile = profile
+    cfg.waf.paranoia_level = paranoia
+    cfg.waf.detection_paranoia_level = paranoia
+    cfg.waf.anomaly_threshold = threshold
     cfg.listener.host, cfg.listener.port = "127.0.0.1", 0
     cfg.lab.base_port, cfg.lab.instances = 0, 2
     cfg.audit_path = "/tmp/opencode/results/proxy-audit.jsonl"
     runtime = None
-    if ns.endpoint:
-        base = ns.endpoint.rstrip("/")
-        print(f"[*] 外部引擎 {ns.engine} 前端 {base}")
+    if endpoint:
+        base = endpoint.rstrip("/")
     else:
-        runtime = SentinelRuntime(cfg, engine=ns.engine).start()
+        runtime = SentinelRuntime(cfg, engine=engine).start()
         base = f"http://127.0.0.1:{runtime.front_port}"
-        print(f"[*] 引擎 {runtime.engine_name} 前端 {base}")
 
-    def replay(samples, expect):
+    completed = 0
+    total = len(sample) + len(bsample)
+
+    def replay(samples, expect, phase):
+        nonlocal completed
         blocked = 0
         lat = []
         statuses = Counter()
@@ -99,6 +95,9 @@ def main() -> int:
             if hasattr(raw, "category"):
                 categories[raw.category][0] += 1
                 categories[raw.category][1] += int(status == 403)
+            completed += 1
+            if progress and (completed == total or completed % 25 == 0):
+                progress(phase, completed, total)
         ordered = sorted(lat)
 
         def pct(p):
@@ -110,18 +109,20 @@ def main() -> int:
                 "p50": pct(0.50), "p90": pct(0.90), "p99": pct(0.99),
                 "mean": round(statistics.fmean(lat), 2)}
 
-    t0 = time.perf_counter()
-    a = replay(sample, "block")
-    b = replay(bsample, "pass")
-    wall = time.perf_counter() - t0
-    if runtime is not None:
-        runtime.stop()
+    try:
+        t0 = time.perf_counter()
+        a = replay(sample, "block", "攻击样本")
+        b = replay(bsample, "pass", "良性样本")
+        wall = time.perf_counter() - t0
+    finally:
+        if runtime is not None:
+            runtime.stop()
 
     category_recall = [row["blocked"] / row["total"] for row in a["by_category"].values()]
-    out = {"engine": ns.engine, "front": base,
-           "configuration": {"source": ns.source, "profile": ns.profile,
-                             "paranoia_level": ns.paranoia,
-                             "anomaly_threshold": ns.threshold},
+    return {"engine": engine, "front": base,
+           "configuration": {"source": source, "profile": profile,
+                             "paranoia_level": paranoia,
+                             "anomaly_threshold": threshold},
            "attack_recall": round(a["blocked"] / a["n"], 4) if a["n"] else 0.0,
            "category_macro_recall": round(statistics.fmean(category_recall), 4)
                                     if category_recall else 0.0,
@@ -129,6 +130,24 @@ def main() -> int:
            "attacks": a, "benign": b,
            "seconds": round(wall, 2),
            "qps": round((a["n"] + b["n"]) / wall, 1) if wall else 0.0}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--engine", default="modsecurity")
+    ap.add_argument("--endpoint", default="")
+    ap.add_argument("--source", default="")
+    ap.add_argument("--attacks", type=int, default=400)
+    ap.add_argument("--benign", type=int, default=120)
+    ap.add_argument("--profile", choices=("standard", "balanced"), default="standard")
+    ap.add_argument("--paranoia", type=int, choices=range(1, 5), default=1)
+    ap.add_argument("--threshold", type=int, default=5)
+    ap.add_argument("--out", default="")
+    ns = ap.parse_args()
+
+    out = run_benchmark(engine=ns.engine, endpoint=ns.endpoint, source=ns.source,
+                        attacks=ns.attacks, benign=ns.benign, profile=ns.profile,
+                        paranoia=ns.paranoia, threshold=ns.threshold)
     print(json.dumps(out, ensure_ascii=False, indent=2))
     if ns.out:
         Path(ns.out).write_text(json.dumps(out, ensure_ascii=False, indent=2),
