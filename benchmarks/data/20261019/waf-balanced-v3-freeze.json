@@ -1,0 +1,21 @@
+{
+  "frozen_at_utc": "2026-10-19T07:33:16.140064+00:00",
+  "pending_validation": {
+    "source": "CSIC normal training",
+    "selection": "SHA256 sort offset 2000 size 4000",
+    "previously_classified": 2000,
+    "no_remaining_request_classification_before_freeze": true
+  },
+  "sha256": {
+    "sentinel/waf/crs_profiles.py": "db3de96e5ae4ea263549e5d9b325e9acb19f2ec98ae778f617b6c65586f916e6",
+    "sentinel/waf/engines/modsecurity.py": "920e6de425bf0bb9d8596006b10a89a99353b0eb94d235c2a5edd844d85d3bca",
+    "sentinel/waf/secrule/variables.py": "04d55683c3186e070239d236c274ca20eda89827281074884af991306c06bfc7",
+    "sentinel/core/config.py": "e3a64f90538d6a0ce9f527ed6feb1a566ff7475d907e1b078507b454528d46f8",
+    "sentinel/__main__.py": "370477ea81010f56b1aafe9e1280940b551259a47bb75b476d912173eb82d2fe",
+    "examples/waf-balanced.toml": "ed7312db74c28892f55fa49ce49b7fd5d4c6bfe2b115576898c335b4e587c4aa",
+    "benchmarks/scripts/bench_csic_benign.py": "9cb5237ab7d811fec85c2d62d8df626438fbef65000b035f2914f0cd19d2cfca",
+    "benchmarks/scripts/bench_waf_acceptance.py": "f3424415e2b65c54a3cbe22344ab8b2d1d84d8494115af9291c4b7aa6412c514",
+    "benchmarks/scripts/bench_frameworks.py": "4c94769922ed7ee3911af8adf4bd3c384e5a34c1e7f1d2ef73c4d61d37df5d6f",
+    "tests/test_crs_profiles.py": "d2da481245d2bc8a74f53ccf3c5a85b50421bc3b0305f8c2adf2f332e20cd094"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "frozen_at": "2026-10-19T07:27:28.529820+00:00",
+  "sha256": {
+    "sentinel/waf/crs_profiles.py": "71ce9e3bf38f6e22c79925fd007d7df71645c91dbb80e43e768849eb95eb387e",
+    "sentinel/waf/engines/modsecurity.py": "f78ae467e3aec493579079ddd0daa13ba5122226e504bf6e5242612ea1548b08",
+    "sentinel/waf/secrule/variables.py": "04d55683c3186e070239d236c274ca20eda89827281074884af991306c06bfc7",
+    "sentinel/core/config.py": "e3a64f90538d6a0ce9f527ed6feb1a566ff7475d907e1b078507b454528d46f8",
+    "examples/waf-balanced.toml": "156c69c869fd58bcf803f1e3c40fbbeb713f07226ccee0f254df0a3ba679df0c"
+  },
+  "validation_source": "CSIC normal traffic file 389, fixed SHA256-ranked sample chosen before classification",
+  "note": "GoTestWAF partitions are now development/regression evidence after the failed first holdout; new source tests false positives only."
+}

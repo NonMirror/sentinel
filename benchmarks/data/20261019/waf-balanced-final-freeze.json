@@ -1,0 +1,13 @@
+{
+  "frozen_at": "2026-10-19T07:29:04.268148+00:00",
+  "sha256": {
+    "sentinel/waf/crs_profiles.py": "e2d60657fee1e10452d8e18676c96fce6fccae015378d7620cc2fa7d2c1ca689",
+    "sentinel/waf/engines/modsecurity.py": "920e6de425bf0bb9d8596006b10a89a99353b0eb94d235c2a5edd844d85d3bca",
+    "sentinel/waf/secrule/variables.py": "04d55683c3186e070239d236c274ca20eda89827281074884af991306c06bfc7",
+    "sentinel/core/config.py": "e3a64f90538d6a0ce9f527ed6feb1a566ff7475d907e1b078507b454528d46f8",
+    "examples/waf-balanced.toml": "156c69c869fd58bcf803f1e3c40fbbeb713f07226ccee0f254df0a3ba679df0c",
+    "benchmarks/scripts/bench_csic_benign.py": "944435dd51e210f9eebc03dea4eec104e6a5daacb0c848bed9ea6b2d35581775"
+  },
+  "new_validation": "CSIC normalTrafficTraining, 2000 unique requests selected by SHA256 order before classification",
+  "development": "All GoTestWAF and earlier framework data are development/regression evidence; original validation partition has been inspected."
+}

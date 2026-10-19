@@ -1,0 +1,17 @@
+{
+  "frozen_at": "2026-10-19T07:24:29.404623+00:00",
+  "acceptance": {
+    "micro_recall_min": 0.85,
+    "macro_recall_min": 0.85,
+    "false_positive_rate_strict_max": 0.1
+  },
+  "sha256": {
+    "sentinel/waf/crs_profiles.py": "fc007ff52a28dc24adf9c2feea13d1e02d42745de3952159ba4f3b66592587c8",
+    "sentinel/waf/engines/modsecurity.py": "c5415b598b3f5421fc5c71e546356bcb4ebd6024f1b756eb8109b837e4e201c8",
+    "sentinel/core/config.py": "e3a64f90538d6a0ce9f527ed6feb1a566ff7475d907e1b078507b454528d46f8",
+    "examples/waf-balanced.toml": "156c69c869fd58bcf803f1e3c40fbbeb713f07226ccee0f254df0a3ba679df0c",
+    "benchmarks/scripts/bench_waf_acceptance.py": "11a05b6f4b0d84ecd7c66788ce0e09df561ab52cdc1649c8ffb3b6dd3622c336",
+    "benchmarks/data/20261019/waf-acceptance-split.json": "60f90d83f04ea1f0d60dbe3fcbab5966ca18f2a9d72904f7ead46d4ff989f1b2"
+  },
+  "note": "Frozen after calibration and before evaluating validation partition; existing source corpus is not previously unseen."
+}
