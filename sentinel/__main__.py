@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
 
 from . import __version__
 
@@ -22,6 +23,7 @@ def main(argv: list[str] | None = None) -> int:
                         choices=["tui", "run", "scan", "report", "version", "lab", "vendor"])
     parser.add_argument("args", nargs="*")
     parser.add_argument("--port", type=int, default=None)
+    parser.add_argument("--config", type=Path, help="TUI 配置文件 (JSON / TOML / YAML)")
     parser.add_argument("--mode", default=None, choices=["block", "detect", "off"])
     parser.add_argument("--deep", action="store_true")
     parser.add_argument("--all", action="store_true",
@@ -33,6 +35,8 @@ def main(argv: list[str] | None = None) -> int:
                              "nginx-modsecurity/nginx-naxsi 为可选参考数据面; "
                              "默认自动选择)")
     ns = parser.parse_args(argv)
+    if ns.config and (ns.command != "tui" or not ns.config.is_file()):
+        parser.error("--config 需要现有配置文件，当前用于 tui 命令")
 
     if ns.command == "version":
         print(f"Sentinel {__version__}")
@@ -57,9 +61,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if ns.command == "tui":
-        from .core.config import Config
+        from .core.config import load_config
         from .tui import run
-        config = Config()
+        config = load_config(str(ns.config) if ns.config else None)
         if ns.port:
             config.listener.port = ns.port
         if ns.mode:

@@ -41,6 +41,8 @@ class WafConfig:
     block_ips: list[str] = field(default_factory=list)
     static_assets_exempt: bool = True
     rule_files: list[str] = field(default_factory=list)
+    detection_paranoia_level: int | None = None  # CRS only; defaults to blocking PL
+    crs_profile: str = "standard"      # standard | balanced; reviewed advisory scoring
 
 
 @dataclass
@@ -140,10 +142,15 @@ class Config:
         problems: list[str] = []
         if self.waf.mode not in ("block", "detect", "off"):
             problems.append(f"waf.mode 非法: {self.waf.mode}")
+        if self.waf.crs_profile not in ("standard", "balanced"):
+            problems.append(f"waf.crs_profile 非法: {self.waf.crs_profile}")
         if self.waf.strategy not in ("round_robin", "least_conn", "random", "ip_hash"):
             problems.append(f"waf.strategy 非法: {self.waf.strategy}")
         if not 1 <= self.waf.paranoia_level <= 4:
             problems.append("waf.paranoia_level 必须在 1..4")
+        detection_pl = self.waf.detection_paranoia_level
+        if detection_pl is not None and (type(detection_pl) is not int or not 1 <= detection_pl <= 4):
+            problems.append("waf.detection_paranoia_level 必须为 null 或 1..4 的整数")
         if not (1 <= self.listener.port <= 65535):
             problems.append("listener.port 越界")
         if not self.backends:

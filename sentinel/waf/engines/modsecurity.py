@@ -26,6 +26,7 @@ _SOURCE_RE = re.compile(r"REQUEST-\d+-([A-Z-]+)")
 
 from ...core.models import Decision, HttpRequest, Severity, Verdict
 from ...vendor import crs_rules_dir, crs_setup_conf
+from ..crs_profiles import apply_balanced_profile
 from ..secrule import EngineVerdict, SecRuleEngine
 from ..secrule.syntax import load_ruleset
 from .base import RuleView
@@ -88,20 +89,30 @@ class ModSecurityEngine(InProcessEngine):
     # 装载
     # ------------------------------------------------------------------
     def _load(self) -> None:
+        profile = self.waf_config.crs_profile
+        if profile not in ("standard", "balanced"):
+            raise ValueError(f"Unknown CRS profile: {profile}")
         paths = self.sources()
         if not paths:
             self.last_error = f"未找到 CRS 规则: {self.rules_dir}"
             self.engine = None
             return
         ruleset = load_ruleset([str(p) for p in paths])
+        self._advisory_rules = (apply_balanced_profile(ruleset, self.waf_config.paranoia_level)
+                                if profile == "balanced" else [])
+        for rule in ruleset.rules:
+            if profile == "balanced":
+                rule.raw = _render_rule(rule)
         self.engine = SecRuleEngine(
             ruleset,
-            paranoia_level=self.waf_config.paranoia_level,
+            paranoia_level=self.detection_paranoia_level,
+            blocking_paranoia_level=self.waf_config.paranoia_level,
             anomaly_threshold=self.waf_config.anomaly_threshold,
             enabled=self.waf_config.enabled,
             mode=self.waf_config.mode,
             max_body_bytes=self.waf_config.max_body_bytes,
         )
+        self._loaded_profile = profile
         self.last_error = ""
 
     def _sync_config(self) -> None:
@@ -111,8 +122,11 @@ class ModSecurityEngine(InProcessEngine):
             self._load()
             return
         waf = self.waf_config
-        if (engine.paranoia_level != max(1, min(4, waf.paranoia_level))
+        if (engine.paranoia_level != self.detection_paranoia_level
+                or self._loaded_profile != waf.crs_profile
+                or engine.blocking_paranoia_level != max(1, min(4, waf.paranoia_level))
                 or engine.anomaly_threshold != waf.anomaly_threshold
+                or engine.max_body_bytes != waf.max_body_bytes
                 or engine.mode != waf.mode
                 or engine.enabled != waf.enabled):
             self._load()
@@ -138,7 +152,7 @@ class ModSecurityEngine(InProcessEngine):
             final = Verdict.LOG
         else:
             final = Verdict.PASS
-        tags: set[str] = set()
+        tags: set[str] = {f"crs-profile:{self._loaded_profile}"}
         for hit in verdict.hits:
             tags.update(hit.tags)
         return Decision(
@@ -155,6 +169,12 @@ class ModSecurityEngine(InProcessEngine):
     def set_paranoia(self, level: int) -> None:
         super().set_paranoia(level)
 
+    @property
+    def detection_paranoia_level(self) -> int:
+        waf = self.waf_config
+        # Hot changes to the blocking level must never disable its rules.
+        return max(1, min(4, max(waf.paranoia_level, waf.detection_paranoia_level or waf.paranoia_level)))
+
     # ------------------------------------------------------------------
     # 观测
     # ------------------------------------------------------------------
@@ -169,7 +189,11 @@ class ModSecurityEngine(InProcessEngine):
     def health(self) -> dict:
         if self.engine is None:
             return {"available": False}
-        return self.engine.health()
+        return {**self.engine.health(),
+                "crs_profile": self._loaded_profile,
+                "advisory_rule_ids": list(self._advisory_rules),
+                "blocking_paranoia_level": self.engine.blocking_paranoia_level,
+                "detection_paranoia_level": self.engine.paranoia_level}
 
     def rules_summary(self) -> dict:
         if self.engine is None:
@@ -214,6 +238,8 @@ class ModSecurityEngine(InProcessEngine):
             "# Sentinel 导出: ModSecurity 规则语言 (原生解释器执行)",
             f"# 规则数: {len(self.engine.rules)}",
             f"# paranoia_level: {self.waf_config.paranoia_level}",
+            f"# detection_paranoia_level: {self.detection_paranoia_level}",
+            f"# crs_profile: {self._loaded_profile}",
             "",
         ]
         count = 0
@@ -244,8 +270,8 @@ def _render_rule(rule) -> str:
             f'"{_render_operator(rule)}" "{_render_actions(rule)}"')
     # 链式规则的每一环独占一行并缩进, 与上游 CRS 的书写风格一致
     links = "\n".join(
-        f'    SecRule {_render_variables(link)} "{_render_operator(link)}"'
-        for link in rule.chain)
+        f'    SecRule {_render_variables(link)} "{_render_operator(link)}" '
+        f'"{_render_actions(link, chain_link=True)}"' for link in rule.chain)
     return f"{head}\n{links}" if links else head
 
 
@@ -259,8 +285,8 @@ def _render_operator(rule) -> str:
     return f"{prefix}@{rule.operator.name}{argument}"
 
 
-def _render_actions(rule) -> str:
-    parts = [f"id:{rule.id}", f"phase:{rule.phase}"]
+def _render_actions(rule, *, chain_link=False) -> str:
+    parts = [] if chain_link else [f"id:{rule.id}", f"phase:{rule.phase}"]
     parts += [f"t:{t}" for t in rule.transforms]
     if rule.msg:
         parts.append(f"msg:'{rule.msg}'")

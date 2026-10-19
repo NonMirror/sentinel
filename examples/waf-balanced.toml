@@ -1,0 +1,8 @@
+# Explicit opt-in: CRS keeps reviewed matches. Advisory signals contribute at
+# most two points and require separate evidence. See benchmarks/scripts/README.md.
+[waf]
+crs_profile = "balanced"
+paranoia_level = 4
+detection_paranoia_level = 4
+anomaly_threshold = 5
+mode = "block"

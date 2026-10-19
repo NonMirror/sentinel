@@ -1,0 +1,190 @@
+"""Explicit CRS score policy; advisory matches remain observable.
+
+The balanced profile changes only the inbound anomaly contribution of reviewed
+rules. Rule predicates, captures, category scores, ctl actions and explicit
+request rejections remain intact. Pinned rule hashes prevent silently applying
+this policy to a different vendor rule or a custom rule reusing its ID.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import asdict
+from .secrule.syntax import Action, Rule, parse_statement
+
+# Reasons describe the signal, not an allowlist of accepted requests.
+ADVISORY_RULES = {
+    920451: ('format-only', '386a1b8aec613b328342838113edb8fdeb90e743fa1d53c1247eb973dc65903f'),
+    920272: ('format-only', '634f55665b63269a640609fc3c1eedc956b4d08a43718877591cd63bc7aab326'),
+    920273: ('format-only', '4878fedff5fc8154e73470dbcf2b4cfcc92c43be854533954306403027fbf5b6'),
+    921180: ('format-only', 'a92f0756e8d02467b9df3f8429840fa64d477f84a83df6354ddbf70eccce5e6d'),
+    920330: ('format-only', '75de161175665e9f49828d57dc0a6474c830442cf06b4550a5a71022849af638'),
+    920340: ('format-only', 'fd0440862ce09fe24a3aa3302ec39483683bac7acaba5c55ecd433588f9d607a'),
+    920640: ('format-only', '2d5353a0211df3d082201eaf563c2afc48d87f009b9dab527e73631c94f3fc28'),
+    942430: ('punctuation-count', 'd1961005e1b28f5f5a0c65c82c135a5d93efa170b07dc03e1524bb903c8f1042'),
+    942431: ('punctuation-count', 'd19f439ab3b5585666220dc6ce779e5f6c4953e2d8da99060200acf8838029fa'),
+    942432: ('punctuation-count', '18013c5e1cd853d4635b6868abed32dd9c80177996e8a2bfd9f113e978096d4e'),
+    942460: ('punctuation-count', 'a70b02ed09af9f9fb22c6f0ceab76ca0a4d3b868f3a86bb305318b3b53809d81'),
+    932190: ('lexical-hint', '394f67089961bcc01d9c09a5ed412b6660fb48e40d5b447162ec01d50b6de8fd'),
+    932236: ('lexical-hint', '074d45c2b93f97726905d9f1ee4106467e2c4ba8c35acc9db414ab2454522af1'),
+    932250: ('lexical-hint', '2e8affecca24d8cbc359992901d82a9f05faec7d6e761e7fe59bf7395f5e209d'),
+    932350: ('lexical-hint', 'd9011ad42703627e3a355a4f48af313029e8a6b52a2214eeebeefa5c80b19dc1'),
+    941210: ('lexical-hint', '0088024a5c214a205b13000b419b2507fba4e4ef51c150c74f632173e01fed04'),
+    942190: ('lexical-hint', '9c7dffca6929bd1e43228bd0b45bcaa25a88c39c505b7a57cfd436b5f11c20b4'),
+    931130: ('lexical-hint', '5b60b4a60b21bbe38f2d18863447a73d8db51a9906af8fd58f7fb60296ba55f7'),
+    942520: ('lexical-hint', '3a5ccb9984f62a1c0a5e9b75aa215d5a23b7ed32fac914e26475c0448ab6e2b4'),
+    942521: ('lexical-hint', 'aad32205077c89fc0e7c5f5db3e5bcbee5131e6acebc9489c836520f5ce3f5d4'),
+    942480: ('lexical-hint', '2b9c8b19e9c8a9866b356e7a1478c3a98b192586ca18db7fd121e50b106ecd6c'),
+    932200: ('lexical-hint', 'fabe8806b393fd7ad408da1b893768eb980c6329183397c074aaaf5e0e0f5ce7'),
+    932237: ('lexical-hint', 'c4d8426cfe2890db7b2b93ee13e30c5c6cfeecda913c619ba7f7d49b1c837846'),
+    942120: ('higher-paranoia-sqli', 'a5b4a90f9be5d263c10dfa6784044fb1c42599e99edddc4a5163257c5ed3794c'),
+    942130: ('higher-paranoia-sqli', '63a01acbf5f11cad1c7b42a22cd7d9e73660cbd675ff88c179af64f967efa747'),
+    942131: ('higher-paranoia-sqli', 'e52f81d003aa87864a8828d4db1ebe55eba6ad26db181bf23a1c52eace3e6fd0'),
+    942150: ('higher-paranoia-sqli', 'a94380d5f7fa8415d4511c8a3e2885948a878fd50baf2c8c54919b198acd4fee'),
+    942180: ('higher-paranoia-sqli', '40e31ca478e56b419622fd25270f7c49da7b5fe6297ec8aa9f18932128779d01'),
+    942200: ('higher-paranoia-sqli', '71f3f5d1073a530dfba8e9af543f4ef74ddd02eb1f47b498cef6a245a17fd5df'),
+    942210: ('higher-paranoia-sqli', '33d417ecbb345a50e06af437b9bb2478ab5733e3b416ef0ddd408362e25fd7a6'),
+    942260: ('higher-paranoia-sqli', '9746883f6147c031a38da2b773094409a2b72477d3d044377d0025623716e851'),
+    942300: ('higher-paranoia-sqli', 'f00ed1159b7027079003a6e24aa1776a4b161de2f115703f0955bd46f40ed4fb'),
+    942310: ('higher-paranoia-sqli', '475666309d85a7930805eb51701a479a0ca27ccef235eb47f205f0019323a3cb'),
+    942330: ('higher-paranoia-sqli', '348873718e10efa33c2d392eeb457e23e3c2ebf60511dcdcf6a06e5e12a13de9'),
+    942340: ('higher-paranoia-sqli', 'ae230fc72201ce2ffd8f15af0afa8b3981ffe11a9465ce78526c5804d6126e99'),
+    942361: ('higher-paranoia-sqli', 'a3730b9fbfcb0c2c686c1ea94df96ed85efaf51af73807fcbd0a5940eb3a432a'),
+    942362: ('higher-paranoia-sqli', '7d6a22e0df778ef43b12e09f4d1db628754402770844ccbcc77f77b3087146cb'),
+    942370: ('higher-paranoia-sqli', 'd6618e71ce7413e9c528b5ecb5725408dada5ec64bf88703f3131338e55df940'),
+    942380: ('higher-paranoia-sqli', 'bf6acb04f8e0426549bc4022e92ae4b8a5ff2848306099e1cb76d153441278ea'),
+    942390: ('higher-paranoia-sqli', 'ddbcfb37a50d04bb1249c4254ebb51328b1328e36663f0564221c01627fc9547'),
+    942400: ('higher-paranoia-sqli', 'f1b79932f47dc771ac934cf344d2182c035ffcf0a588c40a967dfc8fd5ac97e1'),
+    942410: ('higher-paranoia-sqli', 'be27cfaa912efbd8f6a16c97dfb04aac2df9c560dbc71af75f0a2f2277fb0d72'),
+    942470: ('higher-paranoia-sqli', 'beaad06fb23d3421a2b2fd2a0c9792b886a3914a34456368f30a144ed48afe8f'),
+    942450: ('higher-paranoia-sqli', '20cc9aee70b9af99294655ea2b2ffe2a070c960c70b42a7823a5966a6c305de6'),
+    942510: ('higher-paranoia-sqli', '47dbcc7c3a87d4d3f3b77bf2a3c147f51910fb6e48ac4a4f742b6e4a5160d69a'),
+    942522: ('higher-paranoia-sqli', '522055ccc9b9b718726507e71a94508b05b1d8224ad1852a50e07f541e61cda6'),
+    942101: ('higher-paranoia-sqli', '9026bc488b4c5d1034eacb6c900521e824d7d0223e3ea95c36e6e8463799efb6'),
+    942152: ('higher-paranoia-sqli', '761d2b6317718d7d1ee20119c4630988d4072e46b3e957a545cd59564dafe805'),
+    942321: ('higher-paranoia-sqli', 'f2467d6840070f59a1dd2147fa0d6b0e29bc886c71ca2ed5870cddb1825fee6c'),
+    942251: ('higher-paranoia-sqli', '6c0a60452f94de1bc16018997aac405a4b687a7d29c2aa6a501d929b0f4a250a'),
+    942490: ('higher-paranoia-sqli', 'd3d5ab67ad449fc304f2afa6b4644d5bf8ed1a713b0cbe729b552b3f53924487'),
+    942420: ('higher-paranoia-sqli', '48d2de525f0fb3b9204c7e828620bb4701cabe971aae018b141bac783bb18126'),
+    942511: ('higher-paranoia-sqli', '298a9d7192b361da0bb6ae94a3c5dbf64b7a7d69aaecafd3f85fa962d3a45ad2'),
+    942530: ('higher-paranoia-sqli', '285fb4782a52e7341b1718810e97a507e7e70f7e494666efbed9811c7f6d4d72'),
+    942421: ('higher-paranoia-sqli', 'f338c353617fffc9ba0c98d8577e9a74278ec0c4371465921ac3c253406d3a7b'),
+}
+_SCORE_NAMES = {f"tx.inbound_anomaly_score_pl{level}" for level in range(1, 5)}
+
+# Bounded syntax checks supplement upstream rules; punctuation or keywords alone
+# are insufficient. These are request-side indicators, not execution proofs.
+SYNTAX_RULES = (
+    (10000010, 'Indirect JavaScript execution call', 'attack-xss',
+     r'(?i)(?<![\w$.])(?:(?:window|self|globalThis)\s{0,16}\.\s{0,16})?'
+     r'(?:alert|confirm|prompt|eval|Function|setTimeout|setInterval)\s{0,16}'
+     r'(?:\?\.\s{0,16}\(|(?:\?\.|\.)\s{0,16}(?:call|apply)\s{0,16}\()'),
+    (10000011, 'Unbalanced LDAP filter fragment', 'attack-ldap',
+     r'(?i)^\s{0,16}(?:\*\s{0,16}\([&|!]\s{0,16}\([a-z][a-z0-9-]{0,63}\s{0,16}[~<>]?='
+     r'|[a-z][a-z0-9-]{0,63}:(?:dn:)?[0-9]{1,10}(?:\.[0-9]{1,10}){1,15}:=[^\r\n]{1,128}$)'),
+    (10000012, 'Line-delimited SMTP envelope command', 'attack-protocol',
+     r'(?i)[\r\n][ \t]{0,16}(?:rcpt[ \t]{1,16}to|mail[ \t]{1,16}from):[ \t]{0,16}'
+     r'<?[a-z0-9._+-]{1,64}@[a-z0-9.-]{1,253}>?(?:[\r\n]|$)'),
+    (10000013, 'Shell separator followed by command grammar', 'attack-rce',
+     r'(?i)[;&|][ \t]{0,16}(?:getent[ \t]{1,16}(?:hosts|passwd|group)[ \t]{1,16}[^\s;&|]{1,128}'
+     r'|set[ \t]{1,16}/a[ \t]{1,16}[a-z0-9_]{1,32}[ \t]{0,16}[+*/%\-][ \t]{0,16}[a-z0-9_]{1,32})'),
+    (10000014, 'Command substitution in option assignment', 'attack-rce',
+     r'--[a-zA-Z][a-zA-Z0-9-]{0,63}=[ \t]{0,16}'
+     r'(?:`[^`\r\n]{1,128}`|\$\([^()\r\n]{1,128}\))'),
+)
+
+
+def rule_fingerprint(rule):
+    """Pin complete parsed semantics, including chain actions and phrase files."""
+    def semantic(value):
+        if isinstance(value, dict):
+            return {key: semantic(item) for key, item in value.items()
+                    if key not in ('compiled', 'source', 'line', 'raw')}
+        if isinstance(value, (list, tuple)):
+            return [semantic(item) for item in value]
+        return value
+    encoded = json.dumps(semantic(asdict(rule)), sort_keys=True, ensure_ascii=True)
+    return hashlib.sha256(encoded.encode()).hexdigest()
+
+
+def apply_balanced_profile(ruleset, blocking_level=4):
+    """Modify a freshly loaded ruleset and return the IDs actually changed."""
+    anchor = next((r for r in ruleset.rules if r.id == 949110 and "OWASP_CRS" in r.tags), None)
+    reserved = {10000001, 10000002, *(r[0] for r in SYNTAX_RULES)}
+    if anchor is None or any(r.id in reserved for r in ruleset.rules):
+        ruleset.warnings.append("balanced profile: missing CRS blocking rule or reserved ID collision; standard scoring retained")
+        return []
+    applied = []
+    for rule in ruleset.rules:
+        expected = ADVISORY_RULES.get(rule.id)
+        if expected is None:
+            continue
+        if "OWASP_CRS" not in rule.tags or rule_fingerprint(rule) != expected[1]:
+            ruleset.warnings.append(f"balanced profile: rule {rule.id} changed; standard scoring retained")
+            continue
+        for link in (rule, *rule.chain):
+            replacements = {}
+            expressions = []
+            for expression in link.setvars:
+                name, separator, value = expression.partition("=")
+                if separator and name.strip().lower() in _SCORE_NAMES:
+                    score = ("sentinel_advisory_score" if int(name.strip()[-1]) <= blocking_level
+                             else "sentinel_observed_advisory_score")
+                    replacements[expression] = f"tx.{score}=" + value
+                    expression = replacements[expression]
+                expressions.append(expression)
+            link.setvars = tuple(expressions)
+            link.actions = tuple(Action(a.name, replacements[a.argument])
+                                 if a.name == "setvar" and a.argument in replacements else a
+                                 for a in link.actions)
+        rule.tags += ("sentinel/advisory", f"sentinel/advisory/{expected[0]}")
+        applied.append(rule.id)
+    if applied:
+        # A format warning (for example a legacy character encoding) is not
+        # independent attack evidence. Higher detection-only PLs cannot vote.
+        for rule in ruleset.rules:
+            if rule.id in applied or rule.id == 920250 or "OWASP_CRS" not in rule.tags:
+                continue
+            for link in (rule, *rule.chain):
+                if any(name.strip().lower() in _SCORE_NAMES
+                       and int(name.strip()[-1]) <= blocking_level and value.lstrip().startswith('+')
+                       for name, separator, value in (v.partition('=') for v in link.setvars) if separator):
+                    marker = 'tx.sentinel_threat_evidence=1'
+                    link.setvars += (marker,)
+                    link.actions += (Action('setvar', marker),)
+        # Weak signals alone never block. They can contribute at most two points
+        # once a separate, non-advisory rule has supplied blocking evidence.
+        supplements = []
+        for rule_id, message, tag, pattern in SYNTAX_RULES:
+            head = parse_statement(
+                f'SecRule TX:detection_paranoia_level "@ge 2" '
+                f'"id:{rule_id},phase:2,pass,log,chain,msg:\'{message}\','
+                f'tag:sentinel/syntax,tag:{tag},tag:paranoia-level/2"', source="sentinel-balanced")
+            score = ('blocking_inbound_anomaly_score' if blocking_level >= 2
+                     else 'sentinel_observed_syntax_score')
+            marker = ',setvar:tx.sentinel_threat_evidence=1' if blocking_level >= 2 else ''
+            tail = parse_statement(
+                f'SecRule ARGS|REQUEST_COOKIES|XML:/* "@rx {pattern}" '
+                f'"multiMatch,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,'
+                f'setvar:tx.{score}=+%{{tx.critical_anomaly_score}}{marker}"', source="sentinel-balanced")
+            assert isinstance(head, Rule) and isinstance(tail, Rule)
+            head.chain = (tail,)
+            supplements.append(head)
+        for rule_id, operator, points in ((10000001, "ge 2", 2), (10000002, "eq 1", 1)):
+            head = parse_statement(
+                f'SecRule TX:sentinel_advisory_score "@{operator}" '
+                f'"id:{rule_id},phase:2,pass,nolog,chain,tag:sentinel/advisory-budget"',
+                source="sentinel-balanced")
+            tail = parse_statement(
+                'SecRule TX:blocking_inbound_anomaly_score "@gt 0" '
+                '"chain"',
+                source="sentinel-balanced")
+            evidence = parse_statement(
+                'SecRule TX:sentinel_threat_evidence "@eq 1" '
+                f'"setvar:tx.blocking_inbound_anomaly_score=+{points}"', source="sentinel-balanced")
+            assert isinstance(head, Rule) and isinstance(tail, Rule) and isinstance(evidence, Rule)
+            head.chain = (tail, evidence)
+            supplements.append(head)
+        position = ruleset.items.index(anchor)
+        ruleset.items[position:position] = supplements
+    return applied
