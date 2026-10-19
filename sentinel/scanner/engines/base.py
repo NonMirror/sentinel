@@ -162,7 +162,7 @@ def which(*names: str) -> str | None:
 
 
 def dedupe(findings: Sequence[Finding]) -> list[Finding]:
-    """按 (类型, 路径, 参数) 指纹去重, 保留置信度最高者."""
+    """按 (类型, 方法, 路径, 参数) 指纹去重, 保留置信度最高者."""
     best: dict[str, Finding] = {}
     for finding in findings:
         key = finding.fingerprint

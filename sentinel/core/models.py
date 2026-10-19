@@ -120,8 +120,6 @@ class Decision:
     tags: set[str] = field(default_factory=set)
     phase: int = 2
     elapsed_ms: float = 0.0
-    # Wire order and duplicate fields matter for cookies and policy semantics.
-    header_items: list[tuple[str, str]] = field(default_factory=list)
     inspect_body: bool = True
 
     @property
@@ -177,7 +175,7 @@ class Finding:
 
     @property
     def fingerprint(self) -> str:
-        return f"{self.vuln_type}|{self.url.split('?')[0]}|{self.param}"
+        return f"{self.vuln_type}|{self.method.upper()}|{self.url.split('?')[0]}|{self.param}"
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -190,5 +188,6 @@ class Finding:
             "evidence": self.evidence,
             "proof": self.proof,
             "confidence": round(self.confidence, 3),
+            "conn_id": self.conn_id,
             "created_at": self.created_at,
         }

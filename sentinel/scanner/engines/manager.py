@@ -52,12 +52,14 @@ class ScannerEngineManager:
     # ---------------- 扫描 ----------------
     def scan(self, targets: Sequence[str], *, engines: Iterable[str] | None = None,
              deep: bool = False, timeout_s: float = 420.0) -> ScanOutcome:
-        selected = list(engines) if engines else self.default_selection(deep)
+        selected = list(dict.fromkeys(engines)) if engines is not None else self.default_selection(deep)
         outcome = ScanOutcome()
         merged: list[Finding] = []
         for name in selected:
             engine = self.engines.get(name)
             if engine is None:
+                outcome.runs.append(EngineRun(engine=name, ok=False,
+                                              error="未知引擎", targets=len(targets)))
                 continue
             if not engine.available():
                 outcome.runs.append(EngineRun(engine=name, ok=False,
@@ -69,9 +71,9 @@ class ScannerEngineManager:
             started = time.time()
             try:
                 findings = engine.scan(targets, deep=deep, timeout_s=timeout_s)
-                ok = True
                 # 引擎自报的告警 (如"空报告") 一并记录, 避免静默的 0 发现
-                error = "" if findings else getattr(engine, "last_error", "")
+                error = getattr(engine, "last_error", "")
+                ok = not bool(error)
             except Exception as exc:  # noqa: BLE001 - 单引擎失败不影响整体
                 findings, ok, error = [], False, str(exc)
             seconds = time.time() - started
