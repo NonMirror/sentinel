@@ -111,8 +111,6 @@ def compile_pattern(pattern: str) -> re.Pattern[str] | None:
     先在 Python ``re`` 下直接编译 —— 绝大多数 CRS 规则本就兼容, 保持原语义;
     只有在失败时才走 PCRE 方言改写, 这样改写永远不会影响已经正确的规则。
     """
-    if not pattern:
-        return None
     try:
         return re.compile(pattern)
     except (re.error, OverflowError, RecursionError):
@@ -130,19 +128,25 @@ def compile_pattern(pattern: str) -> re.Pattern[str] | None:
 # --------------------------------------------------------------------------
 # 数值 / 字符串比较
 # --------------------------------------------------------------------------
-def _as_number(text: str) -> float | None:
-    try:
-        return float(text.strip())
-    except (TypeError, ValueError):
-        return None
+def _as_number(text: str, bits: int = 64) -> int:
+    prefix = re.match(r"[ \t\r\n\v\f]*([+-]?[0-9]+)", text)
+    if prefix is None:
+        return 0
+    token = prefix[1]
+    sign = -1 if token.startswith("-") else 1
+    digits = token.lstrip("+-").lstrip("0") or "0"
+    value = sign * (int(digits) if len(digits) <= 19 else 1 << 64)
+    lower, upper = -(1 << (bits - 1)), (1 << (bits - 1)) - 1
+    if bits == 32 and not lower <= value <= upper:
+        return 0
+    return max(lower, min(upper, value))
 
 
 def _compare(left: str, right: str, op: str) -> bool:
-    """ModSecurity 语义: 两边都是数字时按数值比较, 否则按字符串."""
-    left_num, right_num = _as_number(left), _as_number(right)
-    if left_num is not None and right_num is not None:
-        return _cmp(left_num, right_num, op)
-    return _cmp(left, right, op)
+    """Numeric operators consume an integer prefix; invalid input becomes zero."""
+    bits = 32 if op in ("eq", "ne") else 64
+    left_num, right_num = _as_number(left, bits), _as_number(right, bits)
+    return _cmp(left_num, right_num, op)
 
 
 def _cmp(left, right, op: str) -> bool:
@@ -262,17 +266,16 @@ def _evaluate_positive(operator: Operator, value: str) -> bool:  # noqa: C901
         return any(word.lower() in low for word in words)
 
     if name == "contains":
-        return argument.lower() in value.lower()
+        return argument in value
 
     if name == "containsword":
-        return re.search(rf"(?<!\w){re.escape(argument)}(?!\w)",
-                         value, re.IGNORECASE) is not None
+        return not argument or re.search(rf"(?<![A-Za-z]){re.escape(argument)}(?![A-Za-z])", value) is not None
 
     if name == "streq":
         return value == argument
 
     if name == "strmatch":
-        return value.lower() == argument.lower()
+        return argument in value
 
     if name == "beginswith":
         return value.startswith(argument)
@@ -284,7 +287,7 @@ def _evaluate_positive(operator: Operator, value: str) -> bool:  # noqa: C901
         return _compare(value, argument, name)
 
     if name == "within":
-        return value in argument.split()
+        return value in argument
 
     if name in ("ipmatch", "ipmatchfromfile"):
         words = operator.words if name == "ipmatchfromfile" else ()

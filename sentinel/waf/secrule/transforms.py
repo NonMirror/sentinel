@@ -21,7 +21,10 @@ from pathlib import Path
 
 _HEX = "0123456789abcdefABCDEF"
 _HEXSET = set(_HEX)
-_UNRESERVED = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~")
+_UNRESERVED = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789*")
+_ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
+_ASCII_UPPER = str.maketrans("abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+_BYTE_WHITESPACE = " \t\r\n\v\f"
 
 _DEFAULT_MAPPING = Path(__file__).resolve().parents[2] / "vendor" / "modsecurity" / "unicode.mapping"
 
@@ -33,10 +36,8 @@ _DEFAULT_MAPPING = Path(__file__).resolve().parents[2] / "vendor" / "modsecurity
 def load_unicode_mapping(path: str | None = None) -> dict[int, str]:
     """载入 ``unicode.mapping``: 码位 -> 等价 ASCII 字符.
 
-    文件按代码页分段 (ANSI-Central Europe / Cyrillic / ...), 同一码位在不同
-    代码页里可能映射到不同 ASCII 字符。CRS 用 ``20127`` (US-ASCII), 而
-    ``ff01-ff5e`` 全宽区间在各代码页中完全一致 —— 取并集, 先出现者优先,
-    对检测而言是更严格 (更容易命中) 的选择。
+    仅使用 CRS 默认的 ``20127`` (US-ASCII) 段，避免混入其他代码页的
+    同码位映射。缺失该段时返回空表，解码器仍提供低字节与全宽回退。
     """
     mapping: dict[int, str] = {}
     target = Path(path) if path else _DEFAULT_MAPPING
@@ -44,17 +45,15 @@ def load_unicode_mapping(path: str | None = None) -> dict[int, str]:
         text = target.read_text(encoding="utf-8", errors="replace")
     except OSError:                                   # pragma: no cover
         return mapping
-    for match in re.finditer(r"([0-9a-fA-F]{4,6}):([0-9a-fA-F]{2})", text):
-        code = int(match.group(1), 16)
-        if code not in mapping:
-            mapping[code] = chr(int(match.group(2), 16))
+    active = False
+    for line in text.splitlines():
+        section = re.match(r"^(\d+)\s+\(", line)
+        if section:
+            active = section[1] == "20127"
+        elif active:
+            for match in re.finditer(r"\b([0-9a-fA-F]{4,6}):([0-9a-fA-F]{2})\b", line):
+                mapping[int(match[1], 16)] = chr(int(match[2], 16))
     return mapping
-
-
-def _map_char(char: str) -> str:
-    if ord(char) < 0x80:
-        return char
-    return load_unicode_mapping().get(ord(char), char)
 
 
 # --------------------------------------------------------------------------
@@ -65,11 +64,11 @@ def t_none(value: str) -> str:
 
 
 def t_lowercase(value: str) -> str:
-    return value.lower()
+    return value.lower() if value.isascii() else value.translate(_ASCII_LOWER)
 
 
 def t_uppercase(value: str) -> str:
-    return value.upper()
+    return value.upper() if value.isascii() else value.translate(_ASCII_UPPER)
 
 
 def t_length(value: str) -> str:
@@ -77,23 +76,24 @@ def t_length(value: str) -> str:
 
 
 def t_trim(value: str) -> str:
-    return value.strip()
+    return value.strip(_BYTE_WHITESPACE)
 
 
 def t_trim_left(value: str) -> str:
-    return value.lstrip()
+    return value.lstrip(_BYTE_WHITESPACE)
 
 
 def t_trim_right(value: str) -> str:
-    return value.rstrip()
+    return value.rstrip(_BYTE_WHITESPACE)
 
 
 def t_remove_whitespace(value: str) -> str:
-    return re.sub(r"\s+", "", value)
+    # ModSecurity additionally removes both NBSP bytes, even in isolation.
+    return re.sub(r"[\s\xc2\xa0]+", "", value, flags=re.ASCII)
 
 
 def t_compress_whitespace(value: str) -> str:
-    return re.sub(r"\s+", " ", value)
+    return re.sub(r"\s+", " ", value, flags=re.ASCII)
 
 
 def t_remove_nulls(value: str) -> str:
@@ -128,38 +128,32 @@ def t_url_decode(value: str) -> str:
 
 def t_url_decode_uni(value: str) -> str:
     """``%XX`` + IIS ``%uXXXX`` 解码, 并应用全宽字符映射."""
-    if "%" not in value:
+    if "%" not in value and "+" not in value:
         return value
     out: list[str] = []
     index = 0
     length = len(value)
-    changed = False
     while index < length:
         char = value[index]
         if char != "%":
-            out.append(char)
+            out.append(" " if char == "+" else char)
             index += 1
             continue
         if index + 5 < length and value[index + 1] in ("u", "U") and \
                 all(c in _HEXSET for c in value[index + 2:index + 6]):
             code = int(value[index + 2:index + 6], 16)
-            out.append(chr(code))
+            mapped = load_unicode_mapping().get(code)
+            out.append(chr(code - 0xFEE0) if 0xFF01 <= code <= 0xFF5E
+                       else mapped if mapped is not None else chr(code & 255))
             index += 6
-            changed = True
             continue
         if index + 2 < length and value[index + 1] in _HEXSET and value[index + 2] in _HEXSET:
             out.append(chr(int(value[index + 1:index + 3], 16)))
             index += 3
-            changed = True
             continue
         out.append(char)
         index += 1
-    text = "".join(out)
-    if not changed:
-        return value
-    if any(ord(c) > 0x7F for c in text):
-        text = "".join(_map_char(c) for c in text)
-    return text
+    return "".join(out)
 
 
 _UTF8_SEQ = re.compile(rb"[\xc2-\xf4][\x80-\xbf]*")
@@ -192,20 +186,22 @@ def t_utf8_to_unicode(value: str) -> str:
             index += 1
             continue
         for item in char:
-            out.append("%u%04x" % ord(item))
+            out.append("%%u%04x" % ord(item))
         index = match.end()
     return "".join(out)
 
 
-_ENTITY_RE = re.compile(r"&(#x?[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]{1,31});")
+_ENTITY_RE = re.compile(r"&(#(?:[xX][0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+);?")
 _NAMED_ENTITIES = {
     "amp": "&", "lt": "<", "gt": ">", "quot": '"', "apos": "'", "nbsp": "\xa0",
     "colon": ":", "sol": "/", "lpar": "(", "rpar": ")", "comma": ",",
     "period": ".", "num": "#", "percnt": "%", "ast": "*", "plus": "+",
     "equals": "=", "quest": "?", "commat": "@", "lsqb": "[", "rsqb": "]",
     "lcub": "{", "rcub": "}", "verbar": "|", "semi": ";", "dollar": "$",
-    "excl": "!", "grave": "`", "Hat": "^", "tilde": "~", "lowbar": "_",
-    "hyphen": "-", "Tab": "\t", "NewLine": "\n",
+    "excl": "!", "grave": "`", "hat": "^", "lowbar": "_",
+    "tab": "\t", "newline": "\n", "bsol": "\\", "lbrace": "{", "rbrace": "}",
+    "lbrack": "[", "rbrack": "]", "vert": "|", "verticalline": "|", "midast": "*",
+    "underbar": "_", "diacriticalgrave": "`", "shy": "\xad", "nonbreakingspace": "\xa0",
 }
 
 
@@ -215,14 +211,16 @@ def t_html_entity_decode(value: str) -> str:
 
     def replace(match: re.Match[str]) -> str:
         body = match.group(1)
-        try:
-            if body.startswith("#x") or body.startswith("#X"):
-                return chr(int(body[2:], 16))
-            if body.startswith("#"):
-                return chr(int(body[1:]))
-        except (ValueError, OverflowError):
-            return match.group(0)
-        return _NAMED_ENTITIES.get(body, match.group(0))
+        if body.startswith("#"):
+            hexadecimal = body[1:2].lower() == "x"
+            digits = body[2:] if hexadecimal else body[1:]
+            digits = digits.lstrip("0") or "0"
+            # strtol's positive overflow saturates; bound conversion work too.
+            limit = 16 if hexadecimal else 19
+            code = ((1 << 63) - 1 if len(digits) > limit else
+                    min(int(digits, 16 if hexadecimal else 10), (1 << 63) - 1))
+            return chr(code & 255)
+        return _NAMED_ENTITIES.get(body.lower(), match.group(0))
 
     return _ENTITY_RE.sub(replace, value)
 
@@ -253,7 +251,7 @@ def t_js_decode(value: str) -> str:
 
 
 _ESCAPE_SEQ_RE = re.compile(
-    r"\\(?:x([0-9a-fA-F]{2})|([0-7]{1,3})|(.))", re.DOTALL)
+    r"\\(?:[xX]([0-9a-fA-F]{2})|([0-7]{1,3})|(.))", re.DOTALL)
 _ESCAPE_SIMPLE = {"a": "\a", "b": "\b", "f": "\f", "n": "\n", "r": "\r",
                   "t": "\t", "v": "\v", "\\": "\\", "'": "'", '"': '"',
                   "?": "?", "`": "`", "0": "\x00"}
@@ -268,7 +266,7 @@ def t_escape_seq_decode(value: str) -> str:
         if hex2:
             return chr(int(hex2, 16))
         if octal:
-            return chr(int(octal, 8))
+            return chr(int(octal, 8) & 255)
         if simple is not None:
             return _ESCAPE_SIMPLE.get(simple, simple)
         return match.group(0)
@@ -276,40 +274,51 @@ def t_escape_seq_decode(value: str) -> str:
     return _ESCAPE_SEQ_RE.sub(replace, value)
 
 
-_CSS_ESCAPE_RE = re.compile(r"\\([0-9a-fA-F]{1,6})[ \t\r\n]?")
-_CSS_SHORT_RE = re.compile(r"\\([^0-9a-fA-F])")
+_CSS_ESCAPE_RE = re.compile(r"\\(?:([0-9a-fA-F]{1,6})[ \t\r\n\f\v]?|(\n)|(.|$))", re.DOTALL)
 
 
 def t_css_decode(value: str) -> str:
     if "\\" not in value:
         return value
-    value = _CSS_ESCAPE_RE.sub(lambda m: _safe_chr(int(m.group(1), 16)), value)
-    value = _CSS_SHORT_RE.sub(lambda m: m.group(1), value)
-    return value
+    def replace(match: re.Match[str]) -> str:
+        digits, newline, literal = match.groups()
+        if digits:
+            code = int(digits, 16)
+            return chr(code - 0xFEE0 if 0xFF01 <= code <= 0xFF5E else code & 255)
+        return "" if newline else literal
+    return _CSS_ESCAPE_RE.sub(replace, value)
 
 
-def _safe_chr(code: int) -> str:
-    try:
-        return chr(code)
-    except (ValueError, OverflowError):
-        return ""
-
-
-_CMD_STRIP = str.maketrans({c: None for c in "\\\"'`^"})
-_CMD_SPACE_RE = re.compile(r"\s+")
+_CMD_STRIP = str.maketrans({c: None for c in "\\\"'^"})
+_CMD_SPACE_RE = re.compile(r"[ ,;\t\r\n]+")
 
 
 def t_cmd_line(value: str) -> str:
     value = value.translate(_CMD_STRIP)
-    value = _CMD_SPACE_RE.sub(" ", value).strip()
-    return value.lower()
+    value = _CMD_SPACE_RE.sub(" ", value)
+    value = re.sub(r" (?=[/(])", "", value)
+    return t_lowercase(value)
 
 
-_COMMENT_RE = re.compile(r"/\*.*?\*/", re.DOTALL)
+_COMMENT_RE = re.compile(r"/\*.*?(?:\*/|$)", re.DOTALL)
+_COMMENT_START_RE = re.compile(r"/\*|<!--|--|#")
+_COMMENT_END_RE = re.compile(r"\*/|-->")
 
 
 def t_remove_comments(value: str) -> str:
-    return _COMMENT_RE.sub("", value) if "/*" in value else value
+    out, index = [], 0
+    start = _COMMENT_START_RE.search(value)
+    while start:
+        out.append(value[index:start.start()])
+        if start[0] in ("--", "#"):
+            return "".join(out)
+        end = _COMMENT_END_RE.search(value, start.end())
+        if end is None:
+            return "".join(out) + " "
+        index = end.end()
+        start = _COMMENT_START_RE.search(value, index)
+    out.append(value[index:])
+    return "".join(out)
 
 
 def t_replace_comments(value: str) -> str:
@@ -333,8 +342,8 @@ def t_normalize_path_win(value: str) -> str:
 def _normalize_path(value: str, *, windows: bool) -> str:
     if not value:
         return value
-    text = value.replace("\\", "/") if windows or "\\" in value else value
-    if "/." not in text and "//" not in text and not text.startswith("/"):
+    text = value.replace("\\", "/") if windows else value
+    if "/." not in text and "//" not in text and not text.startswith(("/", ".")):
         return text
     parts = text.split("/")
     stack: list[str] = []
@@ -344,13 +353,13 @@ def _normalize_path(value: str, *, windows: bool) -> str:
         if part == "..":
             if stack and stack[-1] != "..":
                 stack.pop()
-            else:
+            elif not text.startswith("/"):
                 stack.append("..")
             continue
         stack.append(part)
     prefix = "/" if text.startswith("/") else ""
     result = prefix + "/".join(stack)
-    if text.endswith("/") and not result.endswith("/"):
+    if result and text.endswith("/") and not result.endswith("/"):
         result += "/"
     return result
 
@@ -363,37 +372,55 @@ def t_base64_decode_ext(value: str) -> str:
     return _base64_decode(value, extended=True)
 
 
-_B64_TABLE = bytes.maketrans(
-    b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
-    b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_")
+_B64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+_B64_VALUES = {c: i for i, c in enumerate(_B64_ALPHABET)} | {"-": 62, "_": 63}
 
 
 def _base64_decode(value: str, *, extended: bool) -> str:
     if not value:
         return value
-    candidate = value.strip()
-    if len(candidate) < 4:
-        return value
+    if extended:
+        out = bytearray()
+        accumulator = bits = digits = 0
+        for index, char in enumerate(value):
+            if char == "=":
+                if digits % 4 == 1 and value[index + 1:index + 2] != "=":
+                    return ""
+                continue
+            digit = _B64_VALUES.get(char)
+            if digit is None:
+                continue
+            accumulator = (accumulator << 6) | digit
+            bits += 6
+            digits += 1
+            if bits >= 8:
+                bits -= 8
+                out.append(accumulator >> bits)
+                accumulator &= (1 << bits) - 1
+        return out.decode("latin-1")
     try:
-        raw = candidate.encode("ascii", "ignore")
-        if extended:
-            raw = raw.translate(_B64_TABLE)
-        padding = (-len(raw)) % 4
-        return base64.b64decode(raw + b"=" * padding).decode("latin-1")
-    except (binascii.Error, ValueError):
+        candidate = value.partition("\x00")[0]
+        raw = re.sub(r"[ \r\n]+", "", candidate).encode("ascii")
+        return base64.b64decode(raw, validate=True).decode("latin-1")
+    except (binascii.Error, ValueError, UnicodeError):
         return value
 
 
 def t_hex_decode(value: str) -> str:
-    stripped = value.strip()
-    if len(stripped) % 2 or not stripped:
-        return value
-    if any(c not in _HEXSET for c in stripped):
-        return value
-    try:
-        return bytes.fromhex(stripped).decode("latin-1")
-    except ValueError:
-        return value
+    def nibble(char: str) -> int:
+        byte = ord(char)
+        return ((byte & 0xDF) - 55 if byte >= 65 else byte - 48) & 255
+    return "".join(chr((nibble(value[i]) * 16 + nibble(value[i + 1])) & 255)
+                   for i in range(0, len(value) - 1, 2))
+
+
+def t_base64_encode(value: str) -> str:
+    return base64.b64encode(value.encode("latin-1", "replace")).decode("ascii")
+
+
+def _parity(value: str, odd: bool) -> str:
+    return "".join(chr((byte & 127) | ((byte.bit_count() % 2 ^ odd) << 7))
+                   for byte in value.encode("latin-1", "replace"))
 
 
 _SQL_HEX_RE = re.compile(r"0x([0-9a-fA-F]+)")
@@ -420,18 +447,20 @@ def t_hex_encode(value: str) -> str:
 
 
 def t_md5(value: str) -> str:
-    return hashlib.md5(value.encode("latin-1", "replace")).hexdigest()
+    return hashlib.md5(value.encode("latin-1", "replace")).digest().decode("latin-1")
 
 
 def t_sha1(value: str) -> str:
-    return hashlib.sha1(value.encode("latin-1", "replace")).hexdigest()
+    return hashlib.sha1(value.encode("latin-1", "replace")).digest().decode("latin-1")
 
 
 def t_url_encode(value: str) -> str:
     out: list[str] = []
     for byte in value.encode("latin-1", "replace"):
         char = chr(byte)
-        if char in _UNRESERVED:
+        if char == " ":
+            out.append("+")
+        elif char in _UNRESERVED:
             out.append(char)
         else:
             out.append("%%%02x" % byte)
@@ -473,6 +502,10 @@ TRANSFORMS = {
     "normalizepathwin": t_normalize_path_win,
     "base64decode": t_base64_decode,
     "base64decodeext": t_base64_decode_ext,
+    "base64encode": t_base64_encode,
+    "parityeven7bit": lambda v: _parity(v, False),
+    "parityodd7bit": lambda v: _parity(v, True),
+    "parityzero7bit": lambda v: "".join(chr(b & 127) for b in v.encode("latin-1", "replace")),
     "hexdecode": t_hex_decode,
     "hexencode": t_hex_encode,
     "sqlhexdecode": t_sql_hex_decode,
