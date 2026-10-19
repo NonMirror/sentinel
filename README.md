@@ -1,3 +1,5 @@
+English | [简体中文](README.zh-CN.md)
+
 # Sentinel · Security Operations & Management Console
 
 > Lightweight firewall + vulnerability scanning subsystem + a Vim-keyed TUI
