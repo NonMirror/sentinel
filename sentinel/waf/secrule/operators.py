@@ -231,15 +231,22 @@ def _parse_byte_ranges(spec: str) -> tuple[tuple[int, int], ...]:
     return tuple(ranges)
 
 
-def _validate_byte_range(value: str, spec: str) -> bool:
+@lru_cache(maxsize=64)
+def _byte_range_pattern(spec: str) -> re.Pattern[bytes] | None:
     ranges = _parse_byte_ranges(spec)
-    if not ranges:
-        return True
+    # A single byte class scans in C and still stops at the first disallowed byte.
+    invalid = [byte for byte in range(256)
+               if not any(start <= byte <= end for start, end in ranges)]
+    if not invalid:
+        return None
+    pattern = "[" + "".join(fr"\x{byte:02x}" for byte in invalid) + "]"
+    return re.compile(pattern.encode("ascii"))
+
+
+def _validate_byte_range(value: str, spec: str) -> bool:
     raw = value.encode("latin-1", "replace")
-    for byte in raw:
-        if not any(start <= byte <= end for start, end in ranges):
-            return False
-    return True
+    pattern = _byte_range_pattern(spec)
+    return pattern is None or pattern.search(raw) is None
 
 
 def _validate_utf8(value: str) -> bool:
