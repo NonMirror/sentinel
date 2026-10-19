@@ -28,7 +28,7 @@ class WafConfig:
     anomaly_threshold: int = 5         # CRS 风格异常阈值
     block_above_threshold: bool = True
     inspect_body: bool = True
-    max_body_bytes: int = 131072
+    max_body_bytes: int = 131072       # 代理正文硬上限，超限返回 413；0 只允许空正文
     max_uri_length: int = 8192
     rate_limit_rps: float = 0.0        # 0 = 关闭
     rate_limit_burst: int = 0

@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import asyncio
+import re
 import time
 
 from ..core.audit import AuditLog, AuditRecord
@@ -37,6 +38,9 @@ CHALLENGE_PAGE = (
     "<h1 style=\"font-size:64px;margin:0\">429</h1><p>请求频率过高, 已被限速</p></body></html>"
 ).encode("utf-8")
 
+
+class RequestBodyTooLarge(ParseError):
+    """The proxy cannot safely inspect and forward this entire request body."""
 
 
 class WafProxy:
@@ -156,6 +160,8 @@ class WafProxy:
                     length = int(line.split(b":", 1)[1].strip())
                 except ValueError:
                     length = 0
+        if length > self.config.waf.max_body_bytes:
+            raise RequestBodyTooLarge("请求体超过 max_body_bytes")
         if length:
             body = await asyncio.wait_for(reader.readexactly(length), timeout=15.0)
             return head + body
@@ -173,12 +179,17 @@ class WafProxy:
                 self.metrics.bytes_in.inc(len(data))
                 req = parse_request(data, peer[0], peer[1],
                                     max_body=self.config.waf.max_body_bytes)
+                # A hot config update may lower the limit while the body is arriving.
+                if req.truncated:
+                    raise RequestBodyTooLarge("请求体超过 max_body_bytes")
             except (asyncio.IncompleteReadError, asyncio.TimeoutError, ConnectionResetError):
                 return
             except ParseError as exc:
                 self.metrics.errors.inc()
                 self.bus.publish(Topic.LIFECYCLE, {"event": "parse_error", "error": str(exc)})
-                await self._send_simple(writer, 400, b"Bad Request", "Sentinel-WAF")
+                status, message = ((413, b"Content Too Large") if isinstance(exc, RequestBodyTooLarge)
+                                   else (400, b"Bad Request"))
+                await self._send_simple(writer, status, message, "Sentinel-WAF", close=True)
                 return
 
             self.metrics.requests.inc()
@@ -206,7 +217,7 @@ class WafProxy:
                 await self._send_simple(writer, 502, b"Bad Gateway", "Sentinel-WAF")
                 await self._audit(req, 502, (), "-", 0.0, 0)
                 return
-            await self._send_response(writer, resp)
+            await self._send_response(writer, resp, head_only=req.method == "HEAD")
             self.metrics.latency.observe(resp.elapsed_ms)
             self.metrics.bytes_out.inc(len(resp.body))
             self.ids.record_response(req.remote_addr, resp.status)
@@ -233,10 +244,10 @@ class WafProxy:
                 raw, status = resp
                 elapsed = (time.perf_counter() - t1) * 1000
                 from ..core.models import HttpResponse
-                headers, body = _split_response(raw)
+                header_items, body = _split_response(raw)
                 self.balancer.release(backend, ok=status < 500, latency_ms=elapsed)
-                return HttpResponse(status=status, headers=headers, body=body,
-                                    backend=backend.address, elapsed_ms=elapsed)
+                return HttpResponse(status=status, headers=dict(header_items), body=body,
+                                    backend=backend.address, elapsed_ms=elapsed, header_items=header_items)
             return None
         except (asyncio.TimeoutError, ConnectionError, OSError):
             ok = False
@@ -266,20 +277,7 @@ class WafProxy:
                 })
             writer.write(raw)
             await writer.drain()
-            head = await reader.readuntil(b"\r\n\r\n")
-            status = _status_of(head)
-            body = b""
-            if b"content-length" in head.lower():
-                for line in head.split(b"\r\n"):
-                    if line.lower().startswith(b"content-length:"):
-                        body = await reader.readexactly(int(line.split(b":", 1)[1]))
-                        break
-            elif status not in (204, 304):
-                try:
-                    body = await reader.read()
-                except Exception:
-                    body = b""
-            return head + body, status
+            return await _read_backend_response(reader, req.method)
         finally:
             writer.close()
             try:
@@ -289,32 +287,45 @@ class WafProxy:
 
     # ---------------- 响应 ----------------
     async def _send_simple(self, writer: asyncio.StreamWriter, status: int, body: bytes,
-                           server: str, extra_rules: list[int] | None = None) -> None:
+                           server: str, extra_rules: list[int] | None = None, *, close: bool = False) -> None:
         reason = {403: "Forbidden", 429: "Too Many Requests", 400: "Bad Request",
-                  502: "Bad Gateway"}.get(status, "OK")
+                  413: "Content Too Large", 502: "Bad Gateway"}.get(status, "OK")
         headers = [
             f"HTTP/1.1 {status} {reason}",
             f"Content-Length: {len(body)}",
             "Content-Type: text/html; charset=utf-8",
             f"Server: {server}",
-            "Connection: keep-alive",
+            "Connection: close" if close else "Connection: keep-alive",
         ]
         if extra_rules:
             headers.append("X-Sentinel-Rule: " + ",".join(str(r) for r in extra_rules[:5]))
         writer.write(("\r\n".join(headers) + "\r\n\r\n").encode() + body)
         await writer.drain()
 
-    async def _send_response(self, writer: asyncio.StreamWriter, resp) -> None:
+    async def _send_response(self, writer: asyncio.StreamWriter, resp, *, head_only=False) -> None:
         headers = [f"HTTP/1.1 {resp.status} {_reason(resp.status)}"]
-        for key, value in resp.headers.items():
-            if key.lower() in ("connection", "transfer-encoding", "keep-alive"):
+        items = resp.header_items or list(resp.headers.items())
+        excluded = {"connection", "transfer-encoding", "keep-alive", "content-length", "trailer",
+                    "te", "upgrade", "proxy-authenticate", "proxy-authorization"}
+        for key, value in items:
+            if key.lower() == "connection":
+                excluded.update(token.strip().lower() for token in value.split(","))
+        for key, value in items:
+            if key.lower() in excluded:
                 continue
             headers.append(f"{key}: {value}")
-        headers.append(f"Content-Length: {len(resp.body)}")
+        if resp.status != 204:
+            if head_only or resp.status == 304:
+                length = next((v for k, v in items if k.lower() == "content-length"), None)
+                if length is not None and re.fullmatch(r"[0-9]+", length):
+                    headers.append(f"Content-Length: {length}")
+            else:
+                headers.append(f"Content-Length: {len(resp.body)}")
         headers.append(f"X-Sentinel-Backend: {resp.backend}")
         headers.append("X-Sentinel-Latency: %.2fms" % resp.elapsed_ms)
         headers.append("Connection: keep-alive")
-        writer.write(("\r\n".join(headers) + "\r\n\r\n").encode("latin-1") + resp.body)
+        body = b"" if head_only or resp.status in (204, 304) else resp.body
+        writer.write(("\r\n".join(headers) + "\r\n\r\n").encode("latin-1") + body)
         await writer.drain()
 
     async def _audit(self, req, status: int, rules, backend: str, latency: float,
@@ -353,15 +364,63 @@ def _inject_headers(raw: bytes, extra: dict[str, str]) -> bytes:
     return b"\r\n".join(lines + additions) + sep + body
 
 
-def _split_response(raw: bytes) -> tuple[dict[str, str], bytes]:
+async def _read_backend_response(reader: asyncio.StreamReader, method: str) -> tuple[bytes, int]:
+    for _ in range(16):
+        head = await reader.readuntil(b"\r\n\r\n")
+        status = _status_of(head)
+        if status == 101:
+            raise ParseError("Backend protocol upgrade is unsupported")
+        if not 100 <= status < 200:
+            break
+    else:
+        raise ParseError("Too many informational backend responses")
+    if method == "HEAD" or status in (204, 304):
+        return head, status
+    fields: dict[bytes, list[bytes]] = {}
+    for line in head.split(b"\r\n")[1:]:
+        name, sep, value = line.partition(b":")
+        if sep:
+            fields.setdefault(name.strip().lower(), []).append(value.strip())
+    transfer = b",".join(fields.get(b"transfer-encoding", [])).lower()
+    if transfer:
+        if transfer != b"chunked":
+            raise ParseError("Unsupported backend transfer coding")
+        body = bytearray()
+        while True:
+            line = await reader.readuntil(b"\r\n")
+            size_text = line[:-2].split(b";", 1)[0]
+            if not re.fullmatch(rb"[0-9a-fA-F]+", size_text):
+                raise ParseError("Invalid backend chunk size")
+            size = int(size_text, 16)
+            if not size:
+                trailer_bytes = 0
+                while True:
+                    trailer = await reader.readuntil(b"\r\n")
+                    trailer_bytes += len(trailer)
+                    if trailer_bytes > 65536:
+                        raise ParseError("Backend trailers too large")
+                    if trailer == b"\r\n":
+                        return head + bytes(body), status
+            body.extend(await reader.readexactly(size))
+            if await reader.readexactly(2) != b"\r\n":
+                raise ParseError("Invalid backend chunk terminator")
+    lengths = fields.get(b"content-length", [])
+    if lengths:
+        if len(set(lengths)) != 1 or not re.fullmatch(rb"[0-9]+", lengths[0]):
+            raise ParseError("Invalid backend content length")
+        body = await reader.readexactly(int(lengths[0]))
+    else:
+        body = await reader.read()
+    return head + body, status
+
+
+def _split_response(raw: bytes) -> tuple[list[tuple[str, str]], bytes]:
     head, _, body = raw.partition(b"\r\n\r\n")
-    headers: dict[str, str] = {}
+    headers: list[tuple[str, str]] = []
     for line in head.split(b"\r\n")[1:]:
         key, sep, value = line.decode("latin-1").partition(":")
         if sep:
-            headers[key.strip()] = value.strip()
-    headers.pop("Transfer-Encoding", None)
-    headers.pop("Content-Length", None)
+            headers.append((key.strip(), value.strip()))
     return headers, body
 
 

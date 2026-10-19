@@ -100,6 +100,8 @@ class HttpResponse:
     body: bytes = b""
     backend: str = "local"
     elapsed_ms: float = 0.0
+    # Wire order and duplicate fields matter for cookies and policy semantics.
+    header_items: list[tuple[str, str]] = field(default_factory=list)
 
     @property
     def body_text(self) -> str:
@@ -118,6 +120,8 @@ class Decision:
     tags: set[str] = field(default_factory=set)
     phase: int = 2
     elapsed_ms: float = 0.0
+    # Wire order and duplicate fields matter for cookies and policy semantics.
+    header_items: list[tuple[str, str]] = field(default_factory=list)
     inspect_body: bool = True
 
     @property
