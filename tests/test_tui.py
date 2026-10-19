@@ -357,6 +357,33 @@ def test_tui_vim_count_moves_by_count(tui_config):
     assert row == 3 and count > 10
 
 
+def test_periodic_refresh_does_not_rebuild_unchanged_tables(tui_config, monkeypatch):
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            await pilot.press("4")
+            await settle(pilot, lambda: app.active_panel.MODULE_NAME == "规则防御管理")
+            panel = app.active_panel
+            table = panel.query_one("#rules-table", DataTable)
+            clears = 0
+            original_clear = table.clear
+
+            def counted_clear(*args, **kwargs):
+                nonlocal clears
+                clears += 1
+                return original_clear(*args, **kwargs)
+
+            monkeypatch.setattr(table, "clear", counted_clear)
+            for _ in range(5):
+                panel.refresh_data()
+            return clears, table.row_count
+
+    clears, rows = _run(body)
+    assert rows > 0
+    assert clears == 0
+
+
 def test_tui_h_l_switches_panes(tui_config):
     """h/l move focus between the sidebar and the main pane."""
     async def body():

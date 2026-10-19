@@ -53,6 +53,7 @@ class _Panel(Vertical):
     def __init__(self) -> None:
         super().__init__(id=self.__class__.__name__)
         self.add_class("panel")
+        self._table_signatures: dict[str, object] = {}
 
     @property
     def runtime(self):
@@ -67,6 +68,24 @@ class _Panel(Vertical):
 
     def selected_row(self) -> dict | None:
         return None
+
+    def _replace_rows(self, table: DataTable, signature: object,
+                      rows: list[tuple[tuple, str | None]]) -> bool:
+        """Rebuild a table only when its visible rows changed."""
+        key = table.id or str(id(table))
+        if self._table_signatures.get(key) == signature and table.row_count == len(rows):
+            return False
+        cursor = table.cursor_row
+        table.clear()
+        for cells, row_key in rows:
+            if row_key is None:
+                table.add_row(*cells)
+            else:
+                table.add_row(*cells, key=row_key)
+        self._table_signatures[key] = signature
+        if 0 <= cursor < table.row_count:
+            table.move_cursor(row=cursor)
+        return True
 
     def on_mount(self) -> None:
         self.refresh_data()
@@ -254,15 +273,13 @@ class ConfigPanel(_Panel):
 
     def refresh_data(self) -> None:
         table = self.query_one("#cfg-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
         values = self._values()
+        rows = []
         for key, label, _spec, desc in CONFIG_SPECS:
             value = values[key]
             style = f"bold {palette.GREEN}" if value not in (False, 0, "off") else palette.OVERLAY0
-            table.add_row(key, desc, Text(str(value), style=style), key=key)
-        if cursor < table.row_count:
-            table.move_cursor(row=cursor)
+            rows.append(((key, desc, Text(str(value), style=style)), key))
+        self._replace_rows(table, tuple(values.items()), rows)
         self._update_detail()
 
     def _values(self) -> dict:
@@ -372,6 +389,7 @@ class IdsPanel(_Panel):
         table = self.query_one("#ids-table", DataTable)
         table.add_columns("时间", "规则", "严重级别", "来源", "类型", "描述", "证据")
         self._alerts: deque = deque(maxlen=500)
+        self._alerts_version = 0
         self.runtime.bus.subscribe("ids", self._on_alert)
         for event in self.runtime.bus.history("ids", 200):
             self._on_alert(event)
@@ -382,6 +400,7 @@ class IdsPanel(_Panel):
         if hasattr(payload, "as_dict"):
             payload = payload.as_dict()      # 便携引擎发布 Alert 对象
         self._alerts.append(payload)
+        self._alerts_version += 1
 
     def refresh_data(self) -> None:
         snap = self.runtime.snapshot()
@@ -395,11 +414,10 @@ class IdsPanel(_Panel):
             [(ip, float(score)) for ip, _n, _s, score in snap["ids_top_clients"]][:8])
 
         table = self.query_one("#ids-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
+        rows = []
         for alert in list(self._alerts)[-200:]:
             severity = alert.get("severity", "medium")
-            table.add_row(
+            rows.append(((
                 time.strftime("%H:%M:%S", time.localtime(alert.get("created_at", 0))),
                 str(alert.get("rule_id", "")),
                 Text(SEVERITY_ZH.get(severity, severity), style=SEV_STYLE.get(severity, "")),
@@ -407,9 +425,8 @@ class IdsPanel(_Panel):
                 alert.get("category", ""),
                 alert.get("message", "")[:42],
                 alert.get("evidence", "")[:28],
-            )
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+            ), None))
+        self._replace_rows(table, self._alerts_version, rows)
 
     def selected_row(self) -> dict | None:
         if not self._alerts:
@@ -490,22 +507,23 @@ class RulesPanel(_Panel):
 
     def refresh_data(self) -> None:
         table = self.query_one("#rules-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
         hits: dict[str, int] = {}
         for event in self.runtime.bus.history("decision", 3000):
             for rule in event.payload.get("rules", []):
                 hits[str(rule)] = hits.get(str(rule), 0) + 1
-        for rule in self._rules():
+        rules = self._rules()
+        rows = []
+        for rule in rules:
             enabled = Text("启用" if rule.enabled else "停用",
                            style=palette.GREEN if rule.enabled else palette.OVERLAY0)
-            table.add_row(
+            rows.append(((
                 str(rule.id),
                 Text(SEVERITY_ZH[rule.severity.value], style=SEV_STYLE[rule.severity.value]),
                 rule.category, rule.action, enabled, rule.description[:52],
-                key=str(rule.id))
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+            ), str(rule.id)))
+        signature = tuple((rule.id, rule.severity.value, rule.category, rule.action,
+                           rule.enabled, rule.description) for rule in rules)
+        self._replace_rows(table, signature, rows)
         snapshot = self.runtime.engine_snapshot()
         self.query_one("#rule-total", StatCard).update_value(str(snapshot["rules_total"]))
         self.query_one("#rule-active", StatCard).update_value(str(snapshot["rules_active"]))
@@ -618,19 +636,20 @@ class AuditPanel(_Panel):
         if getattr(self, "_frozen", False):
             return
         table = self.query_one("#audit-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
         records = self.runtime.audit.search(self._filter, limit=400)
+        rows = []
         for record in reversed(records):
             action_style = f"bold {palette.RED}" if record.action == "block" else palette.GREEN
-            table.add_row(
+            rows.append(((
                 time.strftime("%H:%M:%S", time.localtime(record.ts)),
                 Text(record.action, style=action_style),
                 record.severity, record.client, record.method,
                 record.url[:46], str(record.status), record.backend,
-                f"{record.latency_ms:.2f}")
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+                f"{record.latency_ms:.2f}"), None))
+        signature = tuple((record.ts, record.action, record.severity, record.client,
+                           record.method, record.url, record.status, record.backend,
+                           record.latency_ms) for record in records)
+        self._replace_rows(table, signature, rows)
         counts = self.runtime.audit.counts_by_action()
         self.query_one("#aud-total", StatCard).update_value(fmt_num(len(self.runtime.audit)))
         self.query_one("#aud-pass", StatCard).update_value(str(counts.get("pass", 0)))
@@ -777,19 +796,21 @@ class ScanPanel(_Panel):
 
     def _update_table(self) -> None:
         table = self.query_one("#scan-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
+        rows = []
         for finding in self._findings:
             severity = finding.get("severity", "medium")
-            table.add_row(
+            rows.append(((
                 TYPE_ZH.get(finding.get("vuln_type", ""), finding.get("vuln_type", "")),
                 Text(SEVERITY_ZH.get(severity, severity),
                      style=SEV_STYLE.get(severity, "")),
                 finding.get("method", ""), finding.get("url", "")[:52],
                 finding.get("param", "") or "-",
-                f"{finding.get('confidence', 0):.2f}")
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+                f"{finding.get('confidence', 0):.2f}"), None))
+        signature = tuple((finding.get("vuln_type"), finding.get("severity"),
+                           finding.get("method"), finding.get("url"),
+                           finding.get("param"), finding.get("confidence"))
+                          for finding in self._findings)
+        self._replace_rows(table, signature, rows)
 
     def _engine_line(self) -> Text:
         """引擎概览 —— 单行放得下, 否则换行排版会很难看.
@@ -849,16 +870,17 @@ class VulnDbPanel(_Panel):
 
     def refresh_data(self) -> None:
         table = self.query_one("#vdb-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
+        rows = []
         for spec in self._db.specs.values():
-            table.add_row(
+            rows.append(((
                 spec.name, spec.title,
                 Text(SEVERITY_ZH[spec.severity.value], style=SEV_STYLE[spec.severity.value]),
                 spec.cwe, spec.owasp,
-                ", ".join(spec.param_hints[:4]) or "*", key=spec.name)
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+                ", ".join(spec.param_hints[:4]) or "*"), spec.name))
+        signature = tuple((spec.name, spec.title, spec.severity.value, spec.cwe,
+                           spec.owasp, tuple(spec.param_hints))
+                          for spec in self._db.specs.values())
+        self._replace_rows(table, signature, rows)
         summary = self._db.summary()
         self.query_one("#vdb-plugins", StatCard).update_value(str(summary["plugins"]))
         self.query_one("#vdb-payloads", StatCard).update_value(
@@ -1039,13 +1061,12 @@ class EnginesPanel(_Panel):
         platform = self.runtime.platform_snapshot()
 
         table = self.query_one("#engine-table", DataTable)
-        cursor = table.cursor_row
-        table.clear()
         native = set(info.get("native", ()))
+        rows = []
         for item in info["engines"]:
             is_active = item["name"] == active
             kind = "原生" if item["name"] in native else "参考"
-            table.add_row(
+            rows.append(((
                 Text(kind, style=palette.MAUVE if kind == "原生" else palette.OVERLAY0),
                 Text(("* " if is_active else "  ") + item["display"],
                      style=f"bold {palette.SKY}" if is_active else palette.TEXT),
@@ -1055,9 +1076,11 @@ class EnginesPanel(_Panel):
                      style=palette.GREEN if item["running"] else palette.OVERLAY0),
                 str(item.get("rules", 0)),
                 (item.get("detail") or "")[:38],
-                key=item["name"])
-        if 0 <= cursor < table.row_count:
-            table.move_cursor(row=cursor)
+            ), item["name"]))
+        signature = tuple((item["name"], item["display"], item["available"],
+                           item["running"], item.get("rules", 0), item.get("detail"))
+                          for item in info["engines"])
+        self._replace_rows(table, (active, signature), rows)
 
         health = platform.get("health") or {}
         gaps = int(health.get("failed_patterns", 0) or 0)
