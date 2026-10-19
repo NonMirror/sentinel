@@ -461,7 +461,7 @@ class RulesPanel(_Panel):
     KEY = "4"
 
     def compose(self) -> ComposeResult:
-        yield Static("◈ 规则防御模块 (ModSecurity 兼容)  —  j/k 移动 · x 启停 · / 过滤 · :export 导出",
+        yield Static("◈ 规则防御模块 (ModSecurity 兼容)  —  j/k 移动 · x 启停 · / 过滤 · :编号 跳转",
                      classes="panel-title")
         with Horizontal(classes="row"):
             yield StatCard("规则总数", id="rule-total", variant="info")

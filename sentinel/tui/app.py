@@ -142,6 +142,7 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
   :scan [url]            :scan! [url]   (深度扫描)
   :scanall [url]         :scanall! [url] 多引擎融合扫描 (模板+插件+内置)
   :benchmark [waf|scanner] 运行并展示对应 Benchmark
+  :<规则编号>            跳转到规则，例如 :930110
   :report [md|html|json] :export        导出当前引擎规则
   :reload               重载引擎规则     :clear  清空事件
 
@@ -1207,7 +1208,16 @@ class SentinelTUI(App):
         parts = command.split()
         name, args = parts[0], parts[1:]
 
-        if name in ("q", "q!", "wq", "quit"):
+        if name.isdecimal() and not args:
+            rule_id = int(name)
+            if self.runtime.rule_by_id(rule_id) is None:
+                self.notify(f"当前引擎中找不到规则 #{rule_id}", timeout=3,
+                            severity="warning")
+                return
+            panel = self.goto(RulesPanel)
+            panel.focus_rule(rule_id)
+            self.notify(f"已定位规则 #{rule_id}", timeout=2)
+        elif name in ("q", "q!", "wq", "quit"):
             self.action_quit_app()
         elif name == "w":
             self._save_config()

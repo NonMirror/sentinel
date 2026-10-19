@@ -526,6 +526,23 @@ def test_tui_command_mode_set_clear_and_engine(tui_config):
     assert events == 0
 
 
+def test_numeric_command_jumps_to_rule(tui_config):
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            rule_id = app.runtime.rule_index()[0].id
+            app.open_cmdbar(":")
+            app.query_one("#cmdbar", Input).value = f":{rule_id}"
+            await pilot.press("enter")
+            await settle(pilot, lambda: app.active_panel.MODULE_NAME == "规则防御管理")
+            return rule_id, int(app.active_panel.selected_row()["id"]), app.focused.id
+
+    rule_id, selected, focused = _run(body)
+    assert selected == rule_id
+    assert focused == "rules-table"
+
+
 def test_tui_help_overlay_opens_and_closes(tui_config):
     async def body():
         app = SentinelTUI(tui_config, engine="python")
