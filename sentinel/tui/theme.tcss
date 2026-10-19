@@ -58,6 +58,15 @@ Screen {
     padding: 0 1 1 1;
 }
 
+.sidebar-group {
+    height: 2;
+    padding: 1 1 0 1;
+    text-style: bold;
+}
+
+.sidebar-group.group-blue { color: #85c1dc; }
+.sidebar-group.group-red { color: #e78284; }
+
 .module {
     height: 1;
     padding: 0 1;
@@ -83,6 +92,9 @@ Screen {
 }
 
 .module:focus .module-label { color: #f2d5cf; text-style: bold; }
+
+.module.group-blue.active, .module.group-blue:focus { border-left: thick #85c1dc; }
+.module.group-red.active, .module.group-red:focus { border-left: thick #e78284; }
 
 .module:hover { background: #414559; }
 

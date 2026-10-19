@@ -98,6 +98,13 @@ MODULES = [
 #: 错误的面板 (扫描命令打到漏洞库上)。
 MODULE_INDEX = {cls.__name__: index for index, (cls, _g, _n) in enumerate(MODULES, 1)}
 
+SIDEBAR_GROUPS = (
+    ("BLUE · WAF", "blue", (1, 2, 3, 4, 5, 9)),
+    ("RED · 扫描器", "red", (6, 7, 8)),
+)
+SIDEBAR_ORDER = tuple(index - 1 for _label, _kind, indices in SIDEBAR_GROUPS
+                      for index in indices)
+
 HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
 
 [bold]架构映射[/]
@@ -696,8 +703,12 @@ class SentinelTUI(App):
         with Horizontal(id="body"):
             with VerticalScroll(id="sidebar"):
                 yield Static("模块导航", id="sidebar-title")
-                for index, (panel_cls, _group, _group_name) in enumerate(MODULES, 1):
-                    yield ModuleItem(index, panel_cls)
+                for label, kind, indices in SIDEBAR_GROUPS:
+                    yield Static(label, id=f"sidebar-group-{kind}",
+                                 classes=f"sidebar-group group-{kind}")
+                    for index in indices:
+                        yield ModuleItem(index, MODULES[index - 1][0],
+                                         classes=f"module group-{kind}")
                 yield Static("", id="sidebar-info")
             yield ContentSwitcher(id="main")
         yield Input(placeholder="", id="cmdbar")
@@ -953,7 +964,7 @@ class SentinelTUI(App):
             if state.pending == "g":
                 state.pending = ""
                 if self.focus_region == "sidebar":
-                    self.select_module(0, focus="sidebar")
+                    self.select_module(SIDEBAR_ORDER[0], focus="sidebar")
                 elif not self._move("top", count):
                     self._hint(self._no_move_reason())
             else:
@@ -978,10 +989,12 @@ class SentinelTUI(App):
                          "G": "bottom"}[key]
             if self.focus_region == "sidebar":
                 if direction == "bottom":
-                    self.select_module(len(MODULES) - 1, focus="sidebar")
+                    self.select_module(SIDEBAR_ORDER[-1], focus="sidebar")
                 else:
                     delta = count if direction == "down" else -count
-                    self.select_module(self.active_index + delta, focus="sidebar")
+                    position = SIDEBAR_ORDER.index(self.active_index)
+                    position = max(0, min(len(SIDEBAR_ORDER) - 1, position + delta))
+                    self.select_module(SIDEBAR_ORDER[position], focus="sidebar")
             elif not self._move(direction, count):
                 self._hint(self._no_move_reason())
         elif key in ("h", "l"):

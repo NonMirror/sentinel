@@ -16,8 +16,8 @@ from textual.widgets import DataTable, Input, RichLog, Static
 
 from sentinel.core.config import Config
 from sentinel.tui import palette
-from sentinel.tui.app import (MODULES, BenchmarkScreen, HelpScreen, ModuleItem,
-                              NavigatorScreen, SentinelTUI)
+from sentinel.tui.app import (MODULES, SIDEBAR_ORDER, BenchmarkScreen, HelpScreen,
+                              ModuleItem, NavigatorScreen, SentinelTUI)
 from sentinel.tui.widgets import StatusBar
 
 
@@ -69,6 +69,9 @@ def test_tui_has_nine_modules_and_frappe_theme(tui_config):
                 "漏洞检测", "漏洞库管理", "报告生成", "引擎与资产"]
             for index in range(1, 10):
                 assert app.query_one(f"#mod-{index}", Static) is not None
+            assert str(app.query_one("#sidebar-group-blue", Static).render()) == "BLUE · WAF"
+            assert str(app.query_one("#sidebar-group-red", Static).render()) == "RED · 扫描器"
+            assert SIDEBAR_ORDER == (0, 1, 2, 3, 4, 8, 5, 6, 7)
             assert app.theme == palette.THEME_NAME
             assert palette.BASE == "#303446" and palette.TEXT == "#c6d0f5"
             status = str(app.query_one(StatusBar).render())
@@ -276,6 +279,28 @@ def test_tui_sidebar_focus_and_pane_navigation(tui_config):
     assert main == ("main", 3, "rules-table")
     assert row == 2
     assert back == ("sidebar", 3, "mod-4")
+
+
+def test_tui_sidebar_navigation_follows_blue_red_order(tui_config):
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause(0.3)
+            await pilot.press("5")
+            await pilot.pause(0.3)
+            app._focus_sidebar()
+            await pilot.press("j")
+            after_blue = (app.active_index, app.focused.id)
+            await pilot.press("j")
+            first_red = (app.active_index, app.focused.id)
+            await pilot.press("G")
+            last_red = (app.active_index, app.focused.id)
+            await pilot.press("g", "g")
+            first_blue = (app.active_index, app.focused.id)
+            return after_blue, first_red, last_red, first_blue
+
+    assert _run(body) == ((8, "mod-9"), (5, "mod-6"),
+                          (7, "mod-8"), (0, "mod-1"))
 
 
 # --------------------------------------------------------------------------
