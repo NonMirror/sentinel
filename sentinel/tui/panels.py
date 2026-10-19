@@ -359,7 +359,8 @@ class IdsPanel(_Panel):
     KEY = "3"
 
     def compose(self) -> ComposeResult:
-        yield Static("◉ 入侵检测模块  —  行为分析 / 速率限制 / 异常评分", classes="panel-title")
+        yield Static("◉ 入侵检测模块  —  行为分析 / 速率限制 / 异常评分 · Enter 查看规则",
+                     classes="panel-title")
         with Horizontal(classes="row"):
             yield StatCard("告警总数", id="ids-alerts", variant="bad")
             yield StatCard("跟踪来源 IP", id="ids-clients", variant="info")
@@ -417,6 +418,22 @@ class IdsPanel(_Panel):
         items = list(self._alerts)[-200:]
         return items[index] if 0 <= index < len(items) else None
 
+    def vim_key(self, key: str, count: int = 1) -> bool:
+        if key != "enter":
+            return False
+        alert = self.selected_row()
+        try:
+            rule_id = int(alert["rule_id"]) if alert else 0
+        except (KeyError, TypeError, ValueError):
+            rule_id = 0
+        rules = self.app.goto(RulesPanel) if rule_id else None  # type: ignore[attr-defined]
+        if rules is not None and rules.focus_rule(rule_id):
+            self.app.notify(f"已定位规则 #{rule_id}", timeout=2)  # type: ignore[attr-defined]
+        else:
+            self.app.notify(f"当前引擎中找不到规则 #{rule_id or '-'}", timeout=3,
+                            severity="warning")  # type: ignore[attr-defined]
+        return True
+
 
 # ==========================================================================
 # 综设II-3: 规则防御管理
@@ -447,6 +464,20 @@ class RulesPanel(_Panel):
     def set_filter(self, text: str) -> None:
         self._filter = text.lower()
         self.refresh_data()
+
+    def focus_rule(self, rule_id: int) -> bool:
+        """Clear any filter and move the cursor to a rule selected from IDS."""
+        self._filter = ""
+        self.refresh_data()
+        table = self.query_one("#rules-table", DataTable)
+        try:
+            row = table.get_row_index(str(rule_id))
+        except KeyError:
+            return False
+        table.move_cursor(row=row)
+        table.focus()
+        self._update_detail()
+        return True
 
     def _rules(self):
         rules = list(self.runtime.rule_index())

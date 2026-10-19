@@ -572,6 +572,30 @@ def test_tui_panels_reflect_live_traffic(tui_config):
     assert metrics["blocked"] >= 2 and metrics["requests"] >= 3
 
 
+def test_ids_enter_jumps_to_matching_rule(tui_config):
+    async def body():
+        app = SentinelTUI(tui_config, engine="python")
+        async with app.run_test(size=(150, 46)) as pilot:
+            await pilot.pause(0.3)
+            rule_id = app.runtime.rule_index()[0].id
+            app.runtime.bus.publish("ids", {
+                "rule_id": rule_id, "severity": "high", "created_at": time.time(),
+                "client": "127.0.0.1", "category": "waf", "message": "测试命中",
+                "evidence": f"rule={rule_id}",
+            })
+            await pilot.press("3")
+            await settle(pilot, lambda: app.active_panel.query_one(
+                "#ids-table", DataTable).row_count > 0)
+            await pilot.press("enter")
+            await settle(pilot, lambda: app.active_panel.MODULE_NAME == "规则防御管理")
+            selected = int(app.active_panel.selected_row()["id"])
+            return rule_id, selected, app.focused.id
+
+    rule_id, selected, focused = _run(body)
+    assert selected == rule_id
+    assert focused == "rules-table"
+
+
 # --------------------------------------------------------------------------
 # 引擎热切换 (经 TUI 引擎面板)
 # --------------------------------------------------------------------------
