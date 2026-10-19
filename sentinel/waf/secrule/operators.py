@@ -33,6 +33,51 @@ def _xbrace(match: re.Match[str]) -> str:
 #: 最前面, 否则报 "global flags not at the start of the expression"。
 #: 例如 CRS 里的 ``^(?i)up`` —— 语义等价于 ``(?i)^up``。
 _GLOBAL_FLAGS_RE = re.compile(r"\(\?([imsx]+)\)")
+_INITIAL_CLASS_REPEAT = re.compile(r"^((?:\(\?[aimsx]+\))*)(\[(?:\\.|[^\\\]])+\])\+(?![?+])")
+
+
+def _bound_initial_run(pattern: str) -> str:
+    """Avoid retrying a leading greedy class run at every character inside it.
+
+    Extending that first run to its left preserves the rest of any match, so
+    the leftmost match already starts at a run boundary. Captures stay intact.
+    Only used for whole-string searches; not searches with a nonzero offset.
+    """
+    match = _INITIAL_CLASS_REPEAT.match(pattern)
+    if match is None:
+        return pattern
+    start = match.start(2)
+    return pattern[:start] + "(?<!" + match[2] + ")" + pattern[start:]
+
+
+def _bound_initial_runs(pattern: str) -> str:
+    # Verbose patterns and inline comments need a different lexer; leave them alone.
+    if "(?#" in pattern or re.search(r"\(\?[aiLmsux-]*x", pattern):
+        return pattern
+    parts = []
+    start = depth = index = 0
+    class_start = None
+    while index < len(pattern):
+        char = pattern[index]
+        if char == "\\":
+            index += 2
+            continue
+        if class_start is not None:
+            if char == "]" and index != class_start + 1 and not (
+                    index == class_start + 2 and pattern[class_start + 1] == "^"):
+                class_start = None
+        elif char == "[":
+            class_start = index
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+        elif char == "|" and depth == 0:
+            parts.append(_bound_initial_run(pattern[start:index]))
+            start = index + 1
+        index += 1
+    parts.append(_bound_initial_run(pattern[start:]))
+    return "|".join(parts)
 
 
 def _hoist_global_flags(pattern: str) -> str:
@@ -110,14 +155,15 @@ def compile_pattern(pattern: str) -> re.Pattern[str] | None:
 
     先在 Python ``re`` 下直接编译 —— 绝大多数 CRS 规则本就兼容, 保持原语义;
     只有在失败时才走 PCRE 方言改写, 这样改写永远不会影响已经正确的规则。
+    对开头字符类的贪婪重复消除冗余搜索; 返回值仅供从偏移 0 开始的单次 search。
     """
     try:
-        return re.compile(pattern)
+        return re.compile(_bound_initial_runs(pattern))
     except (re.error, OverflowError, RecursionError):
         pass
     translated = _pcre_to_python(pattern)
     try:
-        compiled = re.compile(translated)
+        compiled = re.compile(_bound_initial_runs(translated))
     except (re.error, OverflowError, RecursionError):
         FAILED_PATTERNS.add(pattern[:200])
         return None
