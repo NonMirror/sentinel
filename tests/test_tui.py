@@ -12,12 +12,12 @@ import urllib.request
 from types import SimpleNamespace
 
 import pytest
-from textual.widgets import DataTable, Input, Markdown, RichLog, Static
+from textual.widgets import DataTable, Input, RichLog, Static
 
 from sentinel.core.config import Config
 from sentinel.tui import palette
 from sentinel.tui.app import (MODULES, BenchmarkScreen, HelpScreen, ModuleItem,
-                              NavigatorScreen, SentinelTUI, _read_benchmark_report)
+                              NavigatorScreen, SentinelTUI)
 from sentinel.tui.widgets import StatusBar
 
 
@@ -126,7 +126,7 @@ def test_tui_quick_navigator_opens_and_jumps(tui_config):
     assert opened is True and index == 1 and still_open is False
 
 
-def test_tui_scanner_benchmark_runs_and_shows_markdown(tui_config, monkeypatch):
+def test_tui_scanner_benchmark_runs_and_shows_comparison(tui_config, monkeypatch):
     class Reachable:
         def __enter__(self):
             return self
@@ -157,22 +157,20 @@ def test_tui_scanner_benchmark_runs_and_shows_markdown(tui_config, monkeypatch):
             await pilot.press("b")
             await settle(pilot, lambda: isinstance(app.screen, BenchmarkScreen))
             screen = app.screen
-            report_mounted = screen.query_one("#benchmark-report", Markdown) is not None
             await pilot.press("r")
             await settle(pilot, lambda: not screen._benchmark_running
                          and len(screen._results) == 2)
             table = screen.query_one("#benchmark-live", DataTable)
-            rows = table.get_row("dvwa"), table.get_row("juice"), table.get_row("total")
+            rows = table.get_row("sentinel"), table.get_row("nuclei")
             await pilot.press("escape")
             await pilot.pause(0.1)
-            return report_mounted, rows, isinstance(app.screen, BenchmarkScreen)
+            return rows, table.row_count, isinstance(app.screen, BenchmarkScreen)
 
-    report_mounted, rows, still_open = _run(body)
-    assert "Sentinel balanced PL4" in _read_benchmark_report()
-    assert report_mounted is True
-    assert rows[0][1:] == ["完成", "26", "27", "1851", "0", "0.20s"]
-    assert rows[1][1:] == ["完成", "75", "14", "2878", "0", "0.20s"]
-    assert rows[2][1:6] == ["2/2", "101", "41", "4729", "0"]
+    rows, row_count, still_open = _run(body)
+    assert rows[0] == ["Sentinel", "现场完成", "12/12", "7/7",
+                       "19/19 (100.0%)，另3项", "4,729 / 0错误"]
+    assert rows[1] == ["Nuclei", "归档", "5/12", "3/7", "8/19 (42.1%)", "18,119"]
+    assert row_count == 5
     assert still_open is False
 
 
@@ -190,8 +188,17 @@ def test_tui_waf_panel_runs_balanced_benchmark(tui_config, monkeypatch):
             "qps": 123.4,
         }
 
+    def fake_peer_benchmarks(**kwargs):
+        for key in ("modsecurity_crs_pl1", "coraza_crs_pl1",
+                    "modsecurity_crs_pl4", "coraza_crs_pl4"):
+            kwargs["progress"](key, "回放 603 条请求")
+            kwargs["result"](key, fake_waf_benchmark(progress=lambda *_: None))
+        return {}
+
     monkeypatch.setattr("benchmarks.scripts.bench_waf_proxy.run_benchmark",
                         fake_waf_benchmark)
+    monkeypatch.setattr("benchmarks.scripts.bench_waf_proxy.run_peer_benchmarks",
+                        fake_peer_benchmarks)
 
     async def body():
         app = SentinelTUI(tui_config, engine="python")
@@ -202,17 +209,23 @@ def test_tui_waf_panel_runs_balanced_benchmark(tui_config, monkeypatch):
             await settle(pilot, lambda: isinstance(app.screen, BenchmarkScreen))
             screen = app.screen
             assert screen.kind == "waf"
-            await pilot.press("r")
+            await pilot.press("a")
             await settle(pilot, lambda: not screen._benchmark_running
-                         and screen._waf_result is not None)
-            row = screen.query_one("#benchmark-live", DataTable).get_row("waf")
+                         and not screen._peer_running and screen._waf_result is not None)
+            table = screen.query_one("#benchmark-live", DataTable)
+            rows = (table.get_row("sentinel_balanced"),
+                    table.get_row("modsecurity_crs_pl1"), table.get_row("naxsi_pl1"))
             await pilot.press("escape")
             await pilot.pause(0.1)
-            return row, isinstance(app.screen, BenchmarkScreen)
+            return rows, table.row_count, isinstance(app.screen, BenchmarkScreen)
 
-    row, still_open = _run(body)
-    assert row == ["Sentinel balanced PL4", "达标", "414/434 (95.39%)", "95.15%",
-                   "5/169", "2.96%", "123.4 req/s", "4.20s"]
+    rows, row_count, still_open = _run(body)
+    assert rows[0] == ["Sentinel balanced PL4", "现场达标", "414/434 (95.39%)",
+                       "95.15%", "5/169 (2.96%)", "508/10,000 (5.08%)"]
+    assert rows[1] == ["ModSecurity + CRS PL1", "现场", "414/434 (95.39%)",
+                       "95.15%", "5/169 (2.96%)", "486/10,000 (4.86%)"]
+    assert rows[2][1] == "归档·无现场镜像"
+    assert row_count == 6
     assert still_open is False
 
 

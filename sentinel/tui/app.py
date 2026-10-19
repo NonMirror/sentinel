@@ -11,6 +11,7 @@ Vim 键位:
 """
 from __future__ import annotations
 
+import json
 import threading
 import time
 from dataclasses import dataclass
@@ -22,8 +23,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
-from textual.widgets import (Button, ContentSwitcher, DataTable, Input, Markdown,
-                             RichLog, Static)
+from textual.widgets import Button, ContentSwitcher, DataTable, Input, RichLog, Static
 
 from ..core.config import Config
 from ..runtime import SentinelRuntime
@@ -141,39 +141,81 @@ HELP_TEXT = r"""[bold cyan]SENTINEL — 可视化安全运营与管理平台[/]
 [dim]按 Esc 或 ? 关闭 · j/k 滚动帮助[/]"""
 
 
-BENCHMARK_PATH = Path(__file__).resolve().parents[2] / "benchmark.md"
+BENCHMARK_DATA = Path(__file__).resolve().parents[2] / "benchmarks" / "data" / "20261019"
 BENCHMARK_TARGETS = (
     ("dvwa", "DVWA", "http://127.0.0.1:8081/"),
     ("juice", "OWASP Juice Shop", "http://127.0.0.1:3000/"),
 )
 
+WAF_LABELS = (
+    ("sentinel_balanced", "Sentinel balanced PL4"),
+    ("modsecurity_crs_pl1", "ModSecurity + CRS PL1"),
+    ("coraza_crs_pl1", "Coraza + CRS PL1"),
+    ("naxsi_pl1", "NAXSI 1.3 基准档"),
+    ("modsecurity_crs_pl4", "ModSecurity + CRS PL4"),
+    ("coraza_crs_pl4", "Coraza + CRS PL4"),
+)
+SCANNER_LABELS = (
+    ("sentinel", "Sentinel"), ("nuclei", "Nuclei"), ("nikto", "Nikto"),
+    ("zap", "OWASP ZAP"), ("sqlmap", "sqlmap"),
+)
 
-def _read_benchmark_report() -> str:
-    try:
-        return BENCHMARK_PATH.read_text(encoding="utf-8")
-    except OSError as exc:
-        return f"# Benchmark 报告不可用\n\n无法读取 `{BENCHMARK_PATH}`：{exc}"
+
+def _comparison_rows(kind: str) -> list[tuple[str, list[str]]]:
+    """Read the machine benchmark summaries used by the reports."""
+    if kind == "waf":
+        comparison = json.loads(
+            (BENCHMARK_DATA / "waf-comparison.json").read_text(encoding="utf-8"))
+        csic = json.loads(
+            (BENCHMARK_DATA / "csic-waf-comparison.json").read_text(encoding="utf-8"))
+        rows = []
+        for key, label in WAF_LABELS:
+            result = comparison["results"][key]
+            holdout = csic["results"][key]
+            rows.append((key, [
+                label, "归档·无现场镜像" if key == "naxsi_pl1" else "归档",
+                f"{result['attacks']['blocked']}/{result['attacks']['n']} "
+                f"({result['attack_recall']:.2%})",
+                f"{result['category_macro_recall']:.2%}",
+                f"{result['benign']['blocked']}/{result['benign']['n']} "
+                f"({result['false_positive_rate']:.2%})",
+                f"{holdout['false_positives']}/10,000 "
+                f"({holdout['false_positive_rate']:.2%})",
+            ]))
+        return rows
+
+    comparison = json.loads(
+        (BENCHMARK_DATA / "active-scanner-comparison.json").read_text(encoding="utf-8"))
+    coverage = comparison["comparison"]["tool_union_coverage"]
+    requests = {"sentinel": "4,729 / 0错误", "nuclei": "18,119",
+                "nikto": "17,066", "zap": "Juice主动 6,725", "sqlmap": "未导出"}
+    rows = []
+    for key, label in SCANNER_LABELS:
+        result = coverage[key]
+        extra = "，另3项" if key == "sentinel" else ""
+        rows.append((key, [label, "归档", f"{result['dvwa']}/12",
+                           f"{result['juice_shop']}/7",
+                           f"{result['total']}/19 ({result['ratio']:.1%}){extra}",
+                           requests[key]]))
+    return rows
 
 
 class BenchmarkScreen(ModalScreen):
-    """运行 WAF 或扫描器基准，并原样展示 benchmark.md。"""
+    """运行 Sentinel，并在同一张表中展示所有已测竞品。"""
 
     BINDINGS = [
         Binding("escape", "dismiss", "关闭"),
         Binding("q", "dismiss", "关闭"),
-        Binding("r", "run", "运行"),
-        Binding("j", "scroll_down", "下移", show=False),
-        Binding("down", "scroll_down", "下移", show=False),
-        Binding("k", "scroll_up", "上移", show=False),
-        Binding("up", "scroll_up", "上移", show=False),
-        Binding("g", "scroll_home", "顶部", show=False),
-        Binding("G", "scroll_end", "底部", show=False),
+        Binding("r", "run", "运行 Sentinel"),
+        Binding("p", "peers", "并行运行竞品"),
+        Binding("a", "all", "运行全部"),
     ]
 
     def __init__(self, kind: str = "scanner") -> None:
         super().__init__()
         self.kind = kind
         self._benchmark_running = False
+        self._peer_running = False
         self._results: dict[str, dict] = {}
         self._waf_result: dict | None = None
 
@@ -183,56 +225,53 @@ class BenchmarkScreen(ModalScreen):
             yield Static("WAF Benchmark" if waf else "扫描器 Benchmark",
                          classes="benchmark-title")
             yield Static(
-                ("固定语料：GoTestWAF 434 条攻击 + 169 条良性请求 · balanced PL4"
-                 if waf else "固定目标：本机 DVWA :8081 + Juice Shop :3000"),
+                ("同语料：GoTestWAF 434 攻击 + 169 良性；CSIC 为归档留出结果"
+                 if waf else "同靶场：本机 DVWA :8081 + Juice Shop :3000；统一19项口径"),
                 classes="benchmark-hint")
             with Horizontal(id="benchmark-actions"):
-                yield Button("运行 WAF Benchmark [r]" if waf
-                             else "运行双靶场 Benchmark [r]",
+                yield Button("运行 Sentinel [r]",
                              id="benchmark-run", variant="primary")
+                if waf:
+                    yield Button("并行运行竞品 [p]", id="benchmark-peers")
+                    yield Button("运行全部 [a]", id="benchmark-all", variant="success")
                 yield Button("关闭 [Esc]", id="benchmark-close")
-            yield Static("就绪", id="benchmark-status")
+            yield Static("已载入统一归档结果；可现场重跑并覆盖对应行。", id="benchmark-status")
             yield DataTable(id="benchmark-live", zebra_stripes=True)
             yield Static(
-                ("实时表重跑 434+169 端到端语料；CSIC 10,000 条留出集与竞品结果见下方报告。"
-                 if waf else
-                 "实时表为当前原始扫描统计；报告中的对照分数为经复核统一结果，口径不同。"),
+                ("NAXSI 镜像当前未保留，显示已复核归档值；其余 WAF 竞品使用官方镜像并行运行。"
+                 if waf else "现场扫描只更新 Sentinel 状态与请求成本；统一覆盖仍采用已复核19项。"),
                 classes="benchmark-hint")
-            with VerticalScroll(id="benchmark-report-scroll"):
-                yield Markdown(_read_benchmark_report(), id="benchmark-report")
 
     def on_mount(self) -> None:
         table = self.query_one("#benchmark-live", DataTable)
         if self.kind == "waf":
             for label, key in (("配置", "config"), ("状态", "state"),
                                ("总体拦截", "recall"), ("类别等权", "macro"),
-                               ("良性误报", "false_positives"), ("误报率", "fpr"),
-                               ("吞吐", "qps"), ("耗时", "seconds")):
+                               ("169条良性误报", "false_positives"),
+                               ("CSIC 10,000误报", "csic")):
                 table.add_column(label, key=key)
-            table.add_row("Sentinel balanced PL4", "待运行", "-", "-", "-", "-",
-                          "-", "-", key="waf")
         else:
-            for label, key in (("目标", "target"), ("状态", "state"),
-                               ("接口", "endpoints"), ("原始发现", "findings"),
-                               ("请求", "requests"), ("错误", "errors"),
-                               ("耗时", "seconds")):
+            for label, key in (("工具", "tool"), ("状态", "state"),
+                               ("DVWA", "dvwa"), ("Juice Shop", "juice"),
+                               ("合计覆盖", "total"), ("请求成本", "requests")):
                 table.add_column(label, key=key)
-            for key, label, _url in BENCHMARK_TARGETS:
-                table.add_row(label, "待运行", "-", "-", "-", "-", "-", key=key)
-            table.add_row("合计", "待运行", "-", "-", "-", "-", "-", key="total")
+        for key, cells in _comparison_rows(self.kind):
+            table.add_row(*cells, key=key)
         self.query_one("#benchmark-run", Button).focus()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "benchmark-run":
             self.action_run()
+        elif event.button.id == "benchmark-peers":
+            self.action_peers()
+        elif event.button.id == "benchmark-all":
+            self.action_all()
         elif event.button.id == "benchmark-close":
             self.dismiss()
 
     def on_key(self, event) -> None:
-        actions = {"r": self.action_run, "j": self.action_scroll_down,
-                   "down": self.action_scroll_down, "k": self.action_scroll_up,
-                   "up": self.action_scroll_up, "g": self.action_scroll_home,
-                   "G": self.action_scroll_end}
+        actions = {"r": self.action_run, "p": self.action_peers,
+                   "a": self.action_all}
         action = actions.get(event.key)
         if action is not None:
             action()
@@ -249,21 +288,44 @@ class BenchmarkScreen(ModalScreen):
         self._benchmark_running = True
         self._results.clear()
         self._waf_result = None
-        self.query_one("#benchmark-run", Button).disabled = True
+        self._sync_buttons()
         if self.kind == "waf":
             self.query_one("#benchmark-status", Static).update("正在装载 WAF 固定语料 ...")
-            self._set_row("waf", {"state": "装载中", "recall": "-", "macro": "-",
-                                  "false_positives": "-", "fpr": "-", "qps": "-",
-                                  "seconds": "-"})
+            self._set_row("sentinel_balanced", {"state": "装载中"})
             target = self._run_waf_benchmark
         else:
             self.query_one("#benchmark-status", Static).update("正在检查本地靶场 ...")
-            for key, _label, _url in BENCHMARK_TARGETS:
-                self._set_row(key, {"state": "等待", "endpoints": "-", "findings": "-",
-                                    "requests": "-", "errors": "-", "seconds": "-"})
+            self._set_row("sentinel", {"state": "运行中"})
             target = self._run_scanner_benchmark
         threading.Thread(target=target, name=f"sentinel-{self.kind}-benchmark",
                          daemon=True).start()
+
+    def action_peers(self) -> None:
+        if self.kind != "waf":
+            self.app.notify("扫描器竞品完整重跑耗时较长；当前展示已复核统一结果", timeout=3)
+            return
+        if self._peer_running:
+            self.app.notify("竞品 Benchmark 正在运行", timeout=2)
+            return
+        self._peer_running = True
+        for key, _label in WAF_LABELS:
+            if key not in ("sentinel_balanced", "naxsi_pl1"):
+                self._set_row(key, {"state": "等待"})
+        self._sync_buttons()
+        self.query_one("#benchmark-status", Static).update("正在并行启动 4 个官方竞品容器 ...")
+        threading.Thread(target=self._run_waf_peers, name="sentinel-waf-peers",
+                         daemon=True).start()
+
+    def action_all(self) -> None:
+        self.action_run()
+        self.action_peers()
+
+    def _sync_buttons(self) -> None:
+        self.query_one("#benchmark-run", Button).disabled = self._benchmark_running
+        if self.kind == "waf":
+            self.query_one("#benchmark-peers", Button).disabled = self._peer_running
+            self.query_one("#benchmark-all", Button).disabled = \
+                self._benchmark_running or self._peer_running
 
     def _run_scanner_benchmark(self) -> None:
         for index, (key, label, url) in enumerate(BENCHMARK_TARGETS, 1):
@@ -313,10 +375,47 @@ class BenchmarkScreen(ModalScreen):
         except Exception as exc:  # noqa: BLE001 - 保留错误并恢复可重试状态
             self.app.call_from_thread(self._finish_waf_error, str(exc))
 
+    def _run_waf_peers(self) -> None:
+        try:
+            from benchmarks.scripts.bench_waf_proxy import run_peer_benchmarks
+
+            def progress(key: str, state: str) -> None:
+                self.app.call_from_thread(self._set_peer_progress, key, state)
+
+            def result(key: str, output: dict) -> None:
+                self.app.call_from_thread(self._set_peer_result, key, output)
+
+            run_peer_benchmarks(progress=progress, result=result)
+        except Exception as exc:  # noqa: BLE001 - 恢复按钮并保留各行错误
+            self.app.call_from_thread(self._finish_peers, str(exc))
+        else:
+            self.app.call_from_thread(self._finish_peers, "")
+
+    def _set_peer_progress(self, key: str, state: str) -> None:
+        if self.is_mounted:
+            self._set_row(key, {"state": state})
+
+    def _set_peer_result(self, key: str, result: dict) -> None:
+        if not self.is_mounted:
+            return
+        if "error" in result:
+            self._set_row(key, {"state": "失败"})
+            return
+        self._set_waf_cells(key, result, "现场")
+
+    def _finish_peers(self, error: str) -> None:
+        self._peer_running = False
+        if not self.is_mounted:
+            return
+        self._sync_buttons()
+        message = f"竞品并行 Benchmark {'失败：' + error if error else '完成（4/4）'}"
+        self.query_one("#benchmark-status", Static).update(message)
+        self.app.notify(message, timeout=4, severity="error" if error else "information")
+
     def _set_waf_progress(self, phase: str, completed: int, total: int) -> None:
         if not self.is_mounted:
             return
-        self._set_row("waf", {"state": f"{completed}/{total}"})
+        self._set_row("sentinel_balanced", {"state": f"{completed}/{total}"})
         self.query_one("#benchmark-status", Static).update(
             f"WAF Benchmark：{phase} {completed}/{total}")
 
@@ -330,19 +429,11 @@ class BenchmarkScreen(ModalScreen):
         macro = float(result["category_macro_recall"])
         fpr = float(result["false_positive_rate"])
         passed = recall >= .95 and macro >= .95 and fpr < .05
-        self._set_row("waf", {
-            "state": "达标" if passed else "完成",
-            "recall": f"{attacks['blocked']}/{attacks['n']} ({recall:.2%})",
-            "macro": f"{macro:.2%}",
-            "false_positives": f"{benign['blocked']}/{benign['n']}",
-            "fpr": f"{fpr:.2%}",
-            "qps": f"{result['qps']} req/s",
-            "seconds": f"{result['seconds']:.2f}s",
-        })
+        self._set_waf_cells("sentinel_balanced", result, "现场达标" if passed else "现场")
         message = (f"WAF Benchmark 完成：拦截 {recall:.2%} · 类别等权 {macro:.2%} · "
                    f"误报 {fpr:.2%}")
         self.query_one("#benchmark-status", Static).update(message)
-        self.query_one("#benchmark-run", Button).disabled = False
+        self._sync_buttons()
         self.app.notify(message, timeout=4,
                         severity="information" if passed else "warning")
 
@@ -350,23 +441,32 @@ class BenchmarkScreen(ModalScreen):
         self._benchmark_running = False
         if not self.is_mounted:
             return
-        self._set_row("waf", {"state": "失败"})
+        self._set_row("sentinel_balanced", {"state": "失败"})
         self.query_one("#benchmark-status", Static).update(f"WAF Benchmark 失败：{message}")
-        self.query_one("#benchmark-run", Button).disabled = False
+        self._sync_buttons()
         self.app.notify(f"WAF Benchmark 失败：{message}", timeout=4, severity="error")
+
+    def _set_waf_cells(self, key: str, result: dict, state: str) -> None:
+        attacks, benign = result["attacks"], result["benign"]
+        self._set_row(key, {
+            "state": state,
+            "recall": f"{attacks['blocked']}/{attacks['n']} "
+                      f"({float(result['attack_recall']):.2%})",
+            "macro": f"{float(result['category_macro_recall']):.2%}",
+            "false_positives": f"{benign['blocked']}/{benign['n']} "
+                               f"({float(result['false_positive_rate']):.2%})",
+        })
 
     def _set_phase(self, key: str, message: str) -> None:
         if not self.is_mounted:
             return
-        self._set_row(key, {"state": "运行中"})
+        self._set_row("sentinel", {"state": f"运行中 · {key}"})
         self.query_one("#benchmark-status", Static).update(message)
 
     def _set_result(self, key: str, result: dict) -> None:
         if not self.is_mounted:
             return
         self._results[key] = result
-        self._set_row(key, result)
-        self._update_total()
 
     def _finish_scanner(self) -> None:
         self._benchmark_running = False
@@ -379,7 +479,13 @@ class BenchmarkScreen(ModalScreen):
             detail = next((r.get("message") for r in failures if r.get("message")), "")
             message += f"；{len(failures)} 个失败" + (f"（{detail}）" if detail else "")
         self.query_one("#benchmark-status", Static).update(message)
-        self.query_one("#benchmark-run", Button).disabled = False
+        requests = sum(int(result.get("requests", 0)) for result in self._results.values()
+                       if isinstance(result.get("requests"), (int, float)))
+        errors = sum(int(result.get("errors", 0)) for result in self._results.values()
+                     if isinstance(result.get("errors"), (int, float)))
+        self._set_row("sentinel", {"state": "现场完成" if not failures else "现场有错误",
+                                   "requests": f"{requests:,} / {errors}错误"})
+        self._sync_buttons()
         self.app.notify(message, timeout=4,
                         severity="warning" if failures else "information")
 
@@ -388,36 +494,6 @@ class BenchmarkScreen(ModalScreen):
         for column, value in values.items():
             if column != "message":
                 table.update_cell(row, column, str(value))
-
-    def _update_total(self) -> None:
-        numeric = ("endpoints", "findings", "requests", "errors")
-        totals = {name: sum(int(result.get(name, 0)) for result in self._results.values()
-                            if isinstance(result.get(name), (int, float)))
-                  for name in numeric}
-        totals["state"] = f"{len(self._results)}/{len(BENCHMARK_TARGETS)}"
-        totals["seconds"] = "-"
-        self._set_row("total", totals)
-
-    def _scroll(self, direction: str) -> None:
-        scroll = self.query_one("#benchmark-report-scroll", VerticalScroll)
-        if direction == "home":
-            scroll.scroll_home(animate=False)
-        elif direction == "end":
-            scroll.scroll_end(animate=False)
-        else:
-            scroll.scroll_relative(y=2 if direction == "down" else -2, animate=False)
-
-    def action_scroll_down(self) -> None:
-        self._scroll("down")
-
-    def action_scroll_up(self) -> None:
-        self._scroll("up")
-
-    def action_scroll_home(self) -> None:
-        self._scroll("home")
-
-    def action_scroll_end(self) -> None:
-        self._scroll("end")
 
 
 class HelpScreen(ModalScreen):

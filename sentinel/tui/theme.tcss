@@ -257,16 +257,7 @@ Input:focus { border: round #ca9ee6; }
 #benchmark-actions { height: 3; margin: 1 0 0 0; }
 #benchmark-actions Button { margin-right: 1; }
 #benchmark-status { color: #a6d189; height: 2; padding: 0 1; }
-#benchmark-live { height: 7; }
-#benchmark-report-scroll {
-    height: 1fr;
-    margin-top: 1;
-    background: #232634;
-    border: round #51576d;
-    padding: 0 2;
-}
-
-#benchmark-report { width: 1fr; }
+#benchmark-live { height: 1fr; }
 
 /* ---------------- 语义色 ---------------- */
 .hint { color: #838ba7; }

@@ -9,11 +9,14 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import socket
 import statistics
+import subprocess
 import sys
 import time
+import uuid
 from pathlib import Path
 from typing import Callable
 from urllib.parse import urlsplit
@@ -26,6 +29,14 @@ from bench_waf import build_attacks, load_benign  # noqa: E402
 from benchmarks.corpus import build_corpus  # noqa: E402
 from sentinel.core.config import Config  # noqa: E402
 from sentinel.runtime import SentinelRuntime  # noqa: E402
+
+
+PEER_CONFIGS = {
+    "modsecurity_crs_pl1": ("ghcr.io/coreruleset/modsecurity-crs:nginx", 1),
+    "modsecurity_crs_pl4": ("ghcr.io/coreruleset/modsecurity-crs:nginx", 4),
+    "coraza_crs_pl1": ("ghcr.io/coreruleset/coraza-crs:nginx", 1),
+    "coraza_crs_pl4": ("ghcr.io/coreruleset/coraza-crs:nginx", 4),
+}
 
 
 def raw_status(base: str, raw: bytes, timeout: float = 15.0) -> tuple[int, float]:
@@ -130,6 +141,75 @@ def run_benchmark(*, engine: str = "modsecurity", endpoint: str = "",
            "attacks": a, "benign": b,
            "seconds": round(wall, 2),
            "qps": round((a["n"] + b["n"]) / wall, 1) if wall else 0.0}
+
+
+def run_peer_benchmarks(
+        *, progress: Callable[[str, str], None] | None = None,
+        result: Callable[[str, dict], None] | None = None) -> dict[str, dict]:
+    """Run official ModSecurity/Coraza images concurrently on the fixed corpus."""
+    prefix = f"sentinel-waf-bench-{uuid.uuid4().hex[:8]}"
+    network, backend = f"{prefix}-net", f"{prefix}-backend"
+
+    def docker(*args: str, timeout: float = 30.0) -> str:
+        completed = subprocess.run(["docker", *args], check=True, capture_output=True,
+                                   text=True, timeout=timeout)
+        return completed.stdout.strip()
+
+    def run_one(key: str, image: str, paranoia: int) -> dict:
+        container = f"{prefix}-{key.replace('_', '-')}"
+        if progress:
+            progress(key, "启动容器")
+        backend_value = f"http://{backend}:80" if "modsecurity" in key else f"{backend}:80"
+        container_id = docker(
+            "run", "-d", "--rm", "--name", container, "--network", network,
+            "-p", "127.0.0.1::8080", "-e", f"BACKEND={backend_value}",
+            "-e", f"BLOCKING_PARANOIA={paranoia}", "-e", f"PARANOIA={paranoia}",
+            "-e", "ANOMALY_INBOUND=5", image)
+        try:
+            port = docker("port", container_id, "8080/tcp").rsplit(":", 1)[-1]
+            endpoint = f"http://127.0.0.1:{port}"
+            for _ in range(80):
+                status, _ = raw_status(endpoint, b"GET / HTTP/1.1\r\nHost: target.local\r\n\r\n",
+                                       timeout=.5)
+                if status != -1:
+                    break
+                time.sleep(.25)
+            else:
+                raise RuntimeError("容器启动超时")
+            if progress:
+                progress(key, "回放 603 条请求")
+            output = run_benchmark(
+                engine=key, endpoint=endpoint, source="GoTestWAF", attacks=434,
+                benign=169, profile="standard", paranoia=paranoia, threshold=5)
+            if result:
+                result(key, output)
+            return output
+        finally:
+            subprocess.run(["docker", "rm", "-f", container_id], check=False,
+                           capture_output=True, timeout=15)
+
+    outputs: dict[str, dict] = {}
+    docker("network", "create", network)
+    try:
+        docker("run", "-d", "--rm", "--name", backend, "--network", network,
+               "vulnerables/web-dvwa:latest")
+        with ThreadPoolExecutor(max_workers=len(PEER_CONFIGS)) as pool:
+            futures = {pool.submit(run_one, key, image, paranoia): key
+                       for key, (image, paranoia) in PEER_CONFIGS.items()}
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    outputs[key] = future.result()
+                except Exception as exc:  # noqa: BLE001 - peers fail independently
+                    outputs[key] = {"error": str(exc)}
+                    if result:
+                        result(key, outputs[key])
+    finally:
+        subprocess.run(["docker", "rm", "-f", backend], check=False,
+                       capture_output=True, timeout=15)
+        subprocess.run(["docker", "network", "rm", network], check=False,
+                       capture_output=True, timeout=15)
+    return outputs
 
 
 def main() -> int:
