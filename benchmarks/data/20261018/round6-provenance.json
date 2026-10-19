@@ -1,0 +1,85 @@
+{
+  "base_commit": "3ecaf03065895a1e3c2e048b6d9d63d975369f0b",
+  "working_tree": "Uncommitted implementation; pre-existing user changes preserved",
+  "implementation_sha256": {
+    "sentinel/waf/parser.py": "8f7c57fb49baa08dc2651f6a259137da9ebfc663d67be4689a12afffc58427bd",
+    "sentinel/waf/secrule/engine.py": "a31ee557ed6f73d34b6a7e09c65382eb8282a707833c63dcfd7c5f7856605238",
+    "sentinel/waf/secrule/variables.py": "d2cf90937db8be6050085cd0669d1f2cbd2b956a3537a36bfc54d9887bcadac5",
+    "sentinel/waf/secrule/operators.py": "534b513410af3b4ef18b07734a71dbfccbe757f6bfda51c93c6d1275d727b97a",
+    "sentinel/waf/secrule/transforms.py": "593f1e63a10cc008cb83a4c65af6cb13c81dd55cc8301ae91612960f40692dd6",
+    "sentinel/waf/secrule/syntax.py": "d28e48ffa2540b11d1eaa9e7a31b6e78a9ced8807fb1bbf8918a4f148f32d8e9",
+    "sentinel/scanner/headers.py": "d8327e542b7a20ff607421e2507a762966532f887601d5e4f172e3c9ece0087f",
+    "sentinel/scanner/detectors.py": "5d041a92dbb23a8ddad1ca4cad63e699e33b1aea412c1b318616c74857e64363",
+    "sentinel/scanner/crawler.py": "0dcc8a00d27cb0ef1c39c167277f6368f7b8700b00ed21cb38466a0a13a2bc44",
+    "sentinel/scanner/report.py": "8c155476ea6c7a8527873a1c09e1422b51327c7024145dfb2ff54a83738fd50d",
+    "sentinel/scanner/engines/base.py": "aae0f1a3a81f8cebe510f812434ff00aafe14300e6326fbe72b97a5372572b74",
+    "sentinel/scanner/engines/manager.py": "9e621d76979db4d6226a6137e8faa96b7983494ba849cdfa54d791139a5a8fcf",
+    "sentinel/waf/naxsi/engine.py": "4c72071bdd9fb752b4768b98d32816a7110463788068e7fef1fbf8928bc7871b",
+    "sentinel/core/models.py": "8b89fa0cc636e731ef4a0b24b2b978199efad24cc90b0b01892d5968e5f78762",
+    "sentinel/runtime.py": "b5fab5d0a104f023c39c86ee4fbfd942a3319479d57656ad6741a8bef914da34",
+    "sentinel/waf/proxy.py": "1f40d9a194bcb583483465a2d95700ef249b25a22c195130ad99be123a8d19d6",
+    "sentinel/waf/balancer.py": "3139e178df78b3f8685a558365cbf5b93272f5ce5042e044a58d0e8926811f15",
+    "sentinel/waf/naxsi/syntax.py": "5e078966bc8ffa90c9d7a55a71c13b7bc7d1055261494d86d15d281adfb0c411",
+    "sentinel/scanner/client.py": "10e2a5a64ea754082250cc25c7f0dfc569960cf0ca2b2182463e7c1451ce723a",
+    "sentinel/scanner/structured_headers.py": "bd18b09cca464d0aecf4091f74319f61e60a950e6bed037eee406dd4cd932853",
+    "sentinel/waf/engines/naxsi.py": "2da98d4b3679368a44cf9ef1342052d85f544435133507a1e11d8c72d0082716",
+    "sentinel/core/config.py": "b45e5a4d80ae107321c439d433206c29d9b7ffd7bfedebb2849074bd02653434",
+    "sentinel/waf/engines/modsecurity.py": "914874de7bb7e2a9bca5f62866fe9da17c11b0944ded1df1df8017237858412d"
+  },
+  "benchmark_scripts_sha256": {
+    "benchmarks/scripts/bench_waf.py": "ee614b2ff63eb63f92628be6f040f7ebc89311fced1d257c502777ea19f0d37f",
+    "benchmarks/scripts/bench_waf_proxy.py": "1bf0b68569e5d8a63b0045217bbc3ff1558edbfc06fc9f75a212d9fd3bf7ab2a",
+    "benchmarks/scripts/bench_lab.py": "cde9585114ee161c70ec8782578c5e6fb553794edb73f3841d9f7b57ef8aab4d",
+    "benchmarks/scripts/bench_multi.py": "52073f4314e825e56b9d0ff6165a03184924898cc81030c0a74ef4dbb18d5ebf",
+    "benchmarks/scripts/bench_detectors.py": "a2c7791484bb862d678026f7f4cdb258cbab19a22e13a30d9c264e596907826d",
+    "benchmarks/scripts/bench_regressions.py": "2eaa71c0a494f894e633a32ff1aa62b1098a7dd96bb30af9d66959b196b86252",
+    "benchmarks/scripts/bench_crs_fixtures.py": "594a09fe06dc5cb31bbeeee983fa3196fc283f7a6fd3bbaf9cf96c40c18f1a78",
+    "benchmarks/scripts/bench_passive_public.py": "3ca49204748c87a6432525aff0e56ae9c2bcb758e8e2b6f6568f8f690bc4529c",
+    "benchmarks/scripts/bench_modsecurity_units.py": "06a84a9cf21e097efbfc5c15c109d08c8c4473bde73a8c72f8e6393aebe6faf5",
+    "benchmarks/scripts/bench_observatory.py": "c432d4f2765b2680e215fcf879e35053dea3d7244c8b4da526165e44eb1bcc7a",
+    "benchmarks/scripts/bench_proxy_benign.py": "d60c38950a8d7baa7f6888c5d16c2256efe556c87ea12f14f01f4018e9809b88",
+    "benchmarks/scripts/bench_naxsi_fixtures.py": "250ec2b3613a4b8b9800c4bb3242fa4d5d8b4b7025118eb38a6d681a65663774",
+    "benchmarks/scripts/bench_structured_headers.py": "db46b2c6b05f54719bf45e3d8498fedbb5efed562dd085ad0ae26997f124cca8",
+    "benchmarks/scripts/bench_waf_policy.py": "2d591aad42bba37c924cb78a399385cbd838166c56d53dee0329f72adb534488",
+    "benchmarks/scripts/bench_frameworks.py": "7919577542cbc450782ddeb22692d658cfb31571581d97826bb6e95d2a60c133",
+    "benchmarks/scripts/framework_apps.py": "131dbde66a8bed92678d0c5801a967e69ffdf67bc385d3ddd77a3682db3a41f5"
+  },
+  "test_sources_sha256": {
+    "tests/test_naxsi.py": "4770fe2dcc2cd319bad92a0c4a5165cdae3e3733fb3b2e2b3d108eed9a17ce7b",
+    "tests/test_naxsi_semantics.py": "e6016ae79a24dd593fdf7bc04bc3319e78bbd8bbcee2b0aacd2eebc20a4c7750",
+    "tests/test_naxsi_benchmark_adapter.py": "658e2d068caf449deb26e3a09d2c474d4393fc48185c619860625cdd3daa1b2f",
+    "tests/test_passive_headers.py": "6f2d0d98fc200b7150e012d690c0fc4d6a90a3e444609a32683f63e34316b4f9",
+    "tests/test_structured_headers.py": "ef6c25b694bb071d61ea24c6a748d776a2118c4aa13f6726fa99964b00f40acf",
+    "tests/test_passive_header_transport.py": "769f1f28c157f49503e737aacfe9c5e5b53950f4613c8dd8bf29bb5dd6bf3f62",
+    "tests/test_waf_policies.py": "301fdbe9bf97dc4360d2f24a50b27aeff248b4713eaa8b93ecc08c2d0a534a9c",
+    "tests/test_config.py": "4fc8cb84b4d9eaae6e60e5acbff06d88ff423611a03225cd0523f95fffc1493a",
+    "tests/test_proxy_responses.py": "82d201239f272ac35704a9ee857453c5dd09c937139ba5684cc20335aaecb8a4",
+    "tests/test_framework_benchmark.py": "dae2136cf870aa31426f8c30947d893de2f9c52121582f705b5ec415ecd8658d"
+  },
+  "results_sha256": {
+    "benchmarks/data/20261018/frameworks-round6-before.json": "1f5a5dd50ac01ed5557b65477caa887956312fc219e2f07d0072a123d9f019d9",
+    "benchmarks/data/20261018/frameworks-round6-after.json": "db8ae3131750ac8c4d58f069426ca158cf8dab72e8774e08482f0cf52eaa85c9",
+    "benchmarks/data/20261018/framework-requirements-round6.txt": "30c1aca62acee94d3d2a0c94ab595679c612141d513abd4072962c16b10bc2e9",
+    "benchmarks/data/20261018/naxsi-fixtures-round6.json": "40a61458ba653773b831e14d05b70668607b4b4a742c1f454b778de5f57bf668",
+    "benchmarks/data/20261018/regressions-round6.json": "f65ba26b979adc4c06e22de9e54b7c45a95dfd6b160e183ab7536fb84d93393f",
+    "benchmarks/data/20261018/round6-tests.xml": "bbce338e6dde8ce710700076f9a499cfd3dbc486d9dfded0aa3173490751b9b7"
+  },
+  "retained_results_sha256": {
+    "benchmarks/data/20261018/crs-fixtures-round5.json": "d518d22a400b996fe551a1d3d52439f8f94c57f4816f29cb2286a07cd3b1373f",
+    "benchmarks/data/20261018/modsecurity-unit-round2.json": "7f3ce735aa9fb10fcaca5c7bddb4d656ee0c162127a9a870e42d35928b2e9302",
+    "benchmarks/data/20261018/observatory-round4-after.json": "82e87aa3f20cf2b25c3a0243bb0e22330e84958a56a571f5c0313de8db544826",
+    "benchmarks/data/20261018/passive-public-round4.json": "aad923be33803dff6d05182013b02db53dd9025911293cd60885a4143e5b4578",
+    "benchmarks/data/20261018/httpwg-items-round4.json": "76f995fe56ba31cd6bb41f4f2ab713b6fa99e0ecd03d52b51e17390aa438caf2",
+    "benchmarks/data/20261018/waf-policy-round5.json": "bceb720558eacc36e5b8dcb18319ae71e94c98ae51046e374700f5804a1e088a"
+  },
+  "baseline_implementation": {
+    "note": "Pre-fix proxy and Naxsi implementation hashes from round5; baseline measured before this round changes",
+    "sha256": {
+      "sentinel/waf/proxy.py": "374e878090b22423a7c631a28358f06de1f6c755ebd918300456863265b21ead",
+      "sentinel/waf/naxsi/engine.py": "001df9cce4950ae66a700d5d8957fd3e3a051705e2fc7443446a332a7a6e049b"
+    }
+  },
+  "vendor_manifest_sha256": "58ace32b9ae03ba19e9c6635e0d770348d245a99471bfb03db3087b1eeefeebe",
+  "scope": "Defensive response framing and multipart parsing; offline public WAF fixtures and benign loopback integrations on Django, Flask and FastAPI.",
+  "measurement_notes": "One self-authored integration suite covers three frameworks, not three independent public vulnerability suites. No offensive scanner extension. Baseline and final corpus hashes match. Direct baseline, repeated measurements, exclusions and remaining failures are explicit."
+}

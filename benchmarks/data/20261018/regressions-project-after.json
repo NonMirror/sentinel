@@ -1,0 +1,1592 @@
+{
+  "python": "3.14.7",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "scope": "offline only; scanner responses and engines are simulated",
+  "repeats": 3,
+  "source": "project",
+  "corpus_sha256": "5d17d2dd1cb9720157d8f1881b1525f720fe2a8edc03057770f211ec81f4fe49",
+  "semantics": {
+    "passed": 22,
+    "total": 22,
+    "checks": {
+      "waf_duplicate_args": true,
+      "waf_get_isolation": true,
+      "waf_post_isolation": true,
+      "waf_missing_selector": true,
+      "waf_regex_selector": true,
+      "waf_post_names": true,
+      "waf_body_length": true,
+      "waf_duplicate_count": true,
+      "python_duplicate_values": true,
+      "parser_path_plus": true,
+      "naxsi_decode_once": true,
+      "secrule_decode_once": true,
+      "tx_cache_invalidation": true,
+      "scanner_endpoint_budget": true,
+      "scanner_request_budget": true,
+      "scanner_unsafe_candidates": true,
+      "report_method_identity": true,
+      "report_provenance": true,
+      "report_partial_error": true,
+      "report_partial_findings": true,
+      "explicit_empty_engine_selection": true,
+      "report_unknown_engine": true
+    }
+  },
+  "argument_scaling": [
+    {
+      "parameters": 10,
+      "median_ms": 0.012253003660589457
+    },
+    {
+      "parameters": 100,
+      "median_ms": 0.0697130017215386
+    },
+    {
+      "parameters": 500,
+      "median_ms": 0.2964019950013608
+    }
+  ],
+  "quality": [
+    {
+      "engine": "python",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 103,
+          "blocked": 103,
+          "bypassed": 0,
+          "recall": 1.0,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 7,
+              "rate": 1.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 2,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 103,
+              "rate": 1.0
+            }
+          },
+          "latency_ms": {
+            "mean": 0.3033,
+            "p50": 0.312,
+            "p90": 0.362,
+            "p99": 0.427,
+            "max": 2.102
+          }
+        },
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 103,
+          "blocked": 103,
+          "bypassed": 0,
+          "recall": 1.0,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 7,
+              "rate": 1.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 2,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 103,
+              "rate": 1.0
+            }
+          },
+          "latency_ms": {
+            "mean": 0.2992,
+            "p50": 0.305,
+            "p90": 0.351,
+            "p99": 0.386,
+            "max": 2.126
+          }
+        },
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 103,
+          "blocked": 103,
+          "bypassed": 0,
+          "recall": 1.0,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 1.0,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 7,
+              "rate": 1.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 2,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 103,
+              "rate": 1.0
+            }
+          },
+          "latency_ms": {
+            "mean": 0.3021,
+            "p50": 0.315,
+            "p90": 0.353,
+            "p99": 0.392,
+            "max": 2.083
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0315,
+            "p50": 0.035,
+            "p90": 0.039,
+            "p99": 0.042,
+            "max": 0.045
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0314,
+            "p50": 0.034,
+            "p90": 0.04,
+            "p99": 0.042,
+            "max": 0.044
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0317,
+            "p50": 0.035,
+            "p90": 0.039,
+            "p99": 0.043,
+            "max": 0.044
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 2,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0321,
+            "p50": 0.036,
+            "p90": 0.041,
+            "p99": 0.044,
+            "max": 0.046
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0312,
+            "p50": 0.034,
+            "p90": 0.04,
+            "p99": 0.042,
+            "max": 0.045
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0305,
+            "p50": 0.034,
+            "p90": 0.038,
+            "p99": 0.041,
+            "max": 0.041
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 4,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.034,
+            "p50": 0.037,
+            "p90": 0.044,
+            "p99": 0.05,
+            "max": 0.051
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.034,
+            "p50": 0.037,
+            "p90": 0.044,
+            "p99": 0.053,
+            "max": 0.056
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 103,
+          "blocked": 75,
+          "bypassed": 28,
+          "recall": 0.7282,
+          "benign": 75,
+          "false_positives": 9,
+          "false_positive_rate": 0.12,
+          "precision": 0.8929,
+          "f1": 0.8021,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 8,
+              "rate": 0.7273
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 0,
+              "rate": 0.0
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 75,
+              "rate": 0.7282
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0344,
+            "p50": 0.037,
+            "p90": 0.044,
+            "p99": 0.051,
+            "max": 0.055
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 92,
+          "bypassed": 11,
+          "recall": 0.8932,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 0.9436,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 92,
+              "rate": 0.8932
+            }
+          },
+          "latency_ms": {
+            "mean": 3.9427,
+            "p50": 1.775,
+            "p90": 1.948,
+            "p99": 2.061,
+            "max": 234.182
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 92,
+          "bypassed": 11,
+          "recall": 0.8932,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 0.9436,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 92,
+              "rate": 0.8932
+            }
+          },
+          "latency_ms": {
+            "mean": 3.9258,
+            "p50": 1.764,
+            "p90": 1.91,
+            "p99": 2.063,
+            "max": 234.614
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 92,
+          "bypassed": 11,
+          "recall": 0.8932,
+          "benign": 75,
+          "false_positives": 0,
+          "false_positive_rate": 0.0,
+          "precision": 1.0,
+          "f1": 0.9436,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 27,
+              "rate": 0.9643
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 9,
+              "rate": 0.8182
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 92,
+              "rate": 0.8932
+            }
+          },
+          "latency_ms": {
+            "mean": 3.9962,
+            "p50": 1.723,
+            "p90": 1.976,
+            "p99": 3.23,
+            "max": 237.716
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 2,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 95,
+          "bypassed": 8,
+          "recall": 0.9223,
+          "benign": 75,
+          "false_positives": 5,
+          "false_positive_rate": 0.0667,
+          "precision": 0.95,
+          "f1": 0.936,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 95,
+              "rate": 0.9223
+            }
+          },
+          "latency_ms": {
+            "mean": 8.8241,
+            "p50": 2.619,
+            "p90": 3.087,
+            "p99": 3.259,
+            "max": 650.667
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 95,
+          "bypassed": 8,
+          "recall": 0.9223,
+          "benign": 75,
+          "false_positives": 5,
+          "false_positive_rate": 0.0667,
+          "precision": 0.95,
+          "f1": 0.936,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 95,
+              "rate": 0.9223
+            }
+          },
+          "latency_ms": {
+            "mean": 8.6636,
+            "p50": 2.66,
+            "p90": 2.875,
+            "p99": 3.427,
+            "max": 634.638
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 95,
+          "bypassed": 8,
+          "recall": 0.9223,
+          "benign": 75,
+          "false_positives": 5,
+          "false_positive_rate": 0.0667,
+          "precision": 0.95,
+          "f1": 0.936,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 9,
+              "rate": 0.9
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 95,
+              "rate": 0.9223
+            }
+          },
+          "latency_ms": {
+            "mean": 8.6138,
+            "p50": 2.578,
+            "p90": 2.838,
+            "p99": 3.247,
+            "max": 635.114
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 4,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 96,
+          "bypassed": 7,
+          "recall": 0.932,
+          "benign": 75,
+          "false_positives": 35,
+          "false_positive_rate": 0.4667,
+          "precision": 0.7328,
+          "f1": 0.8205,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 96,
+              "rate": 0.932
+            }
+          },
+          "latency_ms": {
+            "mean": 9.0152,
+            "p50": 2.953,
+            "p90": 3.248,
+            "p99": 3.741,
+            "max": 640.034
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 96,
+          "bypassed": 7,
+          "recall": 0.932,
+          "benign": 75,
+          "false_positives": 35,
+          "false_positive_rate": 0.4667,
+          "precision": 0.7328,
+          "f1": 0.8205,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 96,
+              "rate": 0.932
+            }
+          },
+          "latency_ms": {
+            "mean": 9.1202,
+            "p50": 2.972,
+            "p90": 3.233,
+            "p99": 3.706,
+            "max": 650.537
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 457,
+          "attacks": 103,
+          "blocked": 96,
+          "bypassed": 7,
+          "recall": 0.932,
+          "benign": 75,
+          "false_positives": 35,
+          "false_positive_rate": 0.4667,
+          "precision": 0.7328,
+          "f1": 0.8205,
+          "by_category": {
+            "sqli": {
+              "total": 28,
+              "blocked": 28,
+              "rate": 1.0
+            },
+            "xss": {
+              "total": 22,
+              "blocked": 22,
+              "rate": 1.0
+            },
+            "scanner": {
+              "total": 12,
+              "blocked": 11,
+              "rate": 0.9167
+            },
+            "rce": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "lfi": {
+              "total": 11,
+              "blocked": 11,
+              "rate": 1.0
+            },
+            "ssrf": {
+              "total": 10,
+              "blocked": 10,
+              "rate": 1.0
+            },
+            "recon": {
+              "total": 7,
+              "blocked": 2,
+              "rate": 0.2857
+            },
+            "protocol": {
+              "total": 2,
+              "blocked": 1,
+              "rate": 0.5
+            }
+          },
+          "by_source": {
+            "project": {
+              "total": 103,
+              "blocked": 96,
+              "rate": 0.932
+            }
+          },
+          "latency_ms": {
+            "mean": 9.0454,
+            "p50": 2.996,
+            "p90": 3.286,
+            "p99": 3.848,
+            "max": 640.479
+          }
+        }
+      ],
+      "stable_counts": true
+    }
+  ]
+}

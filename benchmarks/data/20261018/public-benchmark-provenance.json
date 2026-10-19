@@ -1,0 +1,51 @@
+{
+  "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "bundled_request_rules_sha256": "ee493beb9e358cd10ef33d62e7be88b4b524a37512ffb2e2712921c35c5ffd13",
+  "bundled_request_rule_files": 18,
+  "rule_files_different_from_public_revision": [
+    "REQUEST-901-INITIALIZATION.conf",
+    "REQUEST-905-COMMON-EXCEPTIONS.conf",
+    "REQUEST-911-METHOD-ENFORCEMENT.conf",
+    "REQUEST-913-SCANNER-DETECTION.conf",
+    "REQUEST-920-PROTOCOL-ENFORCEMENT.conf",
+    "REQUEST-921-PROTOCOL-ATTACK.conf",
+    "REQUEST-922-MULTIPART-ATTACK.conf",
+    "REQUEST-930-APPLICATION-ATTACK-LFI.conf",
+    "REQUEST-931-APPLICATION-ATTACK-RFI.conf",
+    "REQUEST-932-APPLICATION-ATTACK-RCE.conf",
+    "REQUEST-933-APPLICATION-ATTACK-PHP.conf",
+    "REQUEST-934-APPLICATION-ATTACK-GENERIC.conf",
+    "REQUEST-941-APPLICATION-ATTACK-XSS.conf",
+    "REQUEST-942-APPLICATION-ATTACK-SQLI.conf",
+    "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf",
+    "REQUEST-944-APPLICATION-ATTACK-JAVA.conf",
+    "REQUEST-949-BLOCKING-EVALUATION.conf",
+    "REQUEST-999-COMMON-EXCEPTIONS-AFTER.conf"
+  ],
+  "note": "Same unchanged bundled rule files used for before, JSON-only and final comparison; no threshold changes.",
+  "bundled_crs_version": "4.30.0-dev",
+  "public_crs_version": "4.31.0-dev",
+  "engine_health": {
+    "failed_patterns": 0,
+    "translated_patterns": 10,
+    "failed_samples": [],
+    "translated_samples": [
+      "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){12})",
+      "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){2})",
+      "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){3})",
+      "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){6})",
+      "((?:(?:[!-\\+\\-:->@\\[\\]\\^`\\{-~]|\\x{c2}\\x{b4}|\\x{e2}\\x80[\\x98\\x99])[^!-\\+\\-:->@\\[\\]\\^`\\{-~]*?){8})"
+    ],
+    "warnings": 0,
+    "warning_samples": []
+  },
+  "ruleset_summary": {
+    "total": 457,
+    "markers": 17,
+    "chained": 53,
+    "sources": 19,
+    "phase_1": 169,
+    "phase_2": 288
+  }
+}

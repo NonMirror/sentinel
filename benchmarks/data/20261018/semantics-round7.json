@@ -1,0 +1,29 @@
+{
+  "scope": "offline semantic regression only; quality results retained from round6",
+  "passed": 22,
+  "total": 22,
+  "checks": {
+    "waf_duplicate_args": true,
+    "waf_get_isolation": true,
+    "waf_post_isolation": true,
+    "waf_missing_selector": true,
+    "waf_regex_selector": true,
+    "waf_post_names": true,
+    "waf_body_length": true,
+    "waf_duplicate_count": true,
+    "python_duplicate_values": true,
+    "parser_path_plus": true,
+    "naxsi_decode_once": true,
+    "secrule_decode_once": true,
+    "tx_cache_invalidation": true,
+    "scanner_endpoint_budget": true,
+    "scanner_request_budget": true,
+    "scanner_unsafe_candidates": true,
+    "report_method_identity": true,
+    "report_provenance": true,
+    "report_partial_error": true,
+    "report_partial_findings": true,
+    "explicit_empty_engine_selection": true,
+    "report_unknown_engine": true
+  }
+}

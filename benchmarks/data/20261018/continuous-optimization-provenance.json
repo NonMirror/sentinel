@@ -1,0 +1,42 @@
+{
+  "implementation_sha256": {
+    "sentinel/waf/parser.py": "7550659719ae7cc16d6b5d0b489907d2e28a59def985d8af5a8d59fa46977d04",
+    "sentinel/waf/secrule/engine.py": "8f00645218d99c07ada47aa6d1ad53160035bf9aef01f821a0cb295401bb699b",
+    "sentinel/waf/secrule/variables.py": "82b1fe7c1cc52aab1b735bb7b1ab57feede38e50834090f913c92725c167f4ac",
+    "sentinel/waf/secrule/operators.py": "534b513410af3b4ef18b07734a71dbfccbe757f6bfda51c93c6d1275d727b97a",
+    "sentinel/waf/secrule/transforms.py": "80a4785a84b8e510daa380e7320ccf66cb71d6fae8de1d08c92f3673ab0a8238",
+    "sentinel/waf/secrule/syntax.py": "d28e48ffa2540b11d1eaa9e7a31b6e78a9ced8807fb1bbf8918a4f148f32d8e9",
+    "sentinel/scanner/headers.py": "c330af8303383ce9ec10e53337a29001a8258437eff48974d75545fad840da25",
+    "sentinel/scanner/detectors.py": "5d041a92dbb23a8ddad1ca4cad63e699e33b1aea412c1b318616c74857e64363",
+    "sentinel/scanner/crawler.py": "0dcc8a00d27cb0ef1c39c167277f6368f7b8700b00ed21cb38466a0a13a2bc44",
+    "sentinel/scanner/report.py": "bc88b8c7fd1487d80b9b6274e36412be709d2508bd2d1080ed6c113feeadd969",
+    "sentinel/scanner/engines/base.py": "aae0f1a3a81f8cebe510f812434ff00aafe14300e6326fbe72b97a5372572b74",
+    "sentinel/scanner/engines/manager.py": "9e621d76979db4d6226a6137e8faa96b7983494ba849cdfa54d791139a5a8fcf",
+    "sentinel/waf/naxsi/engine.py": "62ed9ccf581b1e012748bfce2e96db6d7188acb386645e0491bfd0fa013a3386",
+    "sentinel/core/models.py": "8b89fa0cc636e731ef4a0b24b2b978199efad24cc90b0b01892d5968e5f78762"
+  },
+  "vendor_manifest_sha256": "58ace32b9ae03ba19e9c6635e0d770348d245a99471bfb03db3087b1eeefeebe",
+  "benchmark_scripts_sha256": {
+    "benchmarks/scripts/bench_crs_fixtures.py": "594a09fe06dc5cb31bbeeee983fa3196fc283f7a6fd3bbaf9cf96c40c18f1a78",
+    "benchmarks/scripts/bench_detectors.py": "a2c7791484bb862d678026f7f4cdb258cbab19a22e13a30d9c264e596907826d",
+    "benchmarks/scripts/bench_lab.py": "cde9585114ee161c70ec8782578c5e6fb553794edb73f3841d9f7b57ef8aab4d",
+    "benchmarks/scripts/bench_modsecurity_units.py": "06a84a9cf21e097efbfc5c15c109d08c8c4473bde73a8c72f8e6393aebe6faf5",
+    "benchmarks/scripts/bench_multi.py": "52073f4314e825e56b9d0ff6165a03184924898cc81030c0a74ef4dbb18d5ebf",
+    "benchmarks/scripts/bench_observatory.py": "22847a58d563ffa1f6fdb377ce5a9a06ce50596b3b8531d415b989bcb7152fbd",
+    "benchmarks/scripts/bench_passive_public.py": "3ca49204748c87a6432525aff0e56ae9c2bcb758e8e2b6f6568f8f690bc4529c",
+    "benchmarks/scripts/bench_regressions.py": "2eaa71c0a494f894e633a32ff1aa62b1098a7dd96bb30af9d66959b196b86252",
+    "benchmarks/scripts/bench_waf.py": "ee614b2ff63eb63f92628be6f040f7ebc89311fced1d257c502777ea19f0d37f",
+    "benchmarks/scripts/bench_waf_proxy.py": "1bf0b68569e5d8a63b0045217bbc3ff1558edbfc06fc9f75a212d9fd3bf7ab2a"
+  },
+  "base_commit": "3ecaf03065895a1e3c2e048b6d9d63d975369f0b",
+  "working_tree": "Uncommitted implementation; unrelated pre-existing user edits preserved",
+  "results_sha256": {
+    "benchmarks/data/20261018/crs-fixtures-current.json": "e9e1d54d71a649e64af557f270f764904db4625d3ac19ed0e2ddf60089913af2",
+    "benchmarks/data/20261018/regressions-current.json": "61a26aa6a48972d233265af8a67511990fa6e6e78a176ee83fd737e27d49d019",
+    "benchmarks/data/20261018/modsecurity-unit-after.json": "e84ce48acd9dc38a9a984399b4d8a76dbe0f86dba6a47edadc5e013187e1b9f4",
+    "benchmarks/data/20261018/observatory-after.json": "8b17c33402993da0a16780360ef4b1c80a2a434c7d397c6c4bccf7e5e86a8cfe",
+    "benchmarks/data/20261018/passive-public-current.json": "aad923be33803dff6d05182013b02db53dd9025911293cd60885a4143e5b4578",
+    "benchmarks/data/20261018/continuous-optimization-tests.xml": "356435c234935b69d17bd0b6acd78733e1e5ca62c925061e6af3b7bc077dec70",
+    "benchmarks/data/20261018/passive-headers-tests.xml": "690569d5dcfc35a22b9093521da0c38cc886ef8293f2e56c25e1b4990c530f32"
+  }
+}

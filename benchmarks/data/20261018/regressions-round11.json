@@ -1,0 +1,2957 @@
+{
+  "python": "3.14.7",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "scope": "offline only; scanner responses and engines are simulated",
+  "repeats": 3,
+  "source": "GoTestWAF+project-benign",
+  "corpus_sha256": "7ea299e4c649ef988dab4776693305e95da9ee14d3aa66eca82dccc44d9e8c92",
+  "semantics": {
+    "passed": 22,
+    "total": 22,
+    "checks": {
+      "waf_duplicate_args": true,
+      "waf_get_isolation": true,
+      "waf_post_isolation": true,
+      "waf_missing_selector": true,
+      "waf_regex_selector": true,
+      "waf_post_names": true,
+      "waf_body_length": true,
+      "waf_duplicate_count": true,
+      "python_duplicate_values": true,
+      "parser_path_plus": true,
+      "naxsi_decode_once": true,
+      "secrule_decode_once": true,
+      "tx_cache_invalidation": true,
+      "scanner_endpoint_budget": true,
+      "scanner_request_budget": true,
+      "scanner_unsafe_candidates": true,
+      "report_method_identity": true,
+      "report_provenance": true,
+      "report_partial_error": true,
+      "report_partial_findings": true,
+      "explicit_empty_engine_selection": true,
+      "report_unknown_engine": true
+    }
+  },
+  "argument_scaling": [
+    {
+      "parameters": 10,
+      "median_ms": 0.013386998034548014
+    },
+    {
+      "parameters": 100,
+      "median_ms": 0.07128300057956949
+    },
+    {
+      "parameters": 500,
+      "median_ms": 0.3202299994882196
+    }
+  ],
+  "quality": [
+    {
+      "engine": "python",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 434,
+          "blocked": 272,
+          "bypassed": 162,
+          "recall": 0.6267,
+          "benign": 169,
+          "false_positives": 4,
+          "false_positive_rate": 0.0237,
+          "precision": 0.9855,
+          "f1": 0.7662,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 136,
+              "rate": 0.8395
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 27,
+              "rate": 0.9
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 3,
+              "rate": 0.1111
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 9,
+              "rate": 0.3462
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 12,
+              "rate": 0.5714
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 272,
+              "rate": 0.6267
+            }
+          },
+          "latency_ms": {
+            "mean": 0.3955,
+            "p50": 0.371,
+            "p90": 0.508,
+            "p99": 1.264,
+            "max": 2.443
+          }
+        },
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 434,
+          "blocked": 272,
+          "bypassed": 162,
+          "recall": 0.6267,
+          "benign": 169,
+          "false_positives": 4,
+          "false_positive_rate": 0.0237,
+          "precision": 0.9855,
+          "f1": 0.7662,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 136,
+              "rate": 0.8395
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 27,
+              "rate": 0.9
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 3,
+              "rate": 0.1111
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 9,
+              "rate": 0.3462
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 12,
+              "rate": 0.5714
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 272,
+              "rate": 0.6267
+            }
+          },
+          "latency_ms": {
+            "mean": 0.3963,
+            "p50": 0.373,
+            "p90": 0.505,
+            "p99": 1.262,
+            "max": 2.441
+          }
+        },
+        {
+          "engine": "python",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 35,
+          "attacks": 434,
+          "blocked": 272,
+          "bypassed": 162,
+          "recall": 0.6267,
+          "benign": 169,
+          "false_positives": 4,
+          "false_positive_rate": 0.0237,
+          "precision": 0.9855,
+          "f1": 0.7662,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 136,
+              "rate": 0.8395
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 27,
+              "rate": 0.9
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 3,
+              "rate": 0.1111
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 9,
+              "rate": 0.3462
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 12,
+              "rate": 0.5714
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 6,
+              "rate": 0.4
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 272,
+              "rate": 0.6267
+            }
+          },
+          "latency_ms": {
+            "mean": 0.3975,
+            "p50": 0.375,
+            "p90": 0.508,
+            "p99": 1.28,
+            "max": 2.435
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0826,
+            "p50": 0.084,
+            "p90": 0.101,
+            "p99": 0.176,
+            "max": 0.204
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0831,
+            "p50": 0.085,
+            "p90": 0.102,
+            "p99": 0.181,
+            "max": 0.211
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0834,
+            "p50": 0.085,
+            "p90": 0.102,
+            "p99": 0.185,
+            "max": 0.207
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 2,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0853,
+            "p50": 0.086,
+            "p90": 0.104,
+            "p99": 0.191,
+            "max": 0.293
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0832,
+            "p50": 0.085,
+            "p90": 0.101,
+            "p99": 0.186,
+            "max": 0.215
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 56,
+          "false_positive_rate": 0.3314,
+          "precision": 0.8775,
+          "f1": 0.9001,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0819,
+            "p50": 0.083,
+            "p90": 0.099,
+            "p99": 0.191,
+            "max": 0.274
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "naxsi",
+      "paranoia_level": 4,
+      "runs": [
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 62,
+          "false_positive_rate": 0.3669,
+          "precision": 0.8661,
+          "f1": 0.8941,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0834,
+            "p50": 0.085,
+            "p90": 0.101,
+            "p99": 0.19,
+            "max": 0.211
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 62,
+          "false_positive_rate": 0.3669,
+          "precision": 0.8661,
+          "f1": 0.8941,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0809,
+            "p50": 0.083,
+            "p90": 0.097,
+            "p99": 0.173,
+            "max": 0.2
+          }
+        },
+        {
+          "engine": "naxsi",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 46,
+          "attacks": 434,
+          "blocked": 401,
+          "bypassed": 33,
+          "recall": 0.924,
+          "benign": 169,
+          "false_positives": 62,
+          "false_positive_rate": 0.3669,
+          "precision": 0.8661,
+          "f1": 0.8941,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 18,
+              "rate": 0.6667
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 9,
+              "rate": 0.75
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 6,
+              "rate": 0.6667
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 401,
+              "rate": 0.924
+            }
+          },
+          "latency_ms": {
+            "mean": 0.0846,
+            "p50": 0.082,
+            "p90": 0.105,
+            "p99": 0.205,
+            "max": 0.378
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 1,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 342,
+          "bypassed": 92,
+          "recall": 0.788,
+          "benign": 169,
+          "false_positives": 20,
+          "false_positive_rate": 0.1183,
+          "precision": 0.9448,
+          "f1": 0.8593,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 150,
+              "rate": 0.9259
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 22,
+              "rate": 0.7333
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 11,
+              "rate": 0.4074
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 9,
+              "rate": 0.6
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 8,
+              "rate": 0.6667
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 342,
+              "rate": 0.788
+            }
+          },
+          "latency_ms": {
+            "mean": 2.8005,
+            "p50": 2.968,
+            "p90": 3.446,
+            "p99": 5.719,
+            "max": 6.552
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 342,
+          "bypassed": 92,
+          "recall": 0.788,
+          "benign": 169,
+          "false_positives": 20,
+          "false_positive_rate": 0.1183,
+          "precision": 0.9448,
+          "f1": 0.8593,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 150,
+              "rate": 0.9259
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 22,
+              "rate": 0.7333
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 11,
+              "rate": 0.4074
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 9,
+              "rate": 0.6
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 8,
+              "rate": 0.6667
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 342,
+              "rate": 0.788
+            }
+          },
+          "latency_ms": {
+            "mean": 2.8324,
+            "p50": 2.997,
+            "p90": 3.42,
+            "p99": 5.689,
+            "max": 6.54
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 1,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 342,
+          "bypassed": 92,
+          "recall": 0.788,
+          "benign": 169,
+          "false_positives": 20,
+          "false_positive_rate": 0.1183,
+          "precision": 0.9448,
+          "f1": 0.8593,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 150,
+              "rate": 0.9259
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 22,
+              "rate": 0.7333
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 11,
+              "rate": 0.4074
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 15,
+              "rate": 0.7143
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 9,
+              "rate": 0.6
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 8,
+              "rate": 0.6667
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 0,
+              "rate": 0.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 4,
+              "rate": 0.6667
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 342,
+              "rate": 0.788
+            }
+          },
+          "latency_ms": {
+            "mean": 2.7713,
+            "p50": 2.973,
+            "p90": 3.341,
+            "p99": 5.698,
+            "max": 6.229
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 2,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 373,
+          "bypassed": 61,
+          "recall": 0.8594,
+          "benign": 169,
+          "false_positives": 55,
+          "false_positive_rate": 0.3254,
+          "precision": 0.8715,
+          "f1": 0.8654,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 152,
+              "rate": 0.9383
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 15,
+              "rate": 0.5556
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 17,
+              "rate": 0.8095
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 10,
+              "rate": 0.8333
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 373,
+              "rate": 0.8594
+            }
+          },
+          "latency_ms": {
+            "mean": 4.0127,
+            "p50": 4.187,
+            "p90": 4.966,
+            "p99": 8.574,
+            "max": 11.869
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 373,
+          "bypassed": 61,
+          "recall": 0.8594,
+          "benign": 169,
+          "false_positives": 55,
+          "false_positive_rate": 0.3254,
+          "precision": 0.8715,
+          "f1": 0.8654,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 152,
+              "rate": 0.9383
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 15,
+              "rate": 0.5556
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 17,
+              "rate": 0.8095
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 10,
+              "rate": 0.8333
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 373,
+              "rate": 0.8594
+            }
+          },
+          "latency_ms": {
+            "mean": 3.9669,
+            "p50": 4.141,
+            "p90": 4.783,
+            "p99": 8.331,
+            "max": 11.752
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 2,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 373,
+          "bypassed": 61,
+          "recall": 0.8594,
+          "benign": 169,
+          "false_positives": 55,
+          "false_positive_rate": 0.3254,
+          "precision": 0.8715,
+          "f1": 0.8654,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 152,
+              "rate": 0.9383
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 15,
+              "rate": 0.5556
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 7,
+              "rate": 0.3333
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 17,
+              "rate": 0.8095
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 11,
+              "rate": 0.7333
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 6,
+              "rate": 0.5
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 10,
+              "rate": 0.8333
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 3,
+              "rate": 0.3333
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 3,
+              "rate": 0.5
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 373,
+              "rate": 0.8594
+            }
+          },
+          "latency_ms": {
+            "mean": 4.0959,
+            "p50": 4.277,
+            "p90": 4.995,
+            "p99": 8.387,
+            "max": 12.107
+          }
+        }
+      ],
+      "stable_counts": true
+    },
+    {
+      "engine": "modsecurity",
+      "paranoia_level": 4,
+      "runs": [
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 432,
+          "bypassed": 2,
+          "recall": 0.9954,
+          "benign": 169,
+          "false_positives": 132,
+          "false_positive_rate": 0.7811,
+          "precision": 0.766,
+          "f1": 0.8657,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 27,
+              "rate": 1.0
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 7,
+              "rate": 0.7778
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 432,
+              "rate": 0.9954
+            }
+          },
+          "latency_ms": {
+            "mean": 4.5772,
+            "p50": 4.812,
+            "p90": 5.612,
+            "p99": 9.579,
+            "max": 13.665
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 432,
+          "bypassed": 2,
+          "recall": 0.9954,
+          "benign": 169,
+          "false_positives": 132,
+          "false_positive_rate": 0.7811,
+          "precision": 0.766,
+          "f1": 0.8657,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 27,
+              "rate": 1.0
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 7,
+              "rate": 0.7778
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 432,
+              "rate": 0.9954
+            }
+          },
+          "latency_ms": {
+            "mean": 4.6096,
+            "p50": 4.843,
+            "p90": 5.655,
+            "p99": 9.919,
+            "max": 13.794
+          }
+        },
+        {
+          "engine": "modsecurity",
+          "paranoia_level": 4,
+          "anomaly_threshold": 5,
+          "rules": 460,
+          "attacks": 434,
+          "blocked": 432,
+          "bypassed": 2,
+          "recall": 0.9954,
+          "benign": 169,
+          "false_positives": 132,
+          "false_positive_rate": 0.7811,
+          "precision": 0.766,
+          "f1": 0.8657,
+          "by_category": {
+            "XSS": {
+              "total": 162,
+              "blocked": 162,
+              "rate": 1.0
+            },
+            "RCE": {
+              "total": 30,
+              "blocked": 30,
+              "rate": 1.0
+            },
+            "UserAgent": {
+              "total": 27,
+              "blocked": 27,
+              "rate": 1.0
+            },
+            "XXE": {
+              "total": 26,
+              "blocked": 26,
+              "rate": 1.0
+            },
+            "CRLF Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "REST": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "SQL Injection": {
+              "total": 21,
+              "blocked": 21,
+              "rate": 1.0
+            },
+            "NoSQL Injection": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "SOAP": {
+              "total": 15,
+              "blocked": 15,
+              "rate": 1.0
+            },
+            "GraphQL": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "Shell": {
+              "total": 12,
+              "blocked": 12,
+              "rate": 1.0
+            },
+            "LDAP Injection": {
+              "total": 9,
+              "blocked": 7,
+              "rate": 0.7778
+            },
+            "RawRequest test": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SS Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "SST Injection": {
+              "total": 9,
+              "blocked": 9,
+              "rate": 1.0
+            },
+            "LFI": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Mail Injection": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "Path Traversal": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "REST non-CRUD": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "community-lfi-multipart": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            },
+            "gRPC": {
+              "total": 6,
+              "blocked": 6,
+              "rate": 1.0
+            }
+          },
+          "by_source": {
+            "GoTestWAF": {
+              "total": 434,
+              "blocked": 432,
+              "rate": 0.9954
+            }
+          },
+          "latency_ms": {
+            "mean": 4.6972,
+            "p50": 4.92,
+            "p90": 5.804,
+            "p99": 10.039,
+            "max": 14.215
+          }
+        }
+      ],
+      "stable_counts": true
+    }
+  ]
+}
