@@ -1,0 +1,105 @@
+{
+  "scope": "CRS Unicode source strings converted to go-ftw UTF-8 bytes, held in Latin-1 request-line/header strings. No requests sent. Source labels and YAML fixture bytes unchanged.",
+  "fixture_sha256": "791ad4f23b5926f65c3af666ce20a3386ab065732bf75f6730a6dd6ff9aba78d",
+  "go_ftw_commit": "b2dfd8884efecd5e20a0eb433d88a39cac9e83e0",
+  "go_ftw_source_files": {
+    "ftwhttp/request.go": "c779c439b190daecdbbf1632bc5456873a53bc0ebdb853dc61957f31f19539cf",
+    "ftwhttp/header.go": "66f6bfcbd98c7440e5a7a631d97fdf5f1d96e8ad474cf7546e2b02de9cc12bba"
+  },
+  "changed_cases": 13,
+  "changed_uri_cases": 5,
+  "changed_header_cases": 8,
+  "cases": [
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:23",
+      "uri_representation_changed": true,
+      "header_representation_changed": false,
+      "uri_bytes_sha256": "5f36130175847cf0fcb2aea790651cde0759e358280b8add22f2600d2e4c9f5d",
+      "headers_sha256": "2baee5e130b31eff2d5ac24ad969af937d96c3f742f4e7b6fb0aa23dfde0f650"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:24",
+      "uri_representation_changed": true,
+      "header_representation_changed": false,
+      "uri_bytes_sha256": "0b45ff65bf617f6a106abeac843b2d13c52b21f4c8d861b546c096c492b087e5",
+      "headers_sha256": "2baee5e130b31eff2d5ac24ad969af937d96c3f742f4e7b6fb0aa23dfde0f650"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:25",
+      "uri_representation_changed": true,
+      "header_representation_changed": false,
+      "uri_bytes_sha256": "4197a46fb12983844428f77d3a5183b3c05662d8e0fa020891070bba16d0bf23",
+      "headers_sha256": "2baee5e130b31eff2d5ac24ad969af937d96c3f742f4e7b6fb0aa23dfde0f650"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:26",
+      "uri_representation_changed": true,
+      "header_representation_changed": false,
+      "uri_bytes_sha256": "486d0f6341c602ff2b223d1d2e5169bdd40fa9c5212a1e1f75de47a898ad06ac",
+      "headers_sha256": "2baee5e130b31eff2d5ac24ad969af937d96c3f742f4e7b6fb0aa23dfde0f650"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:39",
+      "uri_representation_changed": true,
+      "header_representation_changed": false,
+      "uri_bytes_sha256": "d70b3e804e573fd80a15ff68085c67fb11a623cc8ba7195f6099ea18e3e229a5",
+      "headers_sha256": "2baee5e130b31eff2d5ac24ad969af937d96c3f742f4e7b6fb0aa23dfde0f650"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941110.yaml:8",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "9dc1a72883468f57fed571e796e9ce98303422ca588802a3e3d38f3a283fffaf",
+      "headers_sha256": "b35bfe8fdc368d4a5fd464ec6d47af10f16c8ee93cc6900b6c710b486578fea9"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:3",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "e1196ec8977dd3cdda3130d011328860c4fa935a935d724b716cf55144a03034",
+      "headers_sha256": "9fba4ac97989e0cc1b352c48c5e2e4409992b5783001c0f1f7f9a054e7eafed8"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:4",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "e1196ec8977dd3cdda3130d011328860c4fa935a935d724b716cf55144a03034",
+      "headers_sha256": "939b0856ec1217673812da7bf931eb98557af14752e9f2b1bd4c2c07be82d5e7"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:7",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "e1196ec8977dd3cdda3130d011328860c4fa935a935d724b716cf55144a03034",
+      "headers_sha256": "2c19a0c84188865ae6ffbbfa9099cf1b61d1a8c1bdcb8eac923020d2eed68e5c"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:8",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "e1196ec8977dd3cdda3130d011328860c4fa935a935d724b716cf55144a03034",
+      "headers_sha256": "8a7bccef2f57fa0293daf4c67bd51a227e503a2bd006fa7a017d83dca223dfc4"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942421.yaml:2",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "9dc1a72883468f57fed571e796e9ce98303422ca588802a3e3d38f3a283fffaf",
+      "headers_sha256": "7be3e25564408e490da3dcdbf4035b1b5b5469e309801b95b8faa6e160ddd017"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942421.yaml:5",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "9dc1a72883468f57fed571e796e9ce98303422ca588802a3e3d38f3a283fffaf",
+      "headers_sha256": "d2b2f9208e288f7b3864255acc7449bc378fd72d0f78ad2de5170c3e83e6c7ba"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942421.yaml:6",
+      "uri_representation_changed": false,
+      "header_representation_changed": true,
+      "uri_bytes_sha256": "9dc1a72883468f57fed571e796e9ce98303422ca588802a3e3d38f3a283fffaf",
+      "headers_sha256": "8a7bccef2f57fa0293daf4c67bd51a227e503a2bd006fa7a017d83dca223dfc4"
+    }
+  ]
+}

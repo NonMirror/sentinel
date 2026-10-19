@@ -1,0 +1,13 @@
+{
+  "scope": "offline diagnostic timings, no timeout or changed verdicts",
+  "records": [
+    {
+      "rule_id": 932290,
+      "operator": "rx",
+      "input_chars": 64001,
+      "ms": 8355.89
+    }
+  ],
+  "elapsed_ms": 8672.23565599852,
+  "errors": 0
+}

@@ -1,0 +1,21 @@
+{
+  "source_commit": "30cb436b261a9f5ec32a5a0677e17f3cfa1a8739",
+  "fixture_sha256": "791ad4f23b5926f65c3af666ce20a3386ab065732bf75f6730a6dd6ff9aba78d",
+  "scope": "Offline body expansion audit; explicit Content-Length is preserved, absent Content-Length is inferred after expansion. No network requests.",
+  "records": [
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920400.yaml:1",
+      "repeat_count": 64200,
+      "body_bytes": 64336,
+      "body_sha256": "8384ca72aa7c138dea2c65cb08841563a6d33872e71210e7dd4410cfd2fb2ac0",
+      "declared_content_length": "64200"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920400.yaml:2",
+      "repeat_count": 152,
+      "body_bytes": 284,
+      "body_sha256": "a481cc8a57a7614fb600150f50d491ffb92945bbfc74464be1484f06143069a1",
+      "declared_content_length": "284"
+    }
+  ]
+}

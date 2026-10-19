@@ -1,0 +1,1033 @@
+{
+  "scope": "Self-authored benign in-process performance checks; not a new public benchmark source",
+  "python": "3.14.7",
+  "platform": "Linux-7.2.5-3-omarchy-x86_64-with-glibc2.44",
+  "repeats": 5,
+  "operator_rows": [
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 0,
+      "case": "letters",
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.00028999,
+        0.00026563,
+        0.00026332,
+        0.00026091000000000005,
+        0.00026113
+      ],
+      "median_ms": 0.00026332
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 32,
+      "case": "letters",
+      "input_sha256": "3ba3f5f43b92602683c19aee62a20342b084dd5971ddd33808d81a328879a547",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.00395566,
+        0.00419029,
+        0.00422066,
+        0.00424,
+        0.00429296
+      ],
+      "median_ms": 0.00422066
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 32,
+      "case": "leading-space",
+      "input_sha256": "a3b15159cfb8b0e55a3fe76c3525d5f2a8f8e087a9889619077f1309bfd539f5",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.00408853,
+        0.00402265,
+        0.0041953400000000005,
+        0.004056,
+        0.004110770000000001
+      ],
+      "median_ms": 0.00408853
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 32,
+      "case": "middle-space",
+      "input_sha256": "2184428652c85492cabff2304b02aed37597fe459bedc3d9ed98fdf218e5e1d3",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.004120100000000001,
+        0.00448021,
+        0.0041613299999999995,
+        0.00407887,
+        0.00412217
+      ],
+      "median_ms": 0.00412217
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 32,
+      "case": "trailing-space",
+      "input_sha256": "a25b20d7288172ec87f012ec99601e23690ca080ecbeb1a075274bfdce059459",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.004266359999999999,
+        0.0039599299999999995,
+        0.00418013,
+        0.00418988,
+        0.004278359999999999
+      ],
+      "median_ms": 0.00418988
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 1024,
+      "case": "letters",
+      "input_sha256": "2edc986847e209b4016e141a6dc8716d3207350f416969382d431539bf292e4a",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 64,
+      "samples_ms": [
+        0.116683171875,
+        0.118021484375,
+        0.122339921875,
+        0.1210514375,
+        0.1196130625
+      ],
+      "median_ms": 0.1196130625
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 1024,
+      "case": "leading-space",
+      "input_sha256": "ba4c33d44ee17ad6cad9e2c6a92cc9f44b4b562bc0e12b8ba4a8d9c3b0a92b1d",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 64,
+      "samples_ms": [
+        0.12544334375,
+        0.117522546875,
+        0.1227378125,
+        0.122743765625,
+        0.12291509375
+      ],
+      "median_ms": 0.122743765625
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 1024,
+      "case": "middle-space",
+      "input_sha256": "7a1640990a6731fcbe14e64fb3cffc65087251c2cdd269b62214c11ef608862a",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 64,
+      "samples_ms": [
+        0.1369225625,
+        0.1469489375,
+        0.120108671875,
+        0.1188614375,
+        0.11905246875
+      ],
+      "median_ms": 0.120108671875
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 1024,
+      "case": "trailing-space",
+      "input_sha256": "18fdb78397ece9f42d96f55a71721aa1b3959d3d37dcbfe093950a589beb06fd",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 64,
+      "samples_ms": [
+        0.1181429375,
+        0.118823453125,
+        0.11836528125,
+        0.11779034375,
+        0.117846421875
+      ],
+      "median_ms": 0.1181429375
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 8192,
+      "case": "letters",
+      "input_sha256": "dd4e6730520932767ec0a9e33fe19c4ce24399d6eba4ff62f13013c9ed30ef87",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 8,
+      "samples_ms": [
+        0.98329825,
+        0.94542425,
+        0.9700915,
+        0.97290575,
+        0.980630375
+      ],
+      "median_ms": 0.97290575
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 8192,
+      "case": "leading-space",
+      "input_sha256": "6372299c2dadf25c92e4fff7ad218d1e8bb0762ba154e0ad1a0beb71c74622d3",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 8,
+      "samples_ms": [
+        0.986346875,
+        0.970478875,
+        0.973058,
+        0.989515125,
+        0.973405375
+      ],
+      "median_ms": 0.973405375
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 8192,
+      "case": "middle-space",
+      "input_sha256": "2ab22555ff9003cd353203cb8c604e7de936f25b37c6b94d4b533c6e60b495fe",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 8,
+      "samples_ms": [
+        0.9937985,
+        0.943018,
+        0.97592575,
+        0.98431175,
+        0.984489875
+      ],
+      "median_ms": 0.98431175
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 8192,
+      "case": "trailing-space",
+      "input_sha256": "c982dc09e760fd8aa8b9deae94057906a23153bdcbb25a43fa60050bb5bb3674",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 8,
+      "samples_ms": [
+        0.924505625,
+        0.93200275,
+        0.931456125,
+        0.965357,
+        0.937530625
+      ],
+      "median_ms": 0.93200275
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 65536,
+      "case": "letters",
+      "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        7.41899,
+        7.537307,
+        7.812559,
+        7.79055,
+        7.739458
+      ],
+      "median_ms": 7.739458
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 65536,
+      "case": "leading-space",
+      "input_sha256": "02bd9f1c8f3d772c7a01229fe5f64e964abf79a5d15a157edaf9b83fe4087684",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        7.715442,
+        7.69814,
+        7.601537,
+        7.543156,
+        7.880149
+      ],
+      "median_ms": 7.69814
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 65536,
+      "case": "middle-space",
+      "input_sha256": "d55b18e3cd3ec0db42a335aa320204aa70b60fa08ed342be2a86955e490e557f",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        7.667803,
+        7.620773,
+        7.576705,
+        7.724239,
+        11.41838
+      ],
+      "median_ms": 7.667803
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 65536,
+      "case": "trailing-space",
+      "input_sha256": "f1f74b38d4e1b2f8419846958aca10e84b109a805ab97f09620fbdeb9cc51a9f",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        7.727901,
+        7.780812,
+        7.720825,
+        7.58099,
+        7.460777
+      ],
+      "median_ms": 7.720825
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 131072,
+      "case": "letters",
+      "input_sha256": "b44ffb72fcc259676bd80495fef1b44b808ca8f1ffe1b1706a4d7911b0e31f11",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        15.619905,
+        15.004971,
+        15.026746,
+        15.17629,
+        15.030883
+      ],
+      "median_ms": 15.030883
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 131072,
+      "case": "leading-space",
+      "input_sha256": "917d7ee4297b203059a6a3c57cdfb9fdabb4090ed12ed5c8f49648c1a26ffe7b",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        15.015781,
+        15.304942,
+        15.288978,
+        15.417302,
+        15.607846
+      ],
+      "median_ms": 15.304942
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 131072,
+      "case": "middle-space",
+      "input_sha256": "e22a47cb68231f8fbb4e8ab245e8fd2c5e242b733f555be252d114d7f08f6926",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        15.788008,
+        15.807167,
+        15.835756,
+        15.591037,
+        15.519132
+      ],
+      "median_ms": 15.788008
+    },
+    {
+      "range": "all-bytes",
+      "spec": "0-255",
+      "size": 131072,
+      "case": "trailing-space",
+      "input_sha256": "5d0862bf2b6c7c54bb4f751ffbb5bfd69173b03d5cf39a4a0920ac6566668f52",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        15.48726,
+        15.668762,
+        15.550126,
+        15.44177,
+        15.724237
+      ],
+      "median_ms": 15.550126
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 0,
+      "case": "letters",
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.00028348,
+        0.00028017,
+        0.0002747,
+        0.00027474,
+        0.00027598
+      ],
+      "median_ms": 0.00027598
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 32,
+      "case": "letters",
+      "input_sha256": "3ba3f5f43b92602683c19aee62a20342b084dd5971ddd33808d81a328879a547",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 100,
+      "samples_ms": [
+        0.0084972,
+        0.00844532,
+        0.00822343,
+        0.00824128,
+        0.008162810000000001
+      ],
+      "median_ms": 0.00824128
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 32,
+      "case": "leading-space",
+      "input_sha256": "a3b15159cfb8b0e55a3fe76c3525d5f2a8f8e087a9889619077f1309bfd539f5",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 100,
+      "samples_ms": [
+        0.00060043,
+        0.00059007,
+        0.00059672,
+        0.0005903999999999999,
+        0.0005909
+      ],
+      "median_ms": 0.0005909
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 32,
+      "case": "middle-space",
+      "input_sha256": "2184428652c85492cabff2304b02aed37597fe459bedc3d9ed98fdf218e5e1d3",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 100,
+      "samples_ms": [
+        0.00461344,
+        0.0046061999999999995,
+        0.004584609999999999,
+        0.0046411,
+        0.00464758
+      ],
+      "median_ms": 0.00461344
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 32,
+      "case": "trailing-space",
+      "input_sha256": "a25b20d7288172ec87f012ec99601e23690ca080ecbeb1a075274bfdce059459",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 100,
+      "samples_ms": [
+        0.008386649999999999,
+        0.00837852,
+        0.00837377,
+        0.00832523,
+        0.00830673
+      ],
+      "median_ms": 0.00837377
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 1024,
+      "case": "letters",
+      "input_sha256": "2edc986847e209b4016e141a6dc8716d3207350f416969382d431539bf292e4a",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 64,
+      "samples_ms": [
+        0.25400146875,
+        0.261693578125,
+        0.252672625,
+        0.25074446875,
+        0.25932771875
+      ],
+      "median_ms": 0.25400146875
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 1024,
+      "case": "leading-space",
+      "input_sha256": "ba4c33d44ee17ad6cad9e2c6a92cc9f44b4b562bc0e12b8ba4a8d9c3b0a92b1d",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 64,
+      "samples_ms": [
+        0.000618375,
+        0.00061659375,
+        0.000592375,
+        0.000624765625,
+        0.00058840625
+      ],
+      "median_ms": 0.00061659375
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 1024,
+      "case": "middle-space",
+      "input_sha256": "7a1640990a6731fcbe14e64fb3cffc65087251c2cdd269b62214c11ef608862a",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 64,
+      "samples_ms": [
+        0.127896453125,
+        0.127876203125,
+        0.126933828125,
+        0.127646328125,
+        0.130126703125
+      ],
+      "median_ms": 0.127876203125
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 1024,
+      "case": "trailing-space",
+      "input_sha256": "18fdb78397ece9f42d96f55a71721aa1b3959d3d37dcbfe093950a589beb06fd",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 64,
+      "samples_ms": [
+        0.255268625,
+        0.2552091875,
+        0.2581091875,
+        0.25232759375,
+        0.251312609375
+      ],
+      "median_ms": 0.2552091875
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 8192,
+      "case": "letters",
+      "input_sha256": "dd4e6730520932767ec0a9e33fe19c4ce24399d6eba4ff62f13013c9ed30ef87",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 8,
+      "samples_ms": [
+        2.02518975,
+        1.979780375,
+        1.978198125,
+        1.956884,
+        1.973843125
+      ],
+      "median_ms": 1.978198125
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 8192,
+      "case": "leading-space",
+      "input_sha256": "6372299c2dadf25c92e4fff7ad218d1e8bb0762ba154e0ad1a0beb71c74622d3",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 8,
+      "samples_ms": [
+        0.00069025,
+        0.000651125,
+        0.000637875,
+        0.000633375,
+        0.000621
+      ],
+      "median_ms": 0.000637875
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 8192,
+      "case": "middle-space",
+      "input_sha256": "2ab22555ff9003cd353203cb8c604e7de936f25b37c6b94d4b533c6e60b495fe",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 8,
+      "samples_ms": [
+        0.99134125,
+        0.993722875,
+        0.972001375,
+        0.98547575,
+        0.98324575
+      ],
+      "median_ms": 0.98547575
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 8192,
+      "case": "trailing-space",
+      "input_sha256": "c982dc09e760fd8aa8b9deae94057906a23153bdcbb25a43fa60050bb5bb3674",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 8,
+      "samples_ms": [
+        2.029298875,
+        1.95477875,
+        1.9636095,
+        2.028832875,
+        2.03716675
+      ],
+      "median_ms": 2.028832875
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 65536,
+      "case": "letters",
+      "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        15.83125,
+        15.838225,
+        15.975779,
+        16.323229,
+        16.269799
+      ],
+      "median_ms": 15.975779
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 65536,
+      "case": "leading-space",
+      "input_sha256": "02bd9f1c8f3d772c7a01229fe5f64e964abf79a5d15a157edaf9b83fe4087684",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        0.001912,
+        0.001786,
+        0.001681,
+        0.001681,
+        0.001656
+      ],
+      "median_ms": 0.001681
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 65536,
+      "case": "middle-space",
+      "input_sha256": "d55b18e3cd3ec0db42a335aa320204aa70b60fa08ed342be2a86955e490e557f",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        7.867908,
+        7.809751,
+        7.775032,
+        7.709562,
+        7.915556
+      ],
+      "median_ms": 7.809751
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 65536,
+      "case": "trailing-space",
+      "input_sha256": "f1f74b38d4e1b2f8419846958aca10e84b109a805ab97f09620fbdeb9cc51a9f",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        15.732851,
+        15.701545,
+        15.745813,
+        15.754145,
+        15.652305
+      ],
+      "median_ms": 15.732851
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 131072,
+      "case": "letters",
+      "input_sha256": "b44ffb72fcc259676bd80495fef1b44b808ca8f1ffe1b1706a4d7911b0e31f11",
+      "matched": false,
+      "expected_match": false,
+      "iterations": 1,
+      "samples_ms": [
+        31.794646,
+        31.398988,
+        31.456013,
+        31.640403,
+        31.233654
+      ],
+      "median_ms": 31.456013
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 131072,
+      "case": "leading-space",
+      "input_sha256": "917d7ee4297b203059a6a3c57cdfb9fdabb4090ed12ed5c8f49648c1a26ffe7b",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        0.00279,
+        0.002656,
+        0.002638,
+        0.005853,
+        0.002941
+      ],
+      "median_ms": 0.00279
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 131072,
+      "case": "middle-space",
+      "input_sha256": "e22a47cb68231f8fbb4e8ab245e8fd2c5e242b733f555be252d114d7f08f6926",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        15.606354,
+        15.735473,
+        15.756566,
+        15.891738,
+        15.628499
+      ],
+      "median_ms": 15.735473
+    },
+    {
+      "range": "crs-pl4",
+      "spec": "38,44-46,48-58,61,65-90,95,97-122",
+      "size": 131072,
+      "case": "trailing-space",
+      "input_sha256": "5d0862bf2b6c7c54bb4f751ffbb5bfd69173b03d5cf39a4a0920ac6566668f52",
+      "matched": true,
+      "expected_match": true,
+      "iterations": 1,
+      "samples_ms": [
+        31.697706,
+        31.690453,
+        31.413592,
+        31.286151,
+        31.720036
+      ],
+      "median_ms": 31.690453
+    }
+  ],
+  "engine_rows": [
+    {
+      "body_size": 1024,
+      "input_sha256": "b2665ebcedbc2e16fbb4b7b470c783d25d8ab86c59128e90ff43696b170b20f1",
+      "blocked": false,
+      "rule_ids": [],
+      "samples_ms": [
+        7.897616,
+        7.917454,
+        7.91077,
+        8.065767,
+        7.92172
+      ],
+      "median_ms": 7.917454
+    },
+    {
+      "body_size": 8192,
+      "input_sha256": "df87aed1eba578d66468623758702e6486f0a2fd5cbcef89d2351ba3ad7c4267",
+      "blocked": false,
+      "rule_ids": [],
+      "samples_ms": [
+        39.409273,
+        42.811233,
+        42.097154,
+        40.944083,
+        40.351928
+      ],
+      "median_ms": 40.944083
+    },
+    {
+      "body_size": 65536,
+      "input_sha256": "a0b1ae366173222712afd4e96ce05d3b2917bcbe6c6dbfbe93807ffab5db20bb",
+      "blocked": false,
+      "rule_ids": [],
+      "samples_ms": [
+        341.021109,
+        340.841187,
+        344.111803,
+        344.492387,
+        341.484934
+      ],
+      "median_ms": 341.484934
+    }
+  ],
+  "framework_pl4_traces": [
+    {
+      "case": "empty",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "query",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 20)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "form",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 15)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "json",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921220,
+          "message": "HTTP Parameter Pollution possible via array notation",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 942432,
+          "message": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2)",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 31)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "vendor-json",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921220,
+          "message": "HTTP Parameter Pollution possible via array notation",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 942432,
+          "message": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2)",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 31)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "multipart",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 5)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "unicode-path",
+      "blocked": true,
+      "hits": [
+        {
+          "rule_id": 920250,
+          "message": "UTF8 Encoding Abuse Attack Attempt",
+          "targets": [
+            "REQUEST_FILENAME"
+          ]
+        },
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "REQUEST_URI_RAW"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 8)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "policy-default",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "policy-valid",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "policy-invalid",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "policy-repeated",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "cookies",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "policy-referrer-invalid",
+      "blocked": false,
+      "hits": []
+    },
+    {
+      "case": "policy-referrer-unknown",
+      "blocked": false,
+      "hits": []
+    }
+  ],
+  "engine_errors": 0,
+  "limitations": [
+    "Warm caches, sequential runs, no CPU isolation or HTTP transport",
+    "Only letters and ordinary spaces; no attack generation or active scanning",
+    "Operator speed does not imply equivalent end-to-end proxy speed",
+    "PL4 framework traces reconstruct benchmark requests offline; live integration is separate"
+  ]
+}

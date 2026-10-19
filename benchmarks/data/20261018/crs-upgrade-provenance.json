@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/coreruleset/coreruleset",
+  "commit": "30cb436b261a9f5ec32a5a0677e17f3cfa1a8739",
+  "rules_version": "4.31.0-dev",
+  "setup": "Existing crs-setup.conf preserved without changes",
+  "backup": "/tmp/sentinel-crs-before-upgrade-6r_ml8_n",
+  "staging": "/tmp/sentinel-crs-vendor-stage-yvysl2yn",
+  "sync": "tools/vendor.py --only crs"
+}

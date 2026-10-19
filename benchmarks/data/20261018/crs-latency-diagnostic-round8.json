@@ -1,0 +1,13 @@
+{
+  "scope": "offline diagnostic with per-operator two-second cap; not a quality result",
+  "records": [
+    {
+      "rule_id": 932240,
+      "operator": "rx",
+      "input_chars": 64001,
+      "ms": 2000.05,
+      "diagnostic_timeout": true
+    }
+  ],
+  "errors": 1
+}

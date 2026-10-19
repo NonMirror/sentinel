@@ -1,0 +1,256 @@
+[
+  {
+    "index": 0,
+    "request": "/search?q=union%20was%20a%20great%20select",
+    "rules": [
+      942190,
+      949110
+    ],
+    "messages": [
+      "Detects SQL code execution and information gathering attempts",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 1,
+    "request": "/api/search",
+    "rules": [
+      942190,
+      949110
+    ],
+    "messages": [
+      "Detects SQL code execution and information gathering attempts",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 24,
+    "request": "/search?q=zsh%20is%20the%20best%21",
+    "rules": [
+      932250,
+      949110
+    ],
+    "messages": [
+      "Remote Command Execution: Direct Unix Command Execution",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 25,
+    "request": "/api/search",
+    "rules": [
+      932250,
+      949110
+    ],
+    "messages": [
+      "Remote Command Execution: Direct Unix Command Execution",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 28,
+    "request": "/search?q=JavaScript%3A%20Basics%20of%20JavaScript%20Language",
+    "rules": [
+      941210,
+      949110
+    ],
+    "messages": [
+      "Javascript Word Detected",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 29,
+    "request": "/api/search",
+    "rules": [
+      941210,
+      949110
+    ],
+    "messages": [
+      "Javascript Word Detected",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 30,
+    "request": "/search?q=ls%20300%20lexus",
+    "rules": [
+      932250,
+      949110
+    ],
+    "messages": [
+      "Remote Command Execution: Direct Unix Command Execution",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 31,
+    "request": "/api/search",
+    "rules": [
+      932250,
+      949110
+    ],
+    "messages": [
+      "Remote Command Execution: Direct Unix Command Execution",
+      "Inbound Anomaly Score Exceeded (Total Score: 5)"
+    ],
+    "score": 5
+  },
+  {
+    "index": 158,
+    "request": "/api/login",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 159,
+    "request": "/api/feedback",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 160,
+    "request": "/api/login",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 161,
+    "request": "/api/comment",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 162,
+    "request": "/api/order",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 163,
+    "request": "/api/search",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 164,
+    "request": "/api/profile",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 165,
+    "request": "/api/profile",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 166,
+    "request": "/api/upload",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  },
+  {
+    "index": 167,
+    "request": "/api/settings",
+    "rules": [
+      920340,
+      920640,
+      949110
+    ],
+    "messages": [
+      "Content-Type header missing from request with non-zero Content-Length",
+      "Content-Type header missing from request with body",
+      "Inbound Anomaly Score Exceeded (Total Score: 10)"
+    ],
+    "score": 10
+  }
+]

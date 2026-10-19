@@ -1,0 +1,3067 @@
+{
+  "source": "https://github.com/nbs-system/naxsi",
+  "commit": "a59462b8c2f9c2c0c0fbc3ceb287ee5d60b652c3",
+  "fixture_sha256": "6bab83d70e8a0f6d8bf6cece52316e8970b87467d9d4f6859151332f8e53f230",
+  "core_sha256": "804393150b582f0c7ee0f4f19272d5117f16d43f9bd193efd661fa433eb63a10",
+  "totals": {
+    "total": 527,
+    "executed": 145,
+    "passed": 141,
+    "expected_block": 108,
+    "missed": 4,
+    "unexpected_block": 0,
+    "skipped": 382
+  },
+  "by_file": {
+    "00naxsi_base.t": {
+      "total": 47,
+      "executed": 19,
+      "passed": 19,
+      "expected_block": 17,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 28
+    },
+    "01naxsi_whitelists.t": {
+      "total": 45,
+      "skipped": 33,
+      "executed": 12,
+      "passed": 11,
+      "expected_block": 11,
+      "missed": 1,
+      "unexpected_block": 0
+    },
+    "02naxsi_bypass.t": {
+      "total": 14,
+      "executed": 12,
+      "passed": 10,
+      "expected_block": 9,
+      "missed": 2,
+      "unexpected_block": 0,
+      "skipped": 2
+    },
+    "03naxsi_profile.t": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6,
+      "expected_block": 5,
+      "missed": 0,
+      "unexpected_block": 0
+    },
+    "04naxsi_files.t": {
+      "total": 24,
+      "skipped": 24
+    },
+    "05naxsi_advanced_whitelists.t": {
+      "total": 11,
+      "skipped": 11
+    },
+    "06naxsi_weirds.t": {
+      "total": 5,
+      "executed": 1,
+      "passed": 0,
+      "expected_block": 1,
+      "missed": 1,
+      "unexpected_block": 0,
+      "skipped": 4
+    },
+    "07naxsi_argnames.t": {
+      "total": 27,
+      "executed": 2,
+      "passed": 2,
+      "expected_block": 2,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 25
+    },
+    "08negative_whitelists.t": {
+      "total": 13,
+      "executed": 13,
+      "passed": 13,
+      "expected_block": 6,
+      "missed": 0,
+      "unexpected_block": 0
+    },
+    "09sqlmap_tamper.t": {
+      "total": 29,
+      "skipped": 29
+    },
+    "10naxsi_modifiers.t": {
+      "total": 15,
+      "skipped": 15
+    },
+    "11naxsi_newstyle_config.t": {
+      "total": 37,
+      "skipped": 37
+    },
+    "12naxsi_argnames_extended.t": {
+      "total": 2,
+      "executed": 1,
+      "passed": 1,
+      "expected_block": 1,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 1
+    },
+    "13test.t": {
+      "total": 2,
+      "skipped": 2
+    },
+    "14json.t": {
+      "total": 24,
+      "skipped": 24
+    },
+    "15json_wl.t": {
+      "total": 16,
+      "skipped": 16
+    },
+    "16rx_mz.t": {
+      "total": 20,
+      "skipped": 20
+    },
+    "17case.t": {
+      "total": 3,
+      "skipped": 3
+    },
+    "18ids.t": {
+      "total": 13,
+      "skipped": 12,
+      "executed": 1,
+      "passed": 1,
+      "expected_block": 1,
+      "missed": 0,
+      "unexpected_block": 0
+    },
+    "19targets.t": {
+      "total": 16,
+      "executed": 7,
+      "passed": 7,
+      "expected_block": 5,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 9
+    },
+    "20sqlmap.t": {
+      "total": 36,
+      "executed": 36,
+      "passed": 36,
+      "expected_block": 31,
+      "missed": 0,
+      "unexpected_block": 0
+    },
+    "22libinjection-base.t": {
+      "total": 14,
+      "skipped": 14
+    },
+    "23verylong.t": {
+      "total": 9,
+      "executed": 5,
+      "passed": 5,
+      "expected_block": 5,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 4
+    },
+    "24rawbody.t": {
+      "total": 12,
+      "skipped": 12
+    },
+    "25extra-coverage.t": {
+      "total": 12,
+      "skipped": 11,
+      "executed": 1,
+      "passed": 1,
+      "expected_block": 0,
+      "missed": 0,
+      "unexpected_block": 0
+    },
+    "26improved-matchzones.t": {
+      "total": 21,
+      "executed": 20,
+      "passed": 20,
+      "expected_block": 10,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 1
+    },
+    "27libinjection-blacklist.t": {
+      "total": 6,
+      "skipped": 6
+    },
+    "28log.t": {
+      "total": 7,
+      "skipped": 7
+    },
+    "29regression.t": {
+      "total": 12,
+      "executed": 9,
+      "passed": 9,
+      "expected_block": 4,
+      "missed": 0,
+      "unexpected_block": 0,
+      "skipped": 3
+    },
+    "30regr.t": {
+      "total": 3,
+      "skipped": 3
+    },
+    "31norules.t": {
+      "total": 2,
+      "skipped": 2
+    },
+    "32utf8.t": {
+      "total": 3,
+      "skipped": 3
+    },
+    "33ignoreip.t": {
+      "total": 8,
+      "skipped": 8
+    },
+    "34ignorecidr.t": {
+      "total": 6,
+      "skipped": 6
+    },
+    "35log_json.t": {
+      "total": 7,
+      "skipped": 7
+    }
+  },
+  "cases": [
+    {
+      "id": "t/00naxsi_base.t:1:TEST 1: Basic GET request",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/00naxsi_base.t:2:TEST 2: DENY : Obvious GET XSS",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1001,
+        1010,
+        1011,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:3:TEST 2.1: DENY : Obvious RFI",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1100
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:4:TEST 2.3: DENY : Obvious LFI",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1200
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:5:TEST 3: OBVIOUS GET SQL INJECTION",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1009,
+        1013
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:6:TEST 3bis: OBVIOUS (quoteless) GET SQL INJECTION",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:7:TEST 4: VERY STRANGE GET REQUEST",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1007,
+        1008,
+        1010,
+        1011,
+        1310,
+        1311
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:11:TEST 9: Adding a test rule in http_config (ARGS zone).",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:12:TEST 10: Adding a test rule in http_config (URL zone).",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:17:TEST 19: Negative RX rule on header:content-type (again & last, I promise !).",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/00naxsi_base.t:19:TEST 22: CUSTOM SCORE RULES !",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999,
+        1998
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:20:TEST 23: CUSTOM SCORE RULES, bis",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        2999,
+        2998
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:31:TEST 32: fucked up URLs #1",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:32:TEST 33: fucked up URLs #2",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:33:TEST 33: fucked up URLs #2bis",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1009,
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:34:TEST 33: fucked up URLs #2ter",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1009,
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:35:TEST 33: fucked up URLs #3",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:36:TEST 33: fucked up URLs #4",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10,
+        1999
+      ]
+    },
+    {
+      "id": "t/00naxsi_base.t:38:TEST 34: pushing in ARGS only",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:9:WL TEST 2.0: Adding a rule that will match on headers",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:11:WL TEST 2.2: Adding a rule that will match on headers specific header name",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:16:URL WL TEST 3.0: Adding a test rule on ARGS (testing case sensitivness)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:17:URL WL TEST 3.1: Adding a test rule on ARGS (testing case sensitivness #2)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:18:URL WL TEST 3.2: Adding a test rule on URI (testing case sensitivness #2)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:25:WL TEST 8: Adding a test rule in http_config (URL zone).",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:33:WL TEST 13: Whitelisting multiple rules in one WL.",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999,
+        1998
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:38:WL TEST 17 : Whitelisting all rules on one arg (wl:0) NOT.",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999,
+        1998
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:39:WL TEST 18 : Whitelisting rule id 1",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": []
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:41:WL TEST 19.0 : Rule in variable name",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4242
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:43:WL TEST 20.0 : wl:0 in cookies (#405)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4242
+      ]
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:44:WL TEST 20.1 : wl:0 in cookies (#405)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/02naxsi_bypass.t:1:TEST 1: Basic GET request",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/02naxsi_bypass.t:2:TEST 2: DENY : XSS bypass vector 1 (basic url encode)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:3:TEST 2.1: DENY : XSS bypass vector 2 (\\x encode)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1205
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:4:TEST 2.2: DENY : XSS bypass vector %00 (nullbyte)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10,
+        1302
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:6:TEST 3.0: DENY : bypass vector ? (multi arg break)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1302
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:7:TEST 3.1: DENY : ? break (multi ?)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1302
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:8:TEST 4.0: malformed URIs",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/02naxsi_bypass.t:9:TEST 4.01: malformed URIs",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1302
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:10:TEST 4.1: malformed URIs",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": []
+    },
+    {
+      "id": "t/02naxsi_bypass.t:11:TEST 4.2: malformed URIs",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/02naxsi_bypass.t:12:TEST 4.21: malformed URIs",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1302
+      ]
+    },
+    {
+      "id": "t/02naxsi_bypass.t:13:TEST 4.3: malformed URIs",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": []
+    },
+    {
+      "id": "t/03naxsi_profile.t:1:TEST 1: Basic GET request",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/03naxsi_profile.t:2:TEST 2: DENY : Obvious GET XSS",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1001,
+        1010,
+        1011,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/03naxsi_profile.t:3:TEST 2.1: DENY : Obvious RFI",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1100
+      ]
+    },
+    {
+      "id": "t/03naxsi_profile.t:4:TEST 2.3: DENY : Obvious LFI",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1200
+      ]
+    },
+    {
+      "id": "t/03naxsi_profile.t:5:TEST 3: OBVIOUS GET SQL INJECTION",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1009,
+        1013
+      ]
+    },
+    {
+      "id": "t/03naxsi_profile.t:6:TEST 3bis: OBVIOUS (quoteless) GET SQL INJECTION",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/06naxsi_weirds.t:1:WL TEST 1.0: weird request in URL",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": []
+    },
+    {
+      "id": "t/07naxsi_argnames.t:1:WL TEST 1.0: Obvious test in arg",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/07naxsi_argnames.t:2:WL TEST 1.01: Check non-collision of zone and 'name' flag",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        5
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:1:WL TEST 1.0",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:2:WL TEST 1.01",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:3:WL TEST 1.03",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:4:WL TEST 1.04",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:5:WL TEST 2.0",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:6:WL TEST 2.01",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:7:WL TEST 2.02",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:8:WL TEST 2.03",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:9:WL TEST 2.04",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:10:WL TEST 2.05",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/08negative_whitelists.t:11:WL TEST 2.06",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:12:WL TEST 2.07",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/08negative_whitelists.t:13:WL TEST 2.08",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/12naxsi_argnames_extended.t:1:WL TEST 1.0: Obvious test in arg",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/18ids.t:12:ID TEST 4.0: header disabled rule",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1998
+      ]
+    },
+    {
+      "id": "t/19targets.t:1:ID TEST 1.0: Drop rule without learning",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:10:ID TEST 3.0: <= checkrule (why not dude)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:11:ID TEST 3.1: <= checkrule : Is useless, as score will go through value 8 before reaching 16, thus the checkrule will be applied",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:12:ID TEST 3.2: < checkrule (why not dude)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:13:ID TEST 3.3: < checkrule (why not dude)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:14:ID TEST 3.4: > checkrule (why not dude)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/19targets.t:15:ID TEST 3.5: > checkrule (why not dude)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1999
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:1:TEST 1 : sqlmap-master/tamper/randomcomments.py -- I/**/N/**/SERT",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1003,
+        1004
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:2:TEST 2 : sqlmap-master/tamper/space2plus.py -- SELECT+id+FROM+users",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:3:TEST 3 : sqlmap-master/tamper/multiplespaces.py -- 1++++UNION+++++SELECT+++foobar",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:4:TEST 4 : sqlmap-master/tamper/base64encode.py -- MScgQU5EIFNMRUVQKDUpIw==",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        1009
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:5:TEST 5 : sqlmap-master/tamper/between.py -- 1+AND+A+NOT+BETWEEN+0+AND+B--",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        1007
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:6:TEST 6 : sqlmap-master/tamper/unmagicquotes.py -- 1%bf%27+AND+1=1--+",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1007,
+        1013
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:7:TEST 7 : sqlmap-master/tamper/appendnullbyte.py -- 1+AND+1=1%00",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:8:TEST 8 : sqlmap-master/tamper/unionalltounion.py -- -1+UNION+SELECT",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:9:TEST 9 : sqlmap-master/tamper/greatest.py -- 1+AND+GREATEST(A,B+1)=A",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1010,
+        1011,
+        1015
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:10:TEST 10 : sqlmap-master/tamper/chardoubleencode.py -- %2553%2545%254C%2545%2543%2554%2520%2546%2549%2545%254C%2544%2520%2546%2552%254F%254D%2520%2554%2541%2542%254C%2545",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1315
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:11:TEST 11 : sqlmap-master/tamper/space2comment.py -- SELECT/**/id/**/FROM/**/users",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000,
+        1003,
+        1004
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:12:TEST 12 : sqlmap-master/tamper/apostrophenullencode.py -- 1+AND+%00%271%00%27=%00%271",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10,
+        1013
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:13:TEST 13 : sqlmap-master/tamper/bluecoat.py -- SELECT%09id+FROM+users+where+id+LIKE+1",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:14:TEST 14 : sqlmap-master/tamper/halfversionedmorekeywords.py -- /*!0UNION/*!0ALL/*!0SELECT/*!0CONCAT(/*!0CHAR(58,107,112,113,58),/*!0IFNULL(CAST(/*!0CURRENT_USER()/*!0AS/*!0CHAR),/*!0CHAR(32)),/*!0CHAR(58,97,110,121,58)),/*!0NULL,/*!0NULL#/*!0AND+QDWa=",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000,
+        1003,
+        1010,
+        1011,
+        1015
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:15:TEST 15 : sqlmap-master/tamper/space2dash.py -- 1--nVNaVoPYeva%0AAND--ngNvzqu%0A9227=9227",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1007
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:16:TEST 16 : sqlmap-master/tamper/space2randomblank.py -- SELECT%0Did%0DFROM%0Ausers",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:17:TEST 17 : sqlmap-master/tamper/randomcase.py -- INseRt",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:18:TEST 18 : sqlmap-master/tamper/versionedmorekeywords.py -- 1/*!UNION*//*!ALL*//*!SELECT*//*!NULL*/,/*!NULL*/,/*!CONCAT*/(/*!CHAR*/(58,122,114,115,58),/*!IFNULL*/(CAST(/*!CURRENT_USER*/()/*!AS*//*!CHAR*/),/*!CHAR*/(32)),/*!CHAR*/(58,115,114,121,58))#",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000,
+        1003,
+        1004,
+        1010,
+        1011,
+        1015
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:19:TEST 19 : sqlmap-master/tamper/percentage.py -- %S%E%L%E%C%T+%F%I%E%L%D+%F%R%O%M+%T%A%B%L%E",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:20:TEST 20 : sqlmap-master/tamper/ifnull2ifisnull.py -- IF(ISNULL(1),2,1)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1010,
+        1011,
+        1015
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:21:TEST 21 : sqlmap-master/tamper/equaltolike.py -- SELECT+*+FROM+users+WHERE+id+LIKE+1",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:22:TEST 22 : sqlmap-master/tamper/space2mysqlblank.py -- SELECT%0Bid%0DFROM%0Cusers",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:23:TEST 23 : sqlmap-master/tamper/space2mssqlblank.py -- SELECT%0Eid%0DFROM%07users",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:24:TEST 24 : sqlmap-master/tamper/space2hash.py -- 1%23nVNaVoPYeva%0AAND%23ngNvzqu%0A9227=9227",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1016
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:25:TEST 25 : sqlmap-master/tamper/modsecurityversioned.py -- 1+/*!30874AND+2>1*/--",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1003,
+        1004,
+        1007,
+        1303
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:26:TEST 26 : sqlmap-master/tamper/versionedkeywords.py -- 1/*!UNION*//*!ALL*//*!SELECT*//*!NULL*/,/*!NULL*/,+CONCAT(CHAR(58,104,116,116,58),IFNULL(CAST(CURRENT_USER()/*!AS*//*!CHAR*/),CHAR(32)),CHAR(58,100,114,117,58))#",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000,
+        1003,
+        1004,
+        1010,
+        1011,
+        1015
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:27:TEST 27 : sqlmap-master/tamper/apostrophemask.py -- 1+AND+%EF%BC%871%EF%BC%87=%EF%BC%871",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/20sqlmap.t:28:TEST 28 : sqlmap-master/tamper/space2morehash.py -- 1%23ngNvzqu%0AAND%23nVNaVoPYeva%0A%23lujYFWfv%0A9227=9227",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1016
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:29:TEST 29 : sqlmap-master/tamper/securesphere.py -- 0having=0having",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/20sqlmap.t:30:TEST 30 : sqlmap-master/tamper/sp_password.py -- 1+AND+9227=9227--+sp_password",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        1007
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:31:TEST 31 : sqlmap-master/tamper/nonrecursivereplacement.py -- 1+UNIOUNIONN+SELESELECTCT+2--",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000,
+        1007
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:32:TEST 32 : sqlmap-master/tamper/charencode.py -- %53%45%4C%45%43%54%20%46%49%45%4C%44%20%46%52%4F%4D%20%54%41%42%4C%45",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1000
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:33:TEST 33 : sqlmap-master/tamper/modsecurityzeroversioned.py -- 1+/*!00000AND+2>1*/--",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1003,
+        1004,
+        1007,
+        1303
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:34:TEST 34 : sqlmap-master/tamper/charunicodeencode.py -- %u0053%u0045%u004C%u0045%u0043%u0054%u0020%u0046%u0049%u0045%u004C%u0044%u0020%u0046%u0052%u004F%u004D%u0020%u0054%u0041%u0042%u004C%u0045",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        10,
+        1401
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:35:TEST 35 : sqlmap-master/tamper/space2mysqldash.py -- 1--%0AAND--%0A9227=9227",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1007
+      ]
+    },
+    {
+      "id": "t/20sqlmap.t:36:TEST 36 : sqlmap-master/tamper/space2mssqlhash.py -- 1%23%0AAND%23%0A9227=9227",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1016
+      ]
+    },
+    {
+      "id": "t/23verylong.t:1:TEST 1: very long url (exception in url)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1002,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/23verylong.t:2:TEST 1.1: very long get varname (exception in content)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1002,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/23verylong.t:3:TEST 1.2: very long get varname (exception in varname)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1002,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/23verylong.t:4:TEST 1.3: very long content get varname (exception in content)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1002,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/23verylong.t:5:TEST 1.4: very long header varname (exception in content)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        1002,
+        1302,
+        1303
+      ]
+    },
+    {
+      "id": "t/25extra-coverage.t:2:TEST 1.1: Basic GET request, with global score increase",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:1:TEST 1.0: blacklist on static var name (good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:2:TEST 1.1: blacklist on static var name (bad)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:3:TEST 2.0: blacklist on rx var name (good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:4:TEST 2.1: blacklist on rx var name (bad)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:5:TEST 3.0: blacklist on rx var name (bad zone)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:6:TEST 3.1: blacklist on static var name (bad zone)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:7:TEST 4.0: blacklist on multi static var name (one good, many bad)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:8:TEST 4.1: blacklist on multi rx var name (one good, many bad)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:9:TEST 5.0: blacklist on multi rx var name (many bad)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:10:TEST 5.1: blacklist on multi rx var name (many bad, one good zone)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:11:TEST 6.0: blacklist on multi static var name (many bad)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:12:TEST 6.1: blacklist on multi static var name (many bad, one good zone)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:13:TEST 7.0: static blacklist on $URL:/ | $ARGS_VAR  (both good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:14:TEST 7.1: static blacklist on $URL:/ | $ARGS_VAR  (bad url)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:15:TEST 7.2: static blacklist on $URL:/ | $ARGS_VAR  (bad ARGS_VAR)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:16:TEST 7.3: static blacklist on $URL:/ | $ARGS_VAR  (one bad ARGS_VAR and one good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:17:TEST 7.0: rx blacklist on $URL_X:/ | $ARGS_VAR_X  (both good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/26improved-matchzones.t:18:TEST 7.1: rx blacklist on $URL_X:/ | $ARGS_VAR_X  (bad url)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:19:TEST 7.2: rx blacklist on $URL_X:/ | $ARGS_VAR_X  (bad ARGS_VAR)",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/26improved-matchzones.t:20:TEST 7.3: static blacklist on $URL:/ | $ARGS_VAR  (one bad ARGS_VAR and one good)",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4241
+      ]
+    },
+    {
+      "id": "t/29regression.t:1:WL TEST 1.0: [ARGS zone WhiteList] Adding a test rule in http_config (ARGS zone) and disable rule.",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/29regression.t:2:WL TEST 1.1: testing multiple alternate matching/non-matching rules",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4242002
+      ]
+    },
+    {
+      "id": "t/29regression.t:3:WL TEST 1.2: testing multiple alternate matching/non-matching rules",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/29regression.t:4:WL TEST 1.3: testing multiple alternate matching/non-matching rules",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/29regression.t:5:WL TEST 1.4: testing multiple alternate matching/non-matching rules",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        4242001
+      ]
+    },
+    {
+      "id": "t/29regression.t:6:WL TEST 1.5: testing multiple alternate matching/non-matching rules",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        42000526
+      ]
+    },
+    {
+      "id": "t/29regression.t:9:WL TEST 3.0: false-positive on virtual-patch with empty var name",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    },
+    {
+      "id": "t/29regression.t:10:WL TEST 3.0: false-positive on virtual-patch with empty var name",
+      "expected_block": true,
+      "actual_block": true,
+      "passed": true,
+      "rules": [
+        42000485
+      ]
+    },
+    {
+      "id": "t/29regression.t:11:WL TEST 3.01: false-positive on virtual-patch with empty var name",
+      "expected_block": false,
+      "actual_block": false,
+      "passed": true,
+      "rules": []
+    }
+  ],
+  "skipped": [
+    {
+      "id": "t/00naxsi_base.t:8:TEST 5: SIMPLE POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:9:TEST 7 : SQLi POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:10:TEST 8 : XSS POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:13:TEST 11: Adding a test rule in http_config (BODY zone).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:14:TEST 17: Negative RX rule on header:content-type.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:15:TEST 17: Negative RX rule on header:content-type.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:16:TEST 18: Negative RX rule on header:content-type (again).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:18:TEST 19.2: Negative RX rule on header:content-type (I LIED !).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:21:TEST 24: Testing MULTIPART POSTs -- INVALID FORMAT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:22:TEST 24: Testing MULTIPART POSTs",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:23:TEST 25: Testing MULTIPART POSTs (NO CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:24:TEST 26: Testing MULTIPART POSTs (BAD CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:25:TEST 26.1: Testing MULTIPART POSTs (BAD CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:26:TEST 27: Obvious POST XSS (multipart)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:27:TEST 28: Obvious POST SQLi (multipart)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:28:TEST 29: Malformed POST / BoF try #1 (missing some boundaries)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:29:TEST 30 : Malformed POST / BoF try #3 (random overflow trigger n1)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:30:TEST 31: enc0ding phun ?",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:37:TEST 33: fucked up URLs #4",
+      "reason": "external-http-configuration"
+    },
+    {
+      "id": "t/00naxsi_base.t:39:TEST 34.1: pushing in ARGS only",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/00naxsi_base.t:40:TEST 35: pushing in ARGS + uri only",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/00naxsi_base.t:41:TEST 36: pushing uri rules",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/00naxsi_base.t:42:TEST 37: pushing uri malformed rules",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/00naxsi_base.t:43:TEST 37: multipart, MainRule BODY|FILE_EXT blocked",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:44:TEST 37: multipart, BasicRule BODY|FILE_EXT blocked",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:45:TEST 38: SIMPLE PATCH (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:46:TEST 39 : SQLi PATCH (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/00naxsi_base.t:47:TEST 40 : XSS PATCH (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:1:WL TEST 1.0: [ARGS zone WhiteList] Adding a test rule in http_config (ARGS zone) and disable rule.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:2:WL TEST 1.0.1: [ARGS zone WhiteList] Adding a test rule in http_config (ARGS zone) and disable rule.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:3:WL TEST 1.1: Adding a test rule in http_config (ARGS zone) and WL it on arg name only.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:4:WL TEST 1.2: Adding a test rule in http_config (ARGS zone) and WL it on arg name only (case sensitiveness check).",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:5:WL TEST 1.3: Adding a test rule in http_config (ARGS zone) and WL it on arg name only (case sensitiveness check #2).",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:6:WL TEST 1.4: Adding a test rule in http_config (ARGS zone) and WL it on $URL + ZONE.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:7:WL TEST 1.5: Adding a test rule in http_config (ARGS zone) and WL it on $URL + ZONE (wrong URL).",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:8:WL TEST 1.6: Adding a test rule in http_config (ARGS zone) and WL it on $URL + $ARG_VAR.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:10:WL TEST 2.1: Adding a rule that will match on headers, WL it on $HEADERS_VAR",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:12:WL TEST 2.3: Adding a rule that will match on headers, WL it by $URL + zone",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:13:WL TEST 2.4 : Adding a rule that will match on headers, WL it by $URL + $HEADERS_VAR",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:14:WL TEST 2.5 : Adding a rule that will match on headers, WL it by $URL + $HEADERS_VAR (WRONG URL)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:15:WL TEST 2.6 : Adding a rule that will match on headers, WL it by $URL + $HEADERS_VAR (WRONG HEADER NAME)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:19:WL TEST 5.0: Testing the POST content-type rule !",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:20:WL TEST 5.1: Testing the POST content-type rule #2",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:21:WL TEST 5.1: Testing the POST content-type rule #3",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:22:WL TEST 5: Adding a test rule in http_config (ARGS zone) and WL it on url + wrong arg name.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:23:WL TEST 6: Adding a test rule in http_config (ARGS zone) and WL it.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:24:WL TEST 7: Adding a test rule in http_config (URL zone) and WL it on url + zone.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:26:WL TEST 8.1 : Adding a test rule in http_config (URL zone) and whitelist it with $URL:|URL.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:27:WL TEST 8.2 : Adding a test rule in http_config (URL zone) and whitelist it with URL and no $URL.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:28:WL TEST 8: Adding a test rule in http_config (ARGS zone) and WL it on url + arg name.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:29:WL TEST 9: Adding a test rule in http_config (ARGS zone) and WL it on $ARGS_VAR only.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:30:WL TEST 10: Adding a test rule in http_config (ARGS zone) and WL it on url + wrong arg name.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:31:WL TEST 11: Adding a test rule in http_config (ARGS zone) and WL it on url + wrong URL.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:32:WL TEST 12: Adding a test rule in http_config (ARGS zone) and WL it on url + wrong arg name.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:34:WL TEST 14 : Whitelist on ARG_NAME.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:35:WL TEST 14.1 : Whitelist on ARG_NAME.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:36:WL TEST 15 : Whitelisting multiple rules in one WL.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:37:WL TEST 16 : Whitelisting all rules on one arg (wl:0).",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:40:WL TEST 18.1 : Whitelisting internal rule",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:42:WL TEST 19.1 : Rule in variable name (whitelisted)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/01naxsi_whitelists.t:45:WL TEST 20.0 : wl:0 in cookies (#405)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/02naxsi_bypass.t:5:TEST 2.3: DENY : XSS bypass vector %00 (nullbyte) URL",
+      "reason": "unsupported-status-expectation"
+    },
+    {
+      "id": "t/02naxsi_bypass.t:14:TEST 5.1: DENY : XSS bypass vector true nullbyte",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:1:TEST 0: multipart, legit file",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:2:TEST 1: multipart, bad file",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:3:TEST 2: multipart, bad file",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:4:TEST 3: multipart, bad file \\\" injection",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:5:TEST 4: multipart, bad file %00",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:6:TEST 5: multipart, bad file on rx",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:7:TEST 6: multipart, bad file on rx + whitelist on uri",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:8:TEST 7: multipart, bad file on rx + whitelist on uri + arg_name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:9:TEST 6: multipart, bad file on rx + whitelist on uri",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:10:TEST 7: multipart, bad file on rx + bad whitelist on uri",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:11:TEST 8: multipart, bad file on rx + whitelist on uri + arg_name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:12:TEST 9: multipart, bad file on rx + whitelist on uri + bad arg_name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:13:TEST 10: multipart, malformed content type",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:14:TEST 11: multipart, bad content disposition",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:15:TEST 12: multipart, unknown content disposition",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:16:TEST 12: multipart, bad closing boudary",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:17:TEST 13: multipart, multiple filename",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:18:TEST 14: multipart, multiple name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:19:TEST 15: multipart, XSS in name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:20:TEST 16: multipart, null char before XSS in name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:21:TEST 17: multipart, XSS in name with invalid boundary",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:22:TEST 18: multipart, null char after XSS in name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:23:TEST 19: multipart, null char after XSS in name and invalid boundary",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/04naxsi_files.t:24:TEST 20: multipart, null char in name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:1:WL TEST 5.0: Two whitelists on two named arguments, same URL ",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:2:WL TEST 5.1: Two whitelists on two named arguments, same URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:3:WL TEST 5.2: Two whitelists on two named arguments, same URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:4:WL TEST 5.3: Two whitelists on two named arguments, same URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:5:WL TEST 5.4: Whitelists on ARGS/URLs that are URLencoded",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:6:WL TEST 5.5: Whitelists on ARGS/URLs that are URLencoded",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:7:WL TEST 6: Whitelists trying to provoke collisions ($ARGS_VAR:x + $URL:x|ARGS)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:8:WL TEST 6.0: Whitelists trying to provoke collisions ($ARGS_VAR:x + $URL:x|ARGS)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:9:WL TEST 6.1: Whitelists trying to provoke collisions ($ARGS_VAR:x + $URL:x|ARGS)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:10:WL TEST 6.2: Whitelists trying to provoke collisions ($ARGS_VAR:x + $URL:x|ARGS)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/05naxsi_advanced_whitelists.t:11:WL TEST 6.3: Whitelists trying to provoke collisions ($ARGS_VAR:x + $URL:x|ARGS)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/06naxsi_weirds.t:2:WL TEST 1.01: weird request in URL (wl on fullzone)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/06naxsi_weirds.t:3:WL TEST 1.02: weird request in URL (wl on zone+URL)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/06naxsi_weirds.t:4:WL TEST 1.03: weird request in URL (fail wl on zone+bad URL)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/06naxsi_weirds.t:5:WL TEST 1.04: weird request in URL (fail wl on bad zone+URL)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:3:WL TEST 1.1: Generic whitelist in ARGS_NAME",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:4:WL TEST 1.11: Generic whitelist in ARGS_NAME, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:5:WL TEST 1.12: Generic whitelist in ARGS_NAME, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:6:WL TEST 1.2: whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:7:WL TEST 1.21: whitelist in ARGS_NAME+$URL, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:8:WL TEST 1.22: whitelist in ARGS_NAME+$URL, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:9:WL TEST 1.3: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:10:WL TEST 1.31: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:11:WL TEST 1.32: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:12:WL TEST 1.33: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:13:WL TEST 1.34: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:14:WL TEST 1.35: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:15:WL TEST 1.36: failed whitelist in ARGS_NAME+$URL",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:16:WL TEST 1.4: whitelist in ARGS_NAME+$URL+$ARGS_VAR",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:17:WL TEST 1.41: whitelist in ARGS_NAME+$URL+$ARGS_VAR",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:18:WL TEST 1.5: whitelist in ARGS_NAME+$URL+$ARGS_VAR, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:19:WL TEST 1.51: whitelist in ARGS_NAME+$URL+$ARGS_VAR, limit",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:20:WL TEST 1.6: whitelist in $URL+$ARGS_VAR | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:21:WL TEST 1.6.1: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:22:WL TEST 1.6.2: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:23:WL TEST 1.6.3: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:24:WL TEST 1.6.4: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:25:WL TEST 1.6.5: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:26:WL TEST 1.6.6: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/07naxsi_argnames.t:27:WL TEST 1.6.7: whitelist in $URL+ARGS | NAME, (collision)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:1:TODO: naxsi does not support utf8, potential bypass. Still too marginal to be worth checking",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:2:TEST 1: hey 2",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:3:TEST 1: hey 3",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:4:NOT TODO: base64, not worthing checking",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:5:TEST 1: hey 5",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:6:TEST 1: hey 6",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:7:TEST 1: hey 7",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:8:TEST 1: hey 8",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:9:TEST 1: hey 9",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:10:TEST 1: hey 10",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:11:TEST 1: hey 11",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:12:TEST 1: hey 12",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:13:TEST 1: hey 13",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:14:TEST 1: hey 14",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:15:IIS/ASP Encoding",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:16:TEST 1: hey 16",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:17:TEST 1: hey 17",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:18:TEST 1: hey 18",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:19:TEST 1: hey 19",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:20:TEST 1: hey 20",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:21:TEST 1: hey 21",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:22:TEST 1: hey 22",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:23:TEST 1: hey 23",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:24:TEST 1: hey 24",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:25:TEST 1: hey 25",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:26:TEST 1: hey 26",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:27:TEST 1: hey 28",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:28:TEST 1: hey 29",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/09sqlmap_tamper.t:29:TEST 1: hey 30",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:1:TEST 1.0 : Runtime Learning force (per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:2:TEST 1.01 : Runtime Learning force (absolute)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:3:TEST 1.1: Runtime Learning force (fail - per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:4:TEST 1.2: Runtime Learning force (fail - in location)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:5:TEST 1.3: Runtime Learning disable (per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:6:TEST 1.4: Runtime Learning disable (fail - per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:7:TEST 2.00 : Check that SecRulesDisabled correctly works",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:8:TEST 2: Runtime disable force (absolute)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:9:TEST 2.2: Runtime enable force",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:10:TEST 2.3: Runtime enable force, with static learning (which is pointless)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:11:TEST 2.4: Runtime enable + learning mode (absolute)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:12:TEST 3.0: Runtime enable + learning mode (per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:13:TEST 3.1: Runtime enable + learning mode (per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:14:TEST 3.2: Runtime enable + learning mode (per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/10naxsi_modifiers.t:15:TEST 3.3: Runtime enable (success) + learning mode (fail - per ip)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:1:TEST 1: Basic GET request",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:2:TEST 2: DENY : Obvious GET XSS",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:3:TEST 2.1: DENY : Obvious RFI",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:4:TEST 2.3: DENY : Obvious LFI",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:5:TEST 3: OBVIOUS GET SQL INJECTION",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:6:TEST 3bis: OBVIOUS (quoteless) GET SQL INJECTION",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:7:TEST 4: VERY STRANGE GET REQUEST",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:8:TEST 5: SIMPLE POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:9:TEST 7 : SQLi POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:10:TEST 8 : XSS POST (www-form style)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:11:TEST 9: Adding a test rule in http_config (ARGS zone).",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:12:TEST 10: Adding a test rule in http_config (URL zone).",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:13:TEST 11: Adding a test rule in http_config (BODY zone).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:14:TEST 17: Negative RX rule on header:content-type.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:15:TEST 17: Negative RX rule on header:content-type.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:16:TEST 18: Negative RX rule on header:content-type (again).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:17:TEST 19: Negative RX rule on header:content-type (again & last, I promise !).",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:18:TEST 19.2: Negative RX rule on header:content-type (I LIED !).",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:19:TEST 22: CUSTOM SCORE RULES !",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:20:TEST 23: CUSTOM SCORE RULES, bis",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:21:TEST 24: Testing MULTIPART POSTs -- INVALID FORMAT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:22:TEST 24: Testing MULTIPART POSTs",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:23:TEST 25: Testing MULTIPART POSTs (NO CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:24:TEST 26: Testing MULTIPART POSTs (BAD CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:25:TEST 26.1: Testing MULTIPART POSTs (BAD CONTENT LEN)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:26:TEST 27: Obvious POST XSS (multipart)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:27:TEST 28: Obvious POST SQLi (multipart)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:28:TEST 29: Malformed POST / BoF try #1 (missing some boundaries)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:29:TEST 30 : Malformed POST / BoF try #3 (random overflow trigger n1)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:30:TEST 31: enc0ding phun ?",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:31:TEST 32: fucked up URLs #1",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:32:TEST 33: fucked up URLs #2",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:33:TEST 33: fucked up URLs #2bis",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:34:TEST 33: fucked up URLs #2ter",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:35:TEST 33: fucked up URLs #3",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:36:TEST 33: fucked up URLs #4",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/11naxsi_newstyle_config.t:37:TEST 33: fucked up URLs #4",
+      "reason": "unsupported-enforcement-configuration"
+    },
+    {
+      "id": "t/12naxsi_argnames_extended.t:2:WL TEST 1.1: Obvious test in arg",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/13test.t:1:WL TEST 6.1: Whitelist provoking collision",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/13test.t:2:WL TEST 6.2: Trigger multi-line logs",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/14json.t:1:JSON0 : Valid JSON",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:2:JSON1 : invalid JSON (double closing ']')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:3:JSON2 : invalid JSON (missing closing ']')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:4:JSON3 : invalid JSON (closing array with '}' instead of ']')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:5:JSON4 : invalid JSON (Missing final closing '}')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:6:JSON5 : invalid JSON (Extra closing '}')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:7:JSON6 : invalid JSON (Missing ',' in array)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:8:JSON7 : Valid JSON with empty array item (Extra ',' in array)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:9:JSON8 : valid JSON - too deep !",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:10:JSON9 : Valid JSON with ev0l stuff (array => var content)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:11:JSON10 : Valid JSON with ev0l stuff (array => var name)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:12:JSON11 : Empty JSON object",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:13:JSON12 : malformed (closing object before array) Json ",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:14:JSON12 : malformed (unescaped quotes) ",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:15:JSON12 : escaped quotes ",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:16:JSON13 : concatenation attempt (ie \"foo\":\"bar\"+eval(evil)+\"foo\")",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:17:JSON13 : concatenation attempt (ie \"foo\":\"bar\"+eval(evil)+\"foo\")",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:18:JSON14 : unfinished sub object",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:19:JSON14 : bug_418",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:20:JSON14 : bug_437",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:21:JSON15 : JSON with XSS.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:22:JSON16 : Null char in JSON with XSS.",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:23:JSON17 : Valid JSON With HTTP Patch Method",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/14json.t:24:JSON1 : invalid JSON With HTTP Patch Method (double closing ']')",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:1:json wl 0.1 : no rulematch",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:2:json wl 0.2 : rulematch",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:3:json wl 0.3 : rulematch + wl on full zone",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:4:json wl 0.4 : rulematch + wl on zone + varname",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:5:json wl 0.5 : rulematch + wl on zone + varname + url",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:6:json wl 0.6 : rulematch + wl on zone + varname + url [fail]",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:7:json wl 0.7 : rulematch + wl on zone + varname (in sub-json element)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:8:json wl 0.8 : rulematch + wl on zone + varname (in sub-json element) [fail]",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:9:json wl 0.9 : match in varname",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:10:json wl 1.0 : match in varname + wl on varname",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:11:json wl 1.1 : match (empty variable name)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:12:json wl 1.1 : match (no variable name)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:13:json wl 2.0 : malformed json (missing opening {)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:14:json wl 2.1 : Numeric content json",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:15:json wl 2.2 : true/false content json",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/15json_wl.t:16:json wl 2.3 : malformed json",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/16rx_mz.t:1:RXWL TEST 1.0: simple wide regex ($args_var)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:2:RXWL TEST 1.1: simple wide regex ($args_var)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:3:RXWL TEST 1.2: simple wide regex ($args_var)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:4:RXWL TEST 1.3: simple end-restrictive regex ($args_var_x:..$)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:5:RXWL TEST 1.3: simple end-restrictive regex ($args_var_x:..$)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:6:RXWL TEST 1.4: simple end-restrictive regex ($args_var_x:..$)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:7:RXWL TEST 1.5: simple begin-restrictive regex ($args_var_x:^..)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:8:RXWL TEST 1.6: simple begin-restrictive regex ($args_var_x:^..)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:9:RXWL TEST 1.7: simple begin-restrictive regex ($args_var_x:^..)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:10:RXWL TEST 1.8: simple full-restrictive regex ($args_var_x:^..$)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:11:RXWL TEST 1.9: simple full-restrictive regex ($args_var_x:^..$)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:12:RXWL TEST 2.0: simple wide regex ($args_var|$url)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:13:RXWL TEST 2.1: simple wide regex ($args_var|$url)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:14:RXWL TEST 2.2: simple half-restrictive regex ($args_var|$url)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:15:RXWL TEST 3.0: simple wide regex (url|args|name)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:16:RXWL TEST 3.1: simple wide regex (url|args|name)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:17:RXWL TEST 4.0: simple restrictive+complex regex ($URL_X|URL)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:18:RXWL TEST 4.1: simple restrictive+complex regex ($ARGS_VAR_X|NAME)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:19:RXWL TEST 5.0: file ext ($URL|NAME) XXX",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/16rx_mz.t:20:RXWL TEST 6.0: case sensitiveness",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/17case.t:1:WL TEST X.0: URL case sensitive wl",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/17case.t:2:WL TEST X.1: URL case sensitive wl",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/17case.t:3:WL TEST 6.3: Whitelists trying to provoke collisions",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:1:ID TEST 1.0: Disabled IDs",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:2:ID TEST 1.1: Disabled IDs (fail)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:3:ID TEST 1.2: Disabled negative IDs",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:4:ID TEST 1.3: Disabled negative IDs (fail)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:5:ID TEST 1.4: Multiple Disabled negative IDs",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:6:ID TEST 1.5: Multiple Disabled negative IDs",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:7:ID TEST 2.0: BasicRule negative id test",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:8:ID TEST 2.1: BasicRule negative id test (fail)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:9:ID TEST 2.2: BasicRule negative id test (fail on internal ID)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:10:ID TEST 3.0: Partial disabled whitelist",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:11:ID TEST 3.1: Partial disabled whitelist (fail zone)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/18ids.t:13:ID TEST 4.1: header disabled rule wl",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:2:ID TEST 1.1: whitelisted drop rule without learning",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:3:ID TEST 1.2: bad whitelisted drop rule without learning",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:4:ID TEST 1.3: drop rule with learning",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:5:ID TEST 1.4: drop rule with learning + correct whitelist",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:6:ID TEST 1.5: drop rule with learning + incorrect whitelist",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:7:ID TEST 2.0: drop checkrule",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:8:ID TEST 2.1: drop checkrule, with whitelisted rule",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:9:ID TEST 2.2: drop checkrule, with failed whitelisted rule",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/19targets.t:16:ID TEST 4.0: super long exception (trigger 400 bad request on old versions)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:1:TEST 2 : Check libinjection_xss is disabled by default",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:2:TEST 2.1 : Check libinjection_xss can be enabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:3:TEST 2.2 : Check libinjection_xss can be enabled and dyn disabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:4:TEST 2.3 : Check libinjection_xss can be disabled and dyn enabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:5:TEST 3 : Check libinjection_sql is disabled by default",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:6:TEST 3.1 : Check libinjection_sql can be enabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:7:TEST 3.2 : Check libinjection_sql can be enabled and dyn disabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:8:TEST 3.3 : Check libinjection_sql can be disabled and dyn enabled",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:9:TEST 4.0 : whitelist libinjection_sql",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:10:TEST 4.1 : whitelist libinjection_xss",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:11:TEST 4.2 : whitelist libinjection_xss (|NAME)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:12:TEST 4.3 : whitelist libinjection_sql (|NAME)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:13:TEST 4.3.1 : whitelist fail libinjection_sql (|NAME)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/22libinjection-base.t:14:TEST 4.3.2 : whitelist fail libinjection_xss (|NAME)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/23verylong.t:6:TEST 1.5-1: test very long post (url-encoded) - legit",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/23verylong.t:7:TEST 1.6: test very long post (url-encoded) - in var_name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/23verylong.t:8:TEST 1.7: test very long post (url-encoded) - legit (var content)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/23verylong.t:9:TEST 1.8: test very long post (url-encoded) - trigger (var content)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:1:TEST0 - Simple id:11 block",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:2:TEST1 - Simple id:11 allow",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:3:TEST2 - Simple id:11 allow + simple drop rule",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:4:TEST3 - Simple id:11 allow + simple drop rule + WL raw_body rule",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:5:TEST4 - Simple id:11 allow + simple drop rule + fail WL raw_body rule",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:6:TEST5 - Simple id:11 allow + simple drop rule + null-bytes in body",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:7:TEST6 - Simple id:11 allow + simple drop rule + null-bytes in body",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:8:TEST7 - Testing raw bytes match",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/24rawbody.t:9:TEST8 - Simple id:11 allow + simple drop rule + fail WL raw_body rule (local rule)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:10:TEST8.1 - Simple id:11 allow + simple drop rule + fail WL raw_body rule (local rule)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:11:TEST8.2 - Simple id:11 allow + empty body",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/24rawbody.t:12:TEST8.3 - Simple id:11 allow + empty body",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/25extra-coverage.t:1:TEST 1.0: Basic GET request, with allow rule (useless, just for coverage. ALLOW should be killed)",
+      "reason": "external-http-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:3:TEST 1.2: rule on headers",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:4:TEST 1.2: extensive log while targeting name",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:5:TEST 1.2: extensive log while targeting name",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:6:TEST 1.3: rule on url",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:7:TEST 1.4: add post action as dynamic flag",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:8:TEST 1.5.0: HEADER_VAR_X",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:9:TEST 1.5.1: HEADER_VAR_X",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:10:TEST 1.5.2: HEADER_VAR_X",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:11:TEST 1.6.0: URL + URL wl",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/25extra-coverage.t:12:TEST 1.6.1: URL + URL wl",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/26improved-matchzones.t:21:TEST 8.0: gni ?",
+      "reason": "external-http-configuration"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:1:TEST 1 : Enable libinjection s:DROP on named var",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:2:TEST 1.1 : Enable libinjection s:DROP on (bad) named var",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:3:TEST 1.2 : Enable libinjection s:DROP on (bad) named var",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:4:TEST 2.1 : Enable libinjection s:$FOOBAR on named var",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:5:TEST 3.0 : Enable libinjection (sql) s:DROP on named var+url",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/27libinjection-blacklist.t:6:TEST 3.0 : Enable libinjection (sql) s:DROP on named var+url (not a valid sqli)",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:1:TEST 1.0 : learning + block score, NAXSI_FMT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:2:TEST 1.1 : learning + drop score, NAXSI_FMT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:3:TEST 1.2 : no-learning + block score, NAXSI_FMT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:4:TEST 1.3 : learning + block score + naxsi_extensive_log, NAXSI_EXLOG and NAXSI_FMT",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:5:TEST 1.4 : learning + no-block score + naxsi_extensive_log, NAXSI_EXLOG only",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:6:TEST 1.6 : learning + block-score + naxsi_extensive_log, NAXSI_EXLOG only",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/28log.t:7:TEST 1.7 : learning + block-score + naxsi_extensive_log, NAXSI_EXLOG only",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/29regression.t:7:WL TEST 2.0: log + drop",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/29regression.t:8:WL TEST 2.01: log + block",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/29regression.t:12:TEST 4 - regression on FILE_EXT being detected in BODY",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/30regr.t:1:TEST 1: rule target body|name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/30regr.t:2:TEST 1: rule target body|name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/30regr.t:3:TEST 1: rule target body|name",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/31norules.t:1:TEST 1: Basic GET request with no rules, drop",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/31norules.t:2:TEST 1.1: Basic GET request with no rules, whitelist the special rule.",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/32utf8.t:1:TEST 2.0: utf8 overlong",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/32utf8.t:2:TEST 2.1: utf8 overlong",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/32utf8.t:3:TEST 2.2: valid utf8",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/33ignoreip.t:1:TEST 1: IgnoreIP defined",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:2:TEST 1.1: IgnoreIP request ",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:3:TEST 1.2: IgnoreIP request with X-Forwarded-For allow (ipv4) ",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:4:TEST 1.3: IgnoreIP request with X-Forwarded-For allow (ipv6)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:5:TEST 1.4: IgnoreIP request with X-Forwarded-For deny (ipv4)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:6:TEST 1.5: IgnoreIP request with X-Forwarded-For deny (ipv6)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:7:TEST 1.6: Multiple IgnoreIP defined",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/33ignoreip.t:8:TEST 1.7: Verify IgnoreIP (IPv4) works",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:1:TEST 1: IgnoreCIDR defined (no file)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:2:TEST 1.1: IgnoreCIDR request (no file)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:3:TEST 1.2: IgnoreCIDR request with X-Forwarded-For allow (no file) ",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:4:TEST 1.3: IgnoreCIDR request with X-Forwarded-For deny (no file)",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:5:TEST 1.4: Verify IgnoreCIDR works",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/34ignorecidr.t:6:TEST 1.5: Verify IgnoreCIDR x.x.x.x./32 is converted to IgnoreIP",
+      "reason": "unsupported-runtime-configuration"
+    },
+    {
+      "id": "t/35log_json.t:1:TEST 1: JSON log quote escape",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:2:TEST 1.1: JSON log backslash escape",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:3:TEST 1.2: JSON log backslash and quote escape",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:4:TEST 1.3: Truncated JSON log",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:5:TEST 1.4: Truncated JSON log escaped quote",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:6:TEST 1.5: Truncated JSON log escaped backslash",
+      "reason": "dynamic-perl-or-raw-request"
+    },
+    {
+      "id": "t/35log_json.t:7:TEST 1.6: Truncated JSON log escaped quote and backslash",
+      "reason": "dynamic-perl-or-raw-request"
+    }
+  ],
+  "limitations": [
+    "Archived original upstream; static request subset of Test::Nginx fixtures",
+    "No Perl eval, nginx module, response/log assertions or routing validation",
+    "Missing body content type defaults to form encoding in the adapter",
+    "Skipped blocks remain in the full-suite denominator"
+  ]
+}

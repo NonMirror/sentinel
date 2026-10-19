@@ -1,0 +1,518 @@
+{
+  "source": "https://github.com/coreruleset/coreruleset",
+  "commit": "30cb436b261a9f5ec32a5a0677e17f3cfa1a8739",
+  "fixture_sha256": "791ad4f23b5926f65c3af666ce20a3386ab065732bf75f6730a6dd6ff9aba78d",
+  "scope": "in-process CRS/go-ftw fixture adapter, not official go-ftw execution",
+  "configuration": {
+    "engine": "modsecurity",
+    "paranoia_level": 4,
+    "mode": "detect"
+  },
+  "adapter": {
+    "body_templates": "literal repeat only",
+    "template_max_bytes": 1048576,
+    "request_line_and_headers": "UTF-8 source bytes in Latin-1 strings"
+  },
+  "totals": {
+    "cases": 5046,
+    "passed": 5040,
+    "negative_cases": 1020,
+    "negative_passed": 1020,
+    "positive_cases": 4026,
+    "positive_passed": 4020
+  },
+  "by_category": {
+    "REQUEST-901-INITIALIZATION": {
+      "cases": 18,
+      "passed": 18,
+      "negative_cases": 11,
+      "negative_passed": 11,
+      "positive_cases": 7,
+      "positive_passed": 7
+    },
+    "REQUEST-911-METHOD-ENFORCEMENT": {
+      "cases": 8,
+      "passed": 8,
+      "negative_cases": 4,
+      "negative_passed": 4,
+      "positive_cases": 4,
+      "positive_passed": 4
+    },
+    "REQUEST-913-SCANNER-DETECTION": {
+      "cases": 9,
+      "passed": 9,
+      "positive_cases": 6,
+      "positive_passed": 6,
+      "negative_cases": 3,
+      "negative_passed": 3
+    },
+    "REQUEST-920-PROTOCOL-ENFORCEMENT": {
+      "cases": 379,
+      "passed": 373,
+      "negative_cases": 184,
+      "negative_passed": 184,
+      "positive_cases": 195,
+      "positive_passed": 189
+    },
+    "REQUEST-921-PROTOCOL-ATTACK": {
+      "cases": 116,
+      "passed": 116,
+      "positive_cases": 75,
+      "positive_passed": 75,
+      "negative_cases": 41,
+      "negative_passed": 41
+    },
+    "REQUEST-922-MULTIPART-ATTACK": {
+      "cases": 40,
+      "passed": 40,
+      "positive_cases": 23,
+      "positive_passed": 23,
+      "negative_cases": 17,
+      "negative_passed": 17
+    },
+    "REQUEST-930-APPLICATION-ATTACK-LFI": {
+      "cases": 83,
+      "passed": 83,
+      "positive_cases": 67,
+      "positive_passed": 67,
+      "negative_cases": 16,
+      "negative_passed": 16
+    },
+    "REQUEST-931-APPLICATION-ATTACK-RFI": {
+      "cases": 41,
+      "passed": 41,
+      "positive_cases": 36,
+      "positive_passed": 36,
+      "negative_cases": 5,
+      "negative_passed": 5
+    },
+    "REQUEST-932-APPLICATION-ATTACK-RCE": {
+      "cases": 1110,
+      "passed": 1110,
+      "positive_cases": 787,
+      "positive_passed": 787,
+      "negative_cases": 323,
+      "negative_passed": 323
+    },
+    "REQUEST-933-APPLICATION-ATTACK-PHP": {
+      "cases": 442,
+      "passed": 442,
+      "positive_cases": 326,
+      "positive_passed": 326,
+      "negative_cases": 116,
+      "negative_passed": 116
+    },
+    "REQUEST-934-APPLICATION-ATTACK-GENERIC": {
+      "cases": 281,
+      "passed": 281,
+      "positive_cases": 239,
+      "positive_passed": 239,
+      "negative_cases": 42,
+      "negative_passed": 42
+    },
+    "REQUEST-941-APPLICATION-ATTACK-XSS": {
+      "cases": 262,
+      "passed": 262,
+      "positive_cases": 208,
+      "positive_passed": 208,
+      "negative_cases": 54,
+      "negative_passed": 54
+    },
+    "REQUEST-942-APPLICATION-ATTACK-SQLI": {
+      "cases": 1031,
+      "passed": 1031,
+      "positive_cases": 868,
+      "positive_passed": 868,
+      "negative_cases": 163,
+      "negative_passed": 163
+    },
+    "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION": {
+      "cases": 47,
+      "passed": 47,
+      "positive_cases": 42,
+      "positive_passed": 42,
+      "negative_cases": 5,
+      "negative_passed": 5
+    },
+    "REQUEST-944-APPLICATION-ATTACK-JAVA": {
+      "cases": 1175,
+      "passed": 1175,
+      "negative_cases": 34,
+      "negative_passed": 34,
+      "positive_cases": 1141,
+      "positive_passed": 1141
+    },
+    "REQUEST-949-BLOCKING-EVALUATION": {
+      "cases": 4,
+      "passed": 4,
+      "positive_cases": 2,
+      "positive_passed": 2,
+      "negative_cases": 2,
+      "negative_passed": 2
+    }
+  },
+  "skipped": [
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:2",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:8",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:11",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:12",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:13",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920100.yaml:15",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920160.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920160.yaml:2",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920160.yaml:3",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920160.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920160.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920170.yaml:4",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920171.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920171.yaml:2",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920171.yaml:3",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920180.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920180.yaml:3",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920180.yaml:4",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920181.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920240.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920240.yaml:2",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920240.yaml:5",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920270.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920272.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920274.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920280.yaml:3",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920290.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920290.yaml:4",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920340.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:3",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:6",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:7",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:9",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920430.yaml:10",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920460.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920540.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920610.yaml:2",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920620.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:6",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:7",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:8",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:9",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920640.yaml:10",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921140.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:1",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:2",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:3",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:4",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:5",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:6",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-922-MULTIPART-ATTACK/922130.yaml:7",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931130.yaml:24",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932200.yaml:13",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932207.yaml:7",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932300.yaml:10",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933120.yaml:2",
+      "reason": "unsupported-output"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:43",
+      "reason": "multi-stage"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941280.yaml:2",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942340.yaml:8",
+      "reason": "multi-stage"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944200.yaml:1",
+      "reason": "raw-wire-semantics"
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-949-BLOCKING-EVALUATION/949110.yaml:5",
+      "reason": "unsupported-output"
+    }
+  ],
+  "failures": [
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920360.yaml:1",
+      "missing_ids": [
+        920360
+      ],
+      "unexpected_ids": []
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920370.yaml:1",
+      "missing_ids": [
+        920370
+      ],
+      "unexpected_ids": []
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920380.yaml:1",
+      "missing_ids": [
+        920380
+      ],
+      "unexpected_ids": []
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920390.yaml:1",
+      "missing_ids": [
+        920390
+      ],
+      "unexpected_ids": []
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920400.yaml:1",
+      "missing_ids": [
+        920400
+      ],
+      "unexpected_ids": []
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920410.yaml:1",
+      "missing_ids": [
+        920410
+      ],
+      "unexpected_ids": []
+    }
+  ],
+  "engine_errors": 0,
+  "slowest_cases": [
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942521.yaml:19",
+      "elapsed_ms": 1563.777
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942521.yaml:18",
+      "elapsed_ms": 1559.093
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942521.yaml:17",
+      "elapsed_ms": 1369.221
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920390.yaml:1",
+      "elapsed_ms": 315.853
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920400.yaml:1",
+      "elapsed_ms": 271.101
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920380.yaml:1",
+      "elapsed_ms": 141.903
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941360.yaml:1",
+      "elapsed_ms": 36.654
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941360.yaml:4",
+      "elapsed_ms": 35.046
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942521.yaml:16",
+      "elapsed_ms": 25.17
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942522.yaml:8",
+      "elapsed_ms": 23.984
+    }
+  ],
+  "limitations": [
+    "No backend, response rules, multi-stage or raw wire tests",
+    "No global benign/attack labels; rule-ID compatibility only",
+    "Only bounded, unescaped double-quoted literal repeat body templates; other templates skipped",
+    "No platform overrides or fixture-specific threshold changes",
+    "Upstream fixture revision may differ from vendored CRS rules"
+  ]
+}

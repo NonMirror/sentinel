@@ -1,0 +1,85 @@
+{
+  "source": "https://github.com/nbs-system/naxsi",
+  "commit": "a59462b8c2f9c2c0c0fbc3ceb287ee5d60b652c3",
+  "source_files": {
+    "naxsi_src/naxsi_runtime.c": "9f0b4ecb73e500c6ec2ed7fdb12208f76083ce7188ef0bf024f2a3455f3d802d"
+  },
+  "reference_result": "naxsi-fixtures-round18.json",
+  "reference_sha256": "40a61458ba653773b831e14d05b70668607b4b4a742c1f454b778de5f57bf668",
+  "scope": "Read-only source audit of four remaining fixture failures; no native nginx execution and no additional requests",
+  "cases": [
+    {
+      "id": "t/01naxsi_whitelists.t:39:WL TEST 18 : Whitelisting rule id 1",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": [],
+      "classification": "Native strict request policy not implemented",
+      "source_rule_id": 16,
+      "source_symbol": "nx_int__empty_post_body",
+      "source_condition": "No nginx request-body buffers",
+      "source_lines": [
+        2640,
+        2643
+      ],
+      "interpretation": "Source-consistent explanation; adapter has no nginx request buffers, so native execution is not established",
+      "resolution": "Retained as failure; no expectation or runtime policy change"
+    },
+    {
+      "id": "t/02naxsi_bypass.t:10:TEST 4.1: malformed URIs",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": [],
+      "classification": "Native strict request policy not implemented",
+      "source_rule_id": 12,
+      "source_symbol": "nx_int__uncommon_url",
+      "source_condition": "Remaining nonempty URL-encoded segment has an ampersand but no equals sign",
+      "source_lines": [
+        1761,
+        1773
+      ],
+      "interpretation": "Native splitter applies an internal blocking rule; Sentinel currently retains parse_qsl-compatible handling",
+      "resolution": "Retained as failure; no expectation or runtime policy change"
+    },
+    {
+      "id": "t/02naxsi_bypass.t:13:TEST 4.3: malformed URIs",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": [],
+      "classification": "Native strict request policy not implemented",
+      "source_rule_id": 12,
+      "source_symbol": "nx_int__uncommon_url",
+      "source_condition": "Remaining nonempty URL-encoded segment has an ampersand but no equals sign",
+      "source_lines": [
+        1761,
+        1773
+      ],
+      "interpretation": "Native splitter applies an internal blocking rule; Sentinel currently retains parse_qsl-compatible handling",
+      "resolution": "Retained as failure; no expectation or runtime policy change"
+    },
+    {
+      "id": "t/06naxsi_weirds.t:1:WL TEST 1.0: weird request in URL",
+      "expected_block": true,
+      "actual_block": false,
+      "passed": false,
+      "rules": [],
+      "classification": "Native strict request policy not implemented",
+      "source_rule_id": 12,
+      "source_symbol": "nx_int__uncommon_url",
+      "source_condition": "Remaining nonempty URL-encoded segment has an ampersand but no equals sign",
+      "source_lines": [
+        1761,
+        1773
+      ],
+      "interpretation": "Native splitter applies an internal blocking rule; Sentinel currently retains parse_qsl-compatible handling",
+      "resolution": "Retained as failure; no expectation or runtime policy change"
+    }
+  ],
+  "limitations": [
+    "Does not resolve the failures or reduce their denominator",
+    "Native strict input policy must be distinguished from an application vulnerability or an attack detection miss",
+    "Empty-body explanation is inferred from source, not a captured native rule log"
+  ]
+}

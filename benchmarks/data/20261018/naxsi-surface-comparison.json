@@ -1,0 +1,297 @@
+{
+  "scope": "Offline WAF decisions only; no network requests or vulnerability scans",
+  "source_report": "benchmarks/bench-20261018-waf-scanner.md",
+  "runner": "benchmarks.scripts.bench_waf.run_engine",
+  "parameters": {
+    "engine": "naxsi",
+    "source": "GoTestWAF",
+    "cap": 4096,
+    "paranoia": 1,
+    "threshold": 5
+  },
+  "change": "Decode URL path once; isolate query ARGS and parsed form BODY fields; retain field names",
+  "upstream_match_zones": "https://github.com/nbs-system/naxsi/wiki/matchzones-bnf",
+  "before": {
+    "engine": "naxsi",
+    "paranoia_level": 1,
+    "anomaly_threshold": 5,
+    "rules": 46,
+    "attacks": 434,
+    "blocked": 421,
+    "bypassed": 13,
+    "recall": 0.97,
+    "benign": 169,
+    "false_positives": 116,
+    "false_positive_rate": 0.6864,
+    "precision": 0.784,
+    "f1": 0.8671,
+    "by_category": {
+      "XSS": {
+        "total": 162,
+        "blocked": 162,
+        "rate": 1.0
+      },
+      "RCE": {
+        "total": 30,
+        "blocked": 30,
+        "rate": 1.0
+      },
+      "UserAgent": {
+        "total": 27,
+        "blocked": 24,
+        "rate": 0.8889
+      },
+      "XXE": {
+        "total": 26,
+        "blocked": 26,
+        "rate": 1.0
+      },
+      "CRLF Injection": {
+        "total": 21,
+        "blocked": 19,
+        "rate": 0.9048
+      },
+      "REST": {
+        "total": 21,
+        "blocked": 20,
+        "rate": 0.9524
+      },
+      "SQL Injection": {
+        "total": 21,
+        "blocked": 21,
+        "rate": 1.0
+      },
+      "NoSQL Injection": {
+        "total": 15,
+        "blocked": 15,
+        "rate": 1.0
+      },
+      "SOAP": {
+        "total": 15,
+        "blocked": 15,
+        "rate": 1.0
+      },
+      "GraphQL": {
+        "total": 12,
+        "blocked": 11,
+        "rate": 0.9167
+      },
+      "Shell": {
+        "total": 12,
+        "blocked": 12,
+        "rate": 1.0
+      },
+      "LDAP Injection": {
+        "total": 9,
+        "blocked": 8,
+        "rate": 0.8889
+      },
+      "RawRequest test": {
+        "total": 9,
+        "blocked": 9,
+        "rate": 1.0
+      },
+      "SS Injection": {
+        "total": 9,
+        "blocked": 9,
+        "rate": 1.0
+      },
+      "SST Injection": {
+        "total": 9,
+        "blocked": 8,
+        "rate": 0.8889
+      },
+      "LFI": {
+        "total": 6,
+        "blocked": 5,
+        "rate": 0.8333
+      },
+      "Mail Injection": {
+        "total": 6,
+        "blocked": 4,
+        "rate": 0.6667
+      },
+      "Path Traversal": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      },
+      "REST non-CRUD": {
+        "total": 6,
+        "blocked": 5,
+        "rate": 0.8333
+      },
+      "community-lfi-multipart": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      }
+    },
+    "by_source": {
+      "GoTestWAF": {
+        "total": 434,
+        "blocked": 421,
+        "rate": 0.97
+      }
+    },
+    "latency_ms": {
+      "mean": 0.0487,
+      "p50": 0.045,
+      "p90": 0.064,
+      "p99": 0.229,
+      "max": 0.256
+    }
+  },
+  "after": {
+    "engine": "naxsi",
+    "paranoia_level": 1,
+    "anomaly_threshold": 5,
+    "rules": 46,
+    "attacks": 434,
+    "blocked": 395,
+    "bypassed": 39,
+    "recall": 0.9101,
+    "benign": 169,
+    "false_positives": 49,
+    "false_positive_rate": 0.2899,
+    "precision": 0.8896,
+    "f1": 0.8998,
+    "by_category": {
+      "XSS": {
+        "total": 162,
+        "blocked": 162,
+        "rate": 1.0
+      },
+      "RCE": {
+        "total": 30,
+        "blocked": 30,
+        "rate": 1.0
+      },
+      "UserAgent": {
+        "total": 27,
+        "blocked": 18,
+        "rate": 0.6667
+      },
+      "XXE": {
+        "total": 26,
+        "blocked": 26,
+        "rate": 1.0
+      },
+      "CRLF Injection": {
+        "total": 21,
+        "blocked": 15,
+        "rate": 0.7143
+      },
+      "REST": {
+        "total": 21,
+        "blocked": 18,
+        "rate": 0.8571
+      },
+      "SQL Injection": {
+        "total": 21,
+        "blocked": 21,
+        "rate": 1.0
+      },
+      "NoSQL Injection": {
+        "total": 15,
+        "blocked": 15,
+        "rate": 1.0
+      },
+      "SOAP": {
+        "total": 15,
+        "blocked": 15,
+        "rate": 1.0
+      },
+      "GraphQL": {
+        "total": 12,
+        "blocked": 9,
+        "rate": 0.75
+      },
+      "Shell": {
+        "total": 12,
+        "blocked": 12,
+        "rate": 1.0
+      },
+      "LDAP Injection": {
+        "total": 9,
+        "blocked": 6,
+        "rate": 0.6667
+      },
+      "RawRequest test": {
+        "total": 9,
+        "blocked": 9,
+        "rate": 1.0
+      },
+      "SS Injection": {
+        "total": 9,
+        "blocked": 9,
+        "rate": 1.0
+      },
+      "SST Injection": {
+        "total": 9,
+        "blocked": 6,
+        "rate": 0.6667
+      },
+      "LFI": {
+        "total": 6,
+        "blocked": 3,
+        "rate": 0.5
+      },
+      "Mail Injection": {
+        "total": 6,
+        "blocked": 0,
+        "rate": 0.0
+      },
+      "Path Traversal": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      },
+      "REST non-CRUD": {
+        "total": 6,
+        "blocked": 3,
+        "rate": 0.5
+      },
+      "community-lfi-multipart": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6,
+        "rate": 1.0
+      }
+    },
+    "by_source": {
+      "GoTestWAF": {
+        "total": 434,
+        "blocked": 395,
+        "rate": 0.9101
+      }
+    },
+    "latency_ms": {
+      "mean": 0.0425,
+      "p50": 0.041,
+      "p90": 0.052,
+      "p99": 0.128,
+      "max": 0.165
+    }
+  },
+  "project_benign": {
+    "total": 75,
+    "false_positives_before": 22,
+    "false_positives_after": 9
+  },
+  "limitations": [
+    "Correcting scoring reduces both false positives and attack blocking in this corpus.",
+    "No threshold or vendor rule changes; JSON and other non-form bodies retain raw inspection.",
+    "Timing is one local run, not a controlled performance comparison.",
+    "ModSecurity high-PL false positives are unchanged."
+  ]
+}

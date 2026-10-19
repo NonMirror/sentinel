@@ -1,0 +1,150 @@
+{
+  "source": "https://github.com/owasp-modsecurity/ModSecurity",
+  "commit": "84b599623ebea596c72ddda9809298fc601d6f4f",
+  "fixture": "test/test-cases/regression/issue-1576.json",
+  "fixture_sha256": "58de6fcce2d6796986c5cb8492620227fc73280e314d60e9a43491e10b3eb15c",
+  "totals": {
+    "total": 3,
+    "passed": 1,
+    "failed": 2
+  },
+  "cases": [
+    {
+      "id": "test/test-cases/regression/issue-1576.json:0",
+      "title": "JSON array should be handled even without a key (1)",
+      "expected_debug_pattern": "zwei\" \\(Variable: ARGS:json.ops.array_3.eins.array_0",
+      "body_sha256": "b6061ff78c1d57a14db1daf008c52f67890dee730cd8d1441f9965d88eebc5ac",
+      "arguments": [
+        [
+          "key",
+          "value"
+        ],
+        [
+          "key",
+          "other_value"
+        ],
+        [
+          "json.foo",
+          "bar"
+        ],
+        [
+          "json.mod",
+          "sec"
+        ],
+        [
+          "json.ops[0][0]",
+          "um"
+        ],
+        [
+          "json.ops[0][1]",
+          "um e meio"
+        ],
+        [
+          "json.ops[1]",
+          "dois"
+        ],
+        [
+          "json.ops[2]",
+          "tres"
+        ],
+        [
+          "json.ops[3].eins[0]",
+          "zwei"
+        ],
+        [
+          "json.ops[3].eins[1]",
+          "drei"
+        ],
+        [
+          "json.whee",
+          "lhebs"
+        ]
+      ],
+      "passed": false
+    },
+    {
+      "id": "test/test-cases/regression/issue-1576.json:1",
+      "title": "JSON array should be handled even without a key (2)",
+      "expected_debug_pattern": "three\" \\(Variable: ARGS:json.array_2\\)",
+      "body_sha256": "599973d2c8c20a207c24652a6d2833302b02453acb4437924faccba12a0cb4eb",
+      "arguments": [
+        [
+          "key",
+          "value"
+        ],
+        [
+          "key",
+          "other_value"
+        ],
+        [
+          "json.[0]",
+          "one"
+        ],
+        [
+          "json.[1]",
+          "two"
+        ],
+        [
+          "json.[2]",
+          "three"
+        ]
+      ],
+      "passed": false
+    },
+    {
+      "id": "test/test-cases/regression/issue-1576.json:2",
+      "title": "JSON array should be handled even without a key (3)",
+      "expected_debug_pattern": "treze\" \\(Variable: ARGS:json.ops.seis.doze\\)",
+      "body_sha256": "b0832c5e255d61fd3453ddd6a6fbd627b0ed0f0e9d52489460994d45cf7a381a",
+      "arguments": [
+        [
+          "key",
+          "value"
+        ],
+        [
+          "key",
+          "other_value"
+        ],
+        [
+          "json.foo",
+          "bar"
+        ],
+        [
+          "json.mod",
+          "sec"
+        ],
+        [
+          "json.ops.um",
+          "um e meio"
+        ],
+        [
+          "json.ops.dois",
+          "tres"
+        ],
+        [
+          "json.ops.quatro",
+          "cinco"
+        ],
+        [
+          "json.ops.seis.dez",
+          "onze"
+        ],
+        [
+          "json.ops.seis.doze",
+          "treze"
+        ],
+        [
+          "json.whee",
+          "lhebs"
+        ]
+      ],
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "One selected public regression file, not the complete native suite",
+    "Only expected value/name visibility is checked; no native log, response status or phase-3 assertion",
+    "Body lines joined with LF and inspected in memory; no HTTP framing or active requests",
+    "Same ModSecurity source as the operator suite; not counted as another public source"
+  ]
+}

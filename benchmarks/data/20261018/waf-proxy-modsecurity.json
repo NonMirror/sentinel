@@ -1,0 +1,26 @@
+{
+  "engine": "modsecurity",
+  "front": "http://127.0.0.1:35817",
+  "attack_recall": 0.4175,
+  "false_positive_rate": 0.0667,
+  "attacks": {
+    "n": 400,
+    "blocked": 167,
+    "expect": "block",
+    "p50": 3.75,
+    "p90": 5.2,
+    "p99": 5.83,
+    "mean": 3.8
+  },
+  "benign": {
+    "n": 120,
+    "blocked": 8,
+    "expect": "pass",
+    "p50": 4.11,
+    "p90": 5.09,
+    "p99": 5.43,
+    "mean": 4.08
+  },
+  "seconds": 2.01,
+  "qps": 258.3
+}

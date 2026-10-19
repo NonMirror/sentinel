@@ -1,0 +1,418 @@
+{
+  "scope": "Offline same-corpus PL4 trace comparison; no policy or raw-body removal",
+  "baseline_path": "benchmarks/data/20261018/byte-ranges-round16-after.json",
+  "baseline_sha256": "3686b6e8cde6173822697dba194ac95e8d7bd36f954fea9a44606340b8b1e14b",
+  "source_commit": "84b599623ebea596c72ddda9809298fc601d6f4f",
+  "source_git_blob_ids": {
+    "src/request_body_processor/json.cc": "f56704effaab00ef6648eeabeba1875d7f58a017",
+    "src/request_body_processor/json.h": "961ea94ea8a73ad4037e8949dc99790e91c96346",
+    "test/test-cases/regression/issue-1576.json": "17239727e42fd4cf7839c3ebbeff014ec36dd6ba"
+  },
+  "rows": [
+    {
+      "case": "empty",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "query",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 20)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "ARGS:name"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 20)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": [
+        "tag",
+        "tag",
+        "name",
+        "empty"
+      ]
+    },
+    {
+      "case": "form",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 15)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 15)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": [
+        "name",
+        "note",
+        "tag",
+        "tag"
+      ]
+    },
+    {
+      "case": "json",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921220,
+          "message": "HTTP Parameter Pollution possible via array notation",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 942432,
+          "message": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2)",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 31)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 5)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": [
+        "json.name",
+        "json.tags.array_0",
+        "json.tags.array_1",
+        "json.details.count"
+      ]
+    },
+    {
+      "case": "vendor-json",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 921220,
+          "message": "HTTP Parameter Pollution possible via array notation",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 942432,
+          "message": "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2)",
+          "targets": [
+            "ARGS_NAMES:json.tags[1]"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 31)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 920273,
+          "message": "Invalid character in request (outside of very strict set)",
+          "targets": [
+            "REQUEST_BODY"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 5)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": [
+        "json.name",
+        "json.tags.array_0",
+        "json.tags.array_1",
+        "json.details.count"
+      ]
+    },
+    {
+      "case": "multipart",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 5)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 921180,
+          "message": "HTTP Parameter Pollution (TX:paramcounter_args_names:tag)",
+          "targets": [
+            "TX:paramcounter_args_names:tag"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 5)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": [
+        "tag",
+        "tag"
+      ]
+    },
+    {
+      "case": "unicode-path",
+      "before_blocked": true,
+      "after_blocked": true,
+      "before_hits": [
+        {
+          "rule_id": 920250,
+          "message": "UTF8 Encoding Abuse Attack Attempt",
+          "targets": [
+            "REQUEST_FILENAME"
+          ]
+        },
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "REQUEST_URI_RAW"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 8)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_hits": [
+        {
+          "rule_id": 920250,
+          "message": "UTF8 Encoding Abuse Attack Attempt",
+          "targets": [
+            "REQUEST_FILENAME"
+          ]
+        },
+        {
+          "rule_id": 920272,
+          "message": "Invalid character in request (outside of printable chars below ascii 127)",
+          "targets": [
+            "REQUEST_URI_RAW"
+          ]
+        },
+        {
+          "rule_id": 949110,
+          "message": "Inbound Anomaly Score Exceeded (Total Score: 8)",
+          "targets": [
+            "TX:BLOCKING_INBOUND_ANOMALY_SCORE"
+          ]
+        }
+      ],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-default",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-valid",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-invalid",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-repeated",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "cookies",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-referrer-invalid",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    },
+    {
+      "case": "policy-referrer-unknown",
+      "before_blocked": false,
+      "after_blocked": false,
+      "before_hits": [],
+      "after_hits": [],
+      "after_argument_names": []
+    }
+  ],
+  "engine_errors": 0,
+  "limitations": [
+    "Collection naming only; not native JSON parsing, numeric/boolean formatting, empty-key semantics or all phase visibility",
+    "Same raw JSON surface remains inspected; removing generated-name alerts does not remove independent PL4 blocking rules",
+    "Custom SecRule selectors using generated bracketed indices need migration; literal object keys are unchanged"
+  ]
+}

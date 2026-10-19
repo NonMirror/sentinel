@@ -1,0 +1,979 @@
+{
+  "source": "https://github.com/owasp-modsecurity/ModSecurity",
+  "commit": "84b599623ebea596c72ddda9809298fc601d6f4f",
+  "language_tests_commit": "f73c73027ef49ccf99c7911744929a71d15ff419",
+  "fixture_sha256": "ae14753b83c7201b4d33ca10d20d4b48efda4d2d501fabf926147de8bb00033e",
+  "totals": {
+    "total": 4359,
+    "executed": 4235,
+    "passed": 4231,
+    "skipped": 124
+  },
+  "macro_pass_rate_all_categories": 0.8719633556547619,
+  "by_operation": {
+    "op:beginswith": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "op:contains": {
+      "total": 10,
+      "executed": 10,
+      "passed": 10
+    },
+    "op:containsword": {
+      "total": 15,
+      "executed": 15,
+      "passed": 15
+    },
+    "op:detectsqli": {
+      "total": 5,
+      "executed": 3,
+      "passed": 3,
+      "skipped": 2
+    },
+    "op:detectxss": {
+      "total": 5,
+      "executed": 3,
+      "passed": 3,
+      "skipped": 2
+    },
+    "op:endswith": {
+      "total": 7,
+      "executed": 7,
+      "passed": 7
+    },
+    "op:eq": {
+      "total": 13,
+      "executed": 13,
+      "passed": 13
+    },
+    "op:ge": {
+      "total": 12,
+      "executed": 12,
+      "passed": 12
+    },
+    "op:geolookup": {
+      "total": 5,
+      "skipped": 5
+    },
+    "op:gt": {
+      "total": 12,
+      "executed": 12,
+      "passed": 12
+    },
+    "op:ipmatch": {
+      "total": 3623,
+      "executed": 3623,
+      "passed": 3623
+    },
+    "op:le": {
+      "total": 12,
+      "executed": 12,
+      "passed": 12
+    },
+    "op:lt": {
+      "total": 12,
+      "executed": 12,
+      "passed": 12
+    },
+    "op:nomatch": {
+      "total": 3,
+      "executed": 3,
+      "passed": 3
+    },
+    "op:pm": {
+      "total": 15,
+      "executed": 15,
+      "passed": 15
+    },
+    "op:pmfromfile": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "op:rx": {
+      "total": 20,
+      "executed": 20,
+      "passed": 20
+    },
+    "op:rxglobal": {
+      "total": 21,
+      "skipped": 21
+    },
+    "op:streq": {
+      "total": 7,
+      "executed": 7,
+      "passed": 7
+    },
+    "op:strmatch": {
+      "total": 5,
+      "executed": 5,
+      "passed": 5
+    },
+    "op:unconditionalmatch": {
+      "total": 3,
+      "executed": 3,
+      "passed": 3
+    },
+    "op:validatebyterange": {
+      "total": 8,
+      "executed": 8,
+      "passed": 7
+    },
+    "op:validateurlencoding": {
+      "total": 14,
+      "executed": 14,
+      "passed": 14
+    },
+    "op:validateutf8encoding": {
+      "total": 32,
+      "executed": 32,
+      "passed": 32
+    },
+    "op:verifycc": {
+      "total": 69,
+      "skipped": 69
+    },
+    "op:verifycpf": {
+      "total": 3,
+      "skipped": 3
+    },
+    "op:verifyssn": {
+      "total": 5,
+      "skipped": 5
+    },
+    "op:verifysvnr": {
+      "total": 4,
+      "skipped": 4
+    },
+    "op:within": {
+      "total": 7,
+      "executed": 7,
+      "passed": 7
+    },
+    "tfn:base64decode": {
+      "total": 8,
+      "executed": 8,
+      "passed": 8
+    },
+    "tfn:base64decodeext": {
+      "total": 8,
+      "executed": 8,
+      "passed": 8
+    },
+    "tfn:base64encode": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "tfn:cmdline": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "tfn:compresswhitespace": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "tfn:cssdecode": {
+      "total": 6,
+      "executed": 6,
+      "passed": 5
+    },
+    "tfn:escapeseqdecode": {
+      "total": 14,
+      "executed": 14,
+      "passed": 13
+    },
+    "tfn:hexdecode": {
+      "total": 7,
+      "executed": 7,
+      "passed": 7
+    },
+    "tfn:hexencode": {
+      "total": 3,
+      "executed": 3,
+      "passed": 3
+    },
+    "tfn:htmlentitydecode": {
+      "total": 22,
+      "executed": 22,
+      "passed": 22
+    },
+    "tfn:jsdecode": {
+      "total": 15,
+      "executed": 15,
+      "passed": 15
+    },
+    "tfn:length": {
+      "total": 4,
+      "executed": 4,
+      "passed": 4
+    },
+    "tfn:lowercase": {
+      "total": 5,
+      "executed": 5,
+      "passed": 5
+    },
+    "tfn:md5": {
+      "total": 6,
+      "executed": 6,
+      "passed": 6
+    },
+    "tfn:normalizepath": {
+      "total": 31,
+      "executed": 31,
+      "passed": 31
+    },
+    "tfn:normalizepathwin": {
+      "total": 31,
+      "executed": 31,
+      "passed": 31
+    },
+    "tfn:parityeven7bit": {
+      "total": 4,
+      "executed": 4,
+      "passed": 4
+    },
+    "tfn:parityodd7bit": {
+      "total": 4,
+      "executed": 4,
+      "passed": 4
+    },
+    "tfn:parityzero7bit": {
+      "total": 4,
+      "executed": 4,
+      "passed": 4
+    },
+    "tfn:phpargsnames": {
+      "total": 13,
+      "skipped": 13
+    },
+    "tfn:removecomments": {
+      "total": 23,
+      "executed": 23,
+      "passed": 23
+    },
+    "tfn:removecommentschar": {
+      "total": 21,
+      "executed": 21,
+      "passed": 21
+    },
+    "tfn:removenulls": {
+      "total": 8,
+      "executed": 8,
+      "passed": 8
+    },
+    "tfn:removewhitespace": {
+      "total": 5,
+      "executed": 5,
+      "passed": 5
+    },
+    "tfn:replacecomments": {
+      "total": 21,
+      "executed": 21,
+      "passed": 21
+    },
+    "tfn:replacenulls": {
+      "total": 7,
+      "executed": 7,
+      "passed": 7
+    },
+    "tfn:sha1": {
+      "total": 4,
+      "executed": 4,
+      "passed": 4
+    },
+    "tfn:sqlhexdecode": {
+      "total": 1,
+      "executed": 1,
+      "passed": 1
+    },
+    "tfn:trim": {
+      "total": 9,
+      "executed": 9,
+      "passed": 9
+    },
+    "tfn:trimleft": {
+      "total": 9,
+      "executed": 9,
+      "passed": 9
+    },
+    "tfn:trimright": {
+      "total": 9,
+      "executed": 9,
+      "passed": 9
+    },
+    "tfn:urldecode": {
+      "total": 19,
+      "executed": 19,
+      "passed": 19
+    },
+    "tfn:urldecodeuni": {
+      "total": 32,
+      "executed": 32,
+      "passed": 31
+    },
+    "tfn:urlencode": {
+      "total": 21,
+      "executed": 21,
+      "passed": 21
+    },
+    "tfn:utf8tounicode": {
+      "total": 8,
+      "executed": 8,
+      "passed": 8
+    }
+  },
+  "failures": [
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/validateByteRange.json:3",
+      "category": "op:validatebyterange",
+      "error": ""
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/cssDecode.json:3",
+      "category": "tfn:cssdecode",
+      "error": ""
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/escapeSeqDecode.json:5",
+      "category": "tfn:escapeseqdecode",
+      "error": ""
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/urlDecodeUni.json:5",
+      "category": "tfn:urldecodeuni",
+      "error": ""
+    }
+  ],
+  "skipped": [
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/geoLookup.json:0",
+      "category": "op:geolookup",
+      "reason": "external-resource"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/geoLookup.json:1",
+      "category": "op:geolookup",
+      "reason": "external-resource"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/geoLookup.json:2",
+      "category": "op:geolookup",
+      "reason": "external-resource"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/geoLookup.json:3",
+      "category": "op:geolookup",
+      "reason": "external-resource"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/geoLookup.json:4",
+      "category": "op:geolookup",
+      "reason": "external-resource"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:0",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:1",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:2",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:3",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:4",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:5",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:6",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:7",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:8",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:9",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:10",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:11",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:12",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:13",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:14",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:15",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:16",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:17",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:18",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:19",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/rxGlobal.json:20",
+      "category": "op:rxglobal",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:0",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:1",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:2",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:3",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:4",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:5",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:6",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:7",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:8",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:9",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:10",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:11",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:12",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:13",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:14",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:15",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:16",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:17",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:18",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:19",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:20",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:21",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:22",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:23",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:24",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:25",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:26",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:27",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:28",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:29",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:30",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:31",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:32",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:33",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:34",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:35",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:36",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:37",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:38",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:39",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:40",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:41",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:42",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:43",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:44",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:45",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:46",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:47",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:48",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:49",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:50",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:51",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:52",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:53",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:54",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:55",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:56",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:57",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:58",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:59",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:60",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:61",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:62",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:63",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:64",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:65",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:66",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:67",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyCC.json:68",
+      "category": "op:verifycc",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifycpf.json:0",
+      "category": "op:verifycpf",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifycpf.json:1",
+      "category": "op:verifycpf",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifycpf.json:2",
+      "category": "op:verifycpf",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyssn.json:0",
+      "category": "op:verifyssn",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyssn.json:1",
+      "category": "op:verifyssn",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyssn.json:2",
+      "category": "op:verifyssn",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyssn.json:3",
+      "category": "op:verifyssn",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifyssn.json:4",
+      "category": "op:verifyssn",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifysvnr.json:0",
+      "category": "op:verifysvnr",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifysvnr.json:1",
+      "category": "op:verifysvnr",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifysvnr.json:2",
+      "category": "op:verifysvnr",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/operators/verifysvnr.json:3",
+      "category": "op:verifysvnr",
+      "reason": "unsupported-operator"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:0",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:1",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:2",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:3",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:4",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:5",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:6",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:7",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:8",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:9",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:10",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:11",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/secrules-language-tests/transformations/phpArgsNames.json:12",
+      "category": "tfn:phpargsnames",
+      "reason": "unsupported-transformation"
+    },
+    {
+      "id": "test/test-cases/unit/operator-libinjection-error.json:0",
+      "category": "op:detectxss",
+      "reason": "capture-or-native-error-hook"
+    },
+    {
+      "id": "test/test-cases/unit/operator-libinjection-error.json:1",
+      "category": "op:detectsqli",
+      "reason": "capture-or-native-error-hook"
+    },
+    {
+      "id": "test/test-cases/unit/operator-libinjection-error.json:2",
+      "category": "op:detectxss",
+      "reason": "capture-or-native-error-hook"
+    },
+    {
+      "id": "test/test-cases/unit/operator-libinjection-error.json:3",
+      "category": "op:detectsqli",
+      "reason": "capture-or-native-error-hook"
+    }
+  ],
+  "limitations": [
+    "In-process operator/transformation adapter, not the native ModSecurity runner",
+    "No HTTP, rule configuration, native error hooks, capture or external database checks",
+    "Unsupported tests stay in total and macro-rate denominators; IP tests dominate raw totals"
+  ]
+}

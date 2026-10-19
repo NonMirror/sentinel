@@ -1,0 +1,93 @@
+{
+  "scope": "Diagnostic only: monkeypatched URL-encoded collection parsing for 22 previously failing offline fixtures; not a full quality run",
+  "cases": [
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920360.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920370.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920380.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920390.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920400.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-920-PROTOCOL-ENFORCEMENT/920410.yaml:1",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:23",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:24",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:25",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:26",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml:39",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941110.yaml:7",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941110.yaml:8",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:3",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml:4",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942421.yaml:2",
+      "passed_with_byte_preserving_form_decode": false
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942430.yaml:3",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942430.yaml:4",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942430.yaml:5",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942431.yaml:4",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942432.yaml:2",
+      "passed_with_byte_preserving_form_decode": true
+    },
+    {
+      "id": "tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942432.yaml:3",
+      "passed_with_byte_preserving_form_decode": true
+    }
+  ]
+}
