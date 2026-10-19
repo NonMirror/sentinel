@@ -369,12 +369,12 @@ class TestBodyParsing:
 
     def test_json_body_is_not_parsed_as_form(self):
         engine = build_engine(
-            'SecRule ARGS "@rx ." "id:1,phase:2,deny,status:403"\n')
+            'SecRule ARGS:json.user "@streq evil" "id:1,phase:2,deny,status:403"\n')
         request = HttpRequest(method="POST", target="/api", path="/api",
                               headers={"Host": "lab.local",
                                        "Content-Type": "application/json"},
                               body=b'{"user":"evil"}', remote_addr="127.0.0.1")
-        assert engine.inspect(request).matched_rules == []
+        assert engine.inspect(request).matched_rules == [1]
 
     def test_urlencoded_body_is_parsed(self):
         engine = build_engine(

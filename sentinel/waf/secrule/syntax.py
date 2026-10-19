@@ -365,7 +365,7 @@ def parse_variables(text: str) -> tuple[Variable, ...]:
         count = chunk.startswith("&")
         if count:
             chunk = chunk[1:].strip()
-        parts = chunk.split(":")
+        parts = chunk.split(":", 1)
         name = parts[0].strip().upper()
         selectors = tuple(p.strip() for p in parts[1:] if p.strip())
         out.append(Variable(name=name, selectors=selectors, negated=negated,

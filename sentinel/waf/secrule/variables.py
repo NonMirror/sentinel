@@ -15,9 +15,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from urllib.parse import parse_qsl, unquote_plus, urlsplit
+from urllib.parse import parse_qsl, unquote, urlsplit
 
 from ...core.models import HttpRequest
+from ..parser import parse_json_arguments, parse_multipart, parse_xml_values
 from .syntax import Variable
 
 _MACRO_RE = re.compile(r"%\{([^}]*)\}")
@@ -49,31 +50,78 @@ class Transaction:
     #: 运行时被 ctl 关闭 / 移除的规则
     disabled_rules: set[int] = field(default_factory=set)
     removed_targets: list[tuple[int, str]] = field(default_factory=list)
+    removed_tag_targets: list[tuple[str, str]] = field(default_factory=list)
 
     # ------------------------------------------------------------------
     # 构造
     # ------------------------------------------------------------------
     def __post_init__(self) -> None:
         self._cache: dict[str, list[Match]] = {}
+        self._get_args = [Match(name="ARGS", key=k, value=v)
+                          for k, v in query_pairs(self.request.query)]
+        self._forced_body_processor: str | None = None
+        self._parse_body()
+
+    def _parse_body(self, processor: str | None = None) -> None:
+        form = (self.request.body.decode("latin-1") if processor == "URLENCODED"
+                else self._body_form() if processor is None else "")
+        self._post_args = [Match(name="ARGS", key=k, value=v)
+                           for k, v in query_pairs(form)]
+        self._body_error = False
+        self._parsed_body_hides_raw = False
+        self._body_processor = "URLENCODED"
+        self._multipart = None
+        media_type = self.request.content_type.lower().partition(";")[0].strip()
+        if processor == "JSON" or (processor is None and (media_type == "application/json" or media_type.endswith("+json"))):
+            self._body_processor = "JSON"
+            fields = parse_json_arguments(self.request.body, array_prefix="array_")
+            self._body_error = fields is None
+            if fields is None:
+                fields = [("BODY", self.request.body.decode("utf-8", "replace"))]
+            self._post_args = [Match(name="ARGS", key=f"json.{k}" if k else "json", value=v)
+                               for k, v in fields]
+        self._xml_text: list[Match] = []
+        self._xml_attributes: list[Match] = []
+        if processor == "XML" or (processor is None and (media_type in ("application/xml", "text/xml") or media_type.endswith("+xml"))):
+            self._parsed_body_hides_raw = True
+            self._body_processor = "XML"
+            xml = parse_xml_values(self.request.body)
+            self._body_error = xml is None
+            if xml is None:
+                self._xml_text = [Match(name="XML", value=self.request.body.decode("utf-8", "replace"))]
+            else:
+                text, attributes = xml
+                self._xml_text = [Match(name="XML", value=text)]
+                self._xml_attributes = [Match(name="XML", key=k, value=v) for k, v in attributes]
+        if processor == "MULTIPART" or (processor is None and media_type == "multipart/form-data"):
+            self._parsed_body_hides_raw = True
+            self._body_processor = "MULTIPART"
+            self._multipart = parse_multipart(self.request.body, self.request.content_type)
+            self._body_error = bool(self._multipart.errors)
+            self._post_args = [Match(name="ARGS", key=p.name, value=p.value.decode("latin-1"))
+                               for p in self._multipart.parts if p.filename is None]
+            if self._body_error:
+                self._post_args.append(Match(name="ARGS", key="BODY", value=self.request.body.decode("latin-1")))
         self._args = self._parse_args()
+
+    def set_body_processor(self, processor: str) -> bool:
+        """Apply a ctl override to body fields, error flags and cached variables."""
+        processor = processor.upper()
+        if processor not in {"JSON", "XML", "URLENCODED", "MULTIPART"}:
+            return False
+        if processor != self._forced_body_processor:
+            self._parse_body(processor)
+            self._forced_body_processor = processor
+            self.invalidate()
+        self.set_tx("reqbody_processor_override", processor)
+        return True
 
     # ------------------------------------------------------------------
     # 静态变量
     # ------------------------------------------------------------------
     def _parse_args(self) -> list[Match]:
-        """ARGS = QUERY_STRING 参数 + urlencoded 请求体参数 (ModSecurity 语义)."""
-        out: list[Match] = []
-        seen: set[tuple[str, int]] = set()
-        for position, source in enumerate((self.request.query, self._body_form())):
-            if not source:
-                continue
-            for key, value in parse_qsl(source, keep_blank_values=True):
-                marker = (key, 0 if position == 0 else 1)
-                if marker in seen:
-                    continue
-                seen.add(marker)
-                out.append(Match(name="ARGS", value=value, key=key))
-        return out
+        """Combine query fields with decoded form or JSON body fields."""
+        return self._get_args + self._post_args
 
     def _body_form(self) -> str:
         content_type = self.request.content_type.lower()
@@ -93,11 +141,13 @@ class Transaction:
         if not raw:
             return []
         out: list[Match] = []
-        for chunk in raw.split(";"):
-            key, sep, value = chunk.partition("=")
-            if sep:
-                out.append(Match(name="REQUEST_COOKIES", value=value.strip(),
-                                 key=key.strip()))
+        # Match ModSecurity's cookie collection, including name-only entries.
+        # Only the final pair loses trailing whitespace; other value spaces are data.
+        for chunk in raw.rstrip(" \t\r\n\v\f").split(";"):
+            key, _, value = chunk.partition("=")
+            key = key.lstrip(" \t\r\n\v\f")
+            if key:
+                out.append(Match(name="REQUEST_COOKIES", value=value, key=key))
         return out
 
     # ------------------------------------------------------------------
@@ -130,42 +180,49 @@ class Transaction:
 
         if name == "ARGS":
             matches = list(self._args)
+        elif name == "ARGS_COMBINED_SIZE":
+            size = sum(len(m.key) + len(m.value) for m in self._get_args)
+            text_values = self._body_processor == "JSON"
+            text_names = text_values or self._body_processor == "MULTIPART"
+            for argument in self._post_args:
+                # Structured parsers return text names/JSON values; forms and
+                # multipart values already use byte-preserving Latin-1 strings.
+                size += len(argument.key.encode("utf-8", "surrogatepass")) if text_names else len(argument.key)
+                size += len(argument.value.encode("utf-8", "surrogatepass")) if text_values else len(argument.value)
+            matches = [Match(name=name, value=str(size))]
         elif name == "ARGS_GET":
-            matches = [m for m in self._args
-                       if any(k == m.key for k, _ in
-                              parse_qsl(request.query, keep_blank_values=True))]
+            matches = list(self._get_args)
         elif name == "ARGS_POST":
-            form = set(parse_qsl(self._body_form(), keep_blank_values=True))
-            matches = [m for m in self._args if any(k == m.key for k, _ in form)]
+            matches = list(self._post_args)
         elif name == "ARGS_NAMES":
             matches = [Match(name="ARGS_NAMES", value=m.key, key=m.key)
                        for m in self._args]
         elif name == "ARGS_GET_NAMES":
-            matches = [m for m in self._args if self._is_get_arg(m.key)]
+            matches = self._get_args
             matches = [Match(name="ARGS_GET_NAMES", value=m.key, key=m.key)
                        for m in matches]
         elif name == "ARGS_POST_NAMES":
-            matches = [m for m in self._args if not self._is_get_arg(m.key)]
+            matches = self._post_args
             matches = [Match(name="ARGS_POST_NAMES", value=m.key, key=m.key)
                        for m in matches]
 
         elif name == "REQUEST_HEADERS":
             matches = self.headers
-            if selector:
-                matches = [m for m in matches if _ci_equal(m.key, selector)]
         elif name == "REQUEST_HEADERS_NAMES":
             matches = [Match(name="REQUEST_HEADERS_NAMES", value=k, key=k)
                        for k in request.headers]
         elif name == "REQUEST_COOKIES":
             matches = self._cookies()
-            if selector:
-                matches = [m for m in matches if _ci_equal(m.key, selector)]
         elif name == "REQUEST_COOKIES_NAMES":
             matches = [Match(name="REQUEST_COOKIES_NAMES", value=m.key, key=m.key)
                        for m in self._cookies()]
+        elif name == "XML":
+            # shortcut: CRS's two XPath selectors only; extend for custom XPath rules.
+            matches = (self._xml_text if selector == "/*" else
+                       self._xml_attributes if selector == "//@*" else [])
 
         elif name == "TX":
-            if selector:
+            if selector and not (selector.startswith("/") and selector.endswith("/")):
                 value = self.tx.get(selector.lower())
                 matches = [] if value is None else [
                     Match(name="TX", value=str(value), key=selector)]
@@ -195,24 +252,44 @@ class Transaction:
                 if request.query else []
         elif name == "REQUEST_FILENAME":
             matches = [Match(name="REQUEST_FILENAME",
-                             value=unquote_plus(request.path or "/"))]
+                             value=unquote(urlsplit(request.target).path or "/", encoding="latin-1"))]
         elif name == "REQUEST_BASENAME":
-            base = (request.path or "/").rsplit("/", 1)[-1]
-            matches = [Match(name="REQUEST_BASENAME", value=unquote_plus(base))] \
-                if base else []
-        elif name in ("REQUEST_BODY", "REQUEST_BODY_LENGTH"):
+            base = re.split(r"[/\\]", unquote(urlsplit(request.target).path or "/", encoding="latin-1"))[-1]
+            matches = [Match(name="REQUEST_BASENAME", value=base)]
+        elif name == "REQUEST_BODY_LENGTH":
+            matches = [Match(name=name, value=str(len(request.body)))]
+        elif name == "REQUEST_BODY":
             text = request.body.decode("latin-1", "replace")
-            matches = [Match(name=name, value=text)] if text else []
+            # XML/MIME syntax is not a field value. JSON retains its raw surface
+            # too, including keys whose values are arrays or empty containers.
+            # Parsing errors retain raw inspection to avoid a blind spot.
+            available = not self._parsed_body_hides_raw or self._body_error
+            matches = [Match(name=name, value=text)] if text and available else []
         elif name == "REQBODY_PROCESSOR":
             matches = [Match(name="REQBODY_PROCESSOR",
                              value=self.body_processor())]
+        elif name in ("REQBODY_ERROR", "REQBODY_PROCESSOR_ERROR"):
+            matches = [Match(name=name, value=str(int(self._body_error)))]
         elif name == "UNIQUE_ID":
             matches = []
 
-        elif name == "FILES":
-            matches = []
-        elif name in ("FILES_NAMES", "FILES_SIZES", "FILES_TMPNAMES"):
-            matches = []
+        elif name in ("FILES", "FILES_NAMES", "FILES_SIZES", "FILES_COMBINED_SIZE",
+                      "MULTIPART_PART_HEADERS", "MULTIPART_NAME", "MULTIPART_FILENAME"):
+            parts = self._multipart.parts if self._multipart else []
+            files = [p for p in parts if p.filename is not None]
+            if name == "FILES_COMBINED_SIZE":
+                matches = [Match(name=name, value=str(sum(len(p.value) for p in files)))]
+            elif name == "MULTIPART_PART_HEADERS":
+                matches = [Match(name=name, key=p.name, value=line) for p in parts for line in p.headers]
+            elif name == "MULTIPART_NAME":
+                matches = [Match(name=name, key=p.name, value=p.name) for p in parts]
+            else:
+                matches = [Match(name=name, key=p.name,
+                                 value=p.name if name == "FILES_NAMES" else
+                                 str(len(p.value)) if name == "FILES_SIZES" else p.filename)
+                           for p in files]
+        elif name == "FILES_TMPNAMES":
+            matches = []  # Inspection never writes uploaded content to disk.
 
         elif name == "MATCHED_VAR":
             matches = [Match(name="MATCHED_VAR", value=self.matched_var)] \
@@ -220,29 +297,31 @@ class Transaction:
         elif name == "MATCHED_VAR_NAME":
             matches = [Match(name="MATCHED_VAR_NAME", value=self.matched_var_name)] \
                 if self.matched_var_name else []
+        elif name in ("MATCHED_VARS", "MATCHED_VARS_NAMES"):
+            matches = [Match(name=name, key=key, value=value if name == "MATCHED_VARS" else key)
+                       for _, key, value in self.matched]
         else:
             matches = []
 
+        if selector and (name.startswith("ARGS") or name == "TX" or name.startswith("FILES")
+                         or name.startswith("REQUEST_HEADERS") or name.startswith("REQUEST_COOKIES")
+                         or name.startswith("MULTIPART") or name.startswith("MATCHED_VARS")):
+            insensitive = name == "TX" or name.startswith(("REQUEST_HEADERS", "REQUEST_COOKIES"))
+            if len(selector) > 2 and selector.startswith("/") and selector.endswith("/"):
+                try:
+                    pattern = re.compile(selector[1:-1], re.I)
+                except re.error:
+                    return []
+                matches = [m for m in matches if pattern.search(m.key)]
+            else:
+                matches = [m for m in matches if (_ci_equal(m.key, selector) if insensitive else m.key == selector)]
         if variable.negated:
             # 取反目标在当前实现中用于「排除」语义; 由引擎在算子层处理
             return matches
         return matches
 
-    def _is_get_arg(self, key: str) -> bool:
-        return any(k == key for k, _ in parse_qsl(self.request.query,
-                                                  keep_blank_values=True))
-
     def body_processor(self) -> str:
-        ctype = self.request.content_type.lower()
-        if not self.request.body:
-            return "URLENCODED"
-        if "multipart/form-data" in ctype:
-            return "MULTIPART"
-        if "xml" in ctype:
-            return "XML"
-        if "json" in ctype:
-            return "JSON"
-        return "URLENCODED"
+        return self._body_processor
 
     # ------------------------------------------------------------------
     # TX
@@ -252,11 +331,12 @@ class Transaction:
 
     def set_tx(self, key: str, value: str) -> None:
         self.tx[key.lower()] = value
+        self.invalidate()
 
     def get_tx_int(self, key: str, default: int = 0) -> int:
         try:
             return int(float(self.tx.get(key.lower(), default)))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             return default
 
     def capture(self, groups: list[str]) -> None:
@@ -265,6 +345,7 @@ class Transaction:
             self.tx[str(index)] = value
         for index in range(len(groups), 10):
             self.tx.pop(str(index), None)
+        self.invalidate()
 
     # ------------------------------------------------------------------
     # 宏展开 %{...}
@@ -303,7 +384,12 @@ def _ci_equal(left: str, right: str) -> bool:
 
 
 def query_pairs(query: str) -> list[tuple[str, str]]:
-    return parse_qsl(query, keep_blank_values=True)
+    """Keep decoded argument bytes in Latin-1 strings for SecRule transforms.
+
+    UTF-8 text decoding here would replace invalid bytes and change byte lengths
+    before rules can apply their explicit decoding/validation transformations.
+    """
+    return parse_qsl(query, keep_blank_values=True, encoding="latin-1", errors="strict")
 
 
 def split_target(target: str) -> tuple[str, str]:

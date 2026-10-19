@@ -242,7 +242,7 @@ class SecRuleEngine:
             if value:
                 try:
                     return int(float(value))
-                except ValueError:
+                except (ValueError, OverflowError):
                     continue
         return 0
 
@@ -282,42 +282,48 @@ class SecRuleEngine:
     # ------------------------------------------------------------------
     def _match(self, rule: Rule, tx: Transaction, verdict: EngineVerdict) -> bool:
         """规则 (含链) 是否命中; 命中则立即执行动作."""
-        hit = self._match_one(rule, tx)
-        if hit is None:
-            return False
-        if rule.chain:
-            matched_links = [hit]
-            for link in rule.chain:
-                link_hit = self._match_one(link, tx)
-                if link_hit is None:
-                    return False
-                matched_links.append(link_hit)
-        self._apply_actions(rule, tx, verdict, hit)
+        for link in (rule, *rule.chain):
+            last_hit = None
+            for hit in self._match_values(link, tx):
+                # Non-disruptive actions run per match, before the next chain link.
+                if link.setvars or link.ctl:
+                    self._execute_side_effects(link, tx)
+                last_hit = hit
+            if last_hit is None:
+                return False
+        self._apply_actions(rule, tx, verdict, last_hit)
         return True
 
-    def _match_one(self, rule: Rule, tx: Transaction) -> Match | None:
-        """求值单个规则 (不含链) 的变量 x 算子, 返回首个命中."""
+    def _match_values(self, rule: Rule, tx: Transaction):
+        """Yield matching values; multiMatch also checks changed intermediate transforms."""
         if not rule.variables:
             # SecAction: 无条件执行
             tx.matched_var = ""
             tx.matched_var_name = ""
-            return Match(name="", value="", key="")
-        multi = rule.multi_match
-        found: Match | None = None
+            yield Match(name="", value="", key="")
+            return
         pairs = self._collect(rule, tx)
+        matched = []
         for variable, match in pairs:
             if self._excluded(rule, variable, match, tx):
                 continue
-            value = self._transform(rule.transforms, match.value)
-            if self._operate(rule.operator, value, tx):
-                tx.matched_var = value
-                tx.matched_var_name = self._matched_name(variable, match)
-                if rule.capture:
-                    self._capture(rule, value, tx)
-                if not multi:
-                    return match
-                found = found or match
-        return found
+            values = [self._transform(rule.transforms, match.value)]
+            if rule.multi_match:
+                values = [match.value]
+                for transform in rule.transforms:
+                    transformed = self._transform((transform,), values[-1])
+                    if transformed != values[-1]:
+                        values.append(transformed)
+            for value in values:
+                if self._operate(rule.operator, value, tx):
+                    tx.matched_var = value
+                    tx.matched_var_name = self._matched_name(variable, match)
+                    matched.append((rule.id, tx.matched_var_name, value))
+                    tx.matched = matched
+                    tx.invalidate()
+                    if rule.capture:
+                        self._capture(rule, value, tx)
+                    yield match
 
     def _collect(self, rule: Rule, tx: Transaction) -> list[tuple[Variable, Match]]:
         """按声明顺序收集目标命中, 处理 ``A|!A:x`` 的「并集减去排除项」语义.
@@ -339,6 +345,8 @@ class SecRuleEngine:
 
     @staticmethod
     def _matched_name(variable: Variable, match: Match) -> str:
+        if variable.name in ("MATCHED_VARS", "MATCHED_VARS_NAMES"):
+            return match.key
         if match.key:
             return f"{variable.name}:{match.key}"
         return variable.name
@@ -357,6 +365,11 @@ class SecRuleEngine:
                 if rule_id not in (0, rule.id):
                     continue
                 if pattern == name or name.startswith(f"{pattern}:"):
+                    return True
+        if tx.removed_tag_targets:
+            name = self._matched_name(variable, match)
+            for tag, pattern in tx.removed_tag_targets:
+                if tag in rule.tags and (pattern == name or name.startswith(f"{pattern}:")):
                     return True
         return False
 
@@ -387,9 +400,10 @@ class SecRuleEngine:
         return clone
 
     def _capture(self, rule: Rule, value: str, tx: Transaction) -> None:
-        pattern = rule.operator.compiled
-        if pattern is None or rule.operator.dynamic:
-            pattern = operators.compile_pattern(rule.operator.argument)
+        operator = self._expand_operator(rule.operator, tx) if rule.operator.dynamic else rule.operator
+        pattern = operator.compiled
+        if pattern is None:
+            pattern = operators.compile_pattern(operator.argument)
         if pattern is None:
             return
         match = pattern.search(value)
@@ -416,8 +430,6 @@ class SecRuleEngine:
     # ------------------------------------------------------------------
     def _apply_actions(self, rule: Rule, tx: Transaction, verdict: EngineVerdict,
                        match: Match) -> None:
-        if rule.setvars or rule.ctl:
-            self._execute_side_effects(rule, tx)
         disruptive = self._effective_disruptive(rule, tx)
         # nolog 规则是 CRS 的内部记账 (初始化 / 评分聚合 / PL 跳转守卫),
         # 把它们的命中算进告警会让入侵检测面板被 100+ 条噪声淹没。
@@ -484,7 +496,7 @@ class SecRuleEngine:
         name, sep, raw = body.partition("=")
         if not sep:
             return
-        key = name.strip()
+        key = tx.expand(name.strip())
         if key.lower().startswith("tx."):
             key = key[3:]
         else:
@@ -507,7 +519,7 @@ class SecRuleEngine:
     def _to_int(text: str) -> int:
         try:
             return int(float(text))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             return 0
 
     def _ctl(self, tx: Transaction, expression: str) -> None:
@@ -529,7 +541,11 @@ class SecRuleEngine:
             if rule_id.strip().isdigit() and target:
                 tx.removed_targets.append((int(rule_id), target))
         elif name == "requestbodyprocessor":
-            tx.set_tx("reqbody_processor_override", argument.upper())
+            tx.set_body_processor(argument)
+        elif name == "ruleremovetargetbytag":
+            tag, _, target = argument.partition(";")
+            if tag and target.strip():
+                tx.removed_tag_targets.append((tag, target.strip()))
 
 
 _SELECTOR_RE_CACHE: dict[str, object] = {}
@@ -552,7 +568,7 @@ def _selector_hits(exclusion: Variable, key: str) -> bool:
         if len(selector) > 2 and selector.startswith("/") and selector.endswith("/"):
             compiled = _SELECTOR_RE_CACHE.get(selector)
             if compiled is None:
-                compiled = operators.compile_pattern(selector[1:-1])
+                compiled = operators.compile_pattern("(?i)" + selector[1:-1])
                 _SELECTOR_RE_CACHE[selector] = compiled
             if compiled is not None and compiled.search(key):
                 return True
