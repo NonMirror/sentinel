@@ -1,0 +1,56 @@
+- Nikto v2.6.1
+---------------------------------------------------------------------------
++ Target IP:          127.0.0.1
++ Target Hostname:    127.0.0.1
++ Target Port:        8081
++ Platform:           Linux/Unix
++ Start Time:         2026-10-19 10:18:02 (GMT0)
+---------------------------------------------------------------------------
++ Server: Apache/2.4.25 (Debian)
++ No CGI Directories found (use '-C all' to force check all possible dirs). CGI tests skipped.
++ [013587] login.php: Suggested security header missing: x-content-type-options. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
++ [013587] login.php: Suggested security header missing: strict-transport-security. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
++ [013587] login.php: Suggested security header missing: permissions-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
++ [013587] login.php: Suggested security header missing: referrer-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
++ [013587] login.php: Suggested security header missing: content-security-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
++ [600050] Apache/2.4.25 appears to be outdated (current is at least 2.4.68).
+- STATUS: Completed 1000 requests (~14% complete, ~6 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [750500] /config/: Directory indexing found. See: CWE-548
++ [000998] /config/: Configuration information may be available remotely.
+- STATUS: Completed 1500 requests (~21% complete, ~4 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 2000 requests (~28% complete, ~3 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 2500 requests (~35% complete, ~2 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [750500] /docs/: Directory indexing found. See: CWE-548
+- STATUS: Completed 3000 requests (~41% complete, ~1 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [003584] /icons/README: Apache default file found. See: https://www.vntweb.co.uk/apache-restricting-access-to-iconsreadme/
+- STATUS: Completed 3500 requests (~48% complete, ~2 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 4000 requests (~55% complete, ~2 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 4500 requests (~62% complete, ~1 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 5500 requests (~76% complete, ~1 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 6000 requests (~83% complete, ~1 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [006333] /login.php: Admin login page/section found.
+- STATUS: Completed 6500 requests (~90% complete, ~0 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 7000 requests (~97% complete, ~0 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 7500 requests: currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [007224] /.gitignore: .gitignore file found. It is possible to grasp the directory structure.
++ [007342] /: X-Frame-Options header is deprecated and was replaced with the Content-Security-Policy HTTP header with the frame-ancestors directive. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options
++ [007352] /: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/
+- STATUS: Completed 8000 requests: currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ 8240 requests: 0 errors and 14 items reported on the remote host
++ End Time:           2026-10-19 10:18:06 (GMT0) (4 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested

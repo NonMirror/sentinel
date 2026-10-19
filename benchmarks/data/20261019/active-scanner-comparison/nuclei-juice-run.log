@@ -1,0 +1,24 @@
+
+                     __     _
+   ____  __  _______/ /__  (_)
+  / __ \/ / / / ___/ / _ \/ /
+ / / / / /_/ / /__/ /  __/ /
+/_/ /_/\__,_/\___/_/\___/_/   v3.11.1
+
+		projectdiscovery.io
+
+[[34mINF[0m] Current nuclei version: v3.11.1 ([93munknown[0m) - remove '-duc' flag to enable update checks
+[[34mINF[0m] Current nuclei-templates version: v10.4.9 ([93munknown[0m) - remove '-duc' flag to enable update checks
+[[34mINF[0m] New templates added in latest release: 123
+[[34mINF[0m] Templates loaded for current scan: 5299
+[[34mINF[0m] Executing 5299 signed templates from projectdiscovery/nuclei-templates
+[[34mINF[0m] Targets loaded for current scan: 1
+[[34mINF[0m] Templates clustered: 2060 (Reduced 1960 Requests)
+{"duration":"0:00:10","errors":"354","hosts":"1","matched":"1","percent":"25","requests":"2303","rps":"224","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}
+{"duration":"0:00:20","errors":"461","hosts":"1","matched":"1","percent":"55","requests":"5024","rps":"248","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}
+{"duration":"0:00:30","errors":"468","hosts":"1","matched":"10","percent":"78","requests":"7063","rps":"233","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}
+{"duration":"0:00:40","errors":"472","hosts":"1","matched":"14","percent":"99","requests":"9023","rps":"224","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}
+{"duration":"0:00:41","errors":"472","hosts":"1","matched":"14","percent":"100","requests":"9060","rps":"223","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}
+[[34mINF[0m] Scan completed in 40.559687205s. 14 matches found.
+[[34mINF[0m] HTTP connections: 7521 total, 7521 new, 0 reused (0.0%)
+{"duration":"0:00:41","errors":"472","hosts":"1","matched":"14","percent":"100","requests":"9060","rps":"223","startedAt":"2026-10-19T03:16:51.477889352-07:00","templates":"5299","total":"9043"}

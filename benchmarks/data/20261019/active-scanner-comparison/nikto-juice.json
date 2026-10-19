@@ -1,0 +1,208 @@
+[
+   {
+      "end_time" : "2026-10-19 10:19:03 +0000",
+      "host" : "127.0.0.1",
+      "ip" : "127.0.0.1",
+      "port" : 3000,
+      "server_banner" : null,
+      "start_time" : "2026-10-19 10:18:15 +0000",
+      "vulnerabilities" : [
+         {
+            "id" : "000287",
+            "method" : "GET",
+            "msg" : "Retrieved access-control-allow-origin header: \\*.",
+            "references" : "",
+            "url" : "/"
+         },
+         {
+            "id" : "999100",
+            "method" : "GET",
+            "msg" : "Uncommon header(s) 'x-recruiting' found, with contents: /#/jobs.",
+            "references" : "",
+            "url" : "/"
+         },
+         {
+            "id" : "999997",
+            "method" : "GET",
+            "msg" : "/robots.txt: Entry '/ftp/' is returned a non-forbidden or redirect HTTP code (200).",
+            "references" : "https://portswigger.net/kb/issues/00600600_robots-txt-file",
+            "url" : "/ftp/"
+         },
+         {
+            "id" : "999996",
+            "method" : "GET",
+            "msg" : "contains 1 entry which should be manually viewed.",
+            "references" : "https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt",
+            "url" : "/robots.txt"
+         },
+         {
+            "id" : "013587",
+            "method" : "GET",
+            "msg" : "Suggested security header missing: permissions-policy.",
+            "references" : "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy",
+            "url" : "/"
+         },
+         {
+            "id" : "013587",
+            "method" : "GET",
+            "msg" : "Suggested security header missing: referrer-policy.",
+            "references" : "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy",
+            "url" : "/"
+         },
+         {
+            "id" : "013587",
+            "method" : "GET",
+            "msg" : "Suggested security header missing: content-security-policy.",
+            "references" : "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+            "url" : "/"
+         },
+         {
+            "id" : "013587",
+            "method" : "GET",
+            "msg" : "Suggested security header missing: strict-transport-security.",
+            "references" : "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security",
+            "url" : "/"
+         },
+         {
+            "id" : "001535",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/.psql_history"
+         },
+         {
+            "id" : "001675",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/ftp/"
+         },
+         {
+            "id" : "001811",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/public/"
+         },
+         {
+            "id" : "002739",
+            "method" : "GET",
+            "msg" : "Contains authorization information.",
+            "references" : "",
+            "url" : "/.htpasswd"
+         },
+         {
+            "id" : "002743",
+            "method" : "GET",
+            "msg" : "A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.",
+            "references" : "",
+            "url" : "/.bash_history"
+         },
+         {
+            "id" : "002748",
+            "method" : "GET",
+            "msg" : "Database SQL?.",
+            "references" : "",
+            "url" : "/.mysql_history"
+         },
+         {
+            "id" : "002756",
+            "method" : "GET",
+            "msg" : "A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.",
+            "references" : "",
+            "url" : "/.sh_history"
+         },
+         {
+            "id" : "007129",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/.sqlite_history"
+         },
+         {
+            "id" : "007203",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/userdata.json"
+         },
+         {
+            "id" : "007204",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/login.json"
+         },
+         {
+            "id" : "007205",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/master.json"
+         },
+         {
+            "id" : "007206",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/masters.json"
+         },
+         {
+            "id" : "007207",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/connections.json"
+         },
+         {
+            "id" : "007208",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/connection.json"
+         },
+         {
+            "id" : "007210",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/PasswordsData.json"
+         },
+         {
+            "id" : "007211",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/users.json"
+         },
+         {
+            "id" : "007212",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/conndb.json"
+         },
+         {
+            "id" : "007213",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/conn.json"
+         },
+         {
+            "id" : "007215",
+            "method" : "GET",
+            "msg" : "This might be interesting.",
+            "references" : "",
+            "url" : "/accounts.json"
+         },
+         {
+            "id" : "007303",
+            "method" : "GET",
+            "msg" : "JAMon - Java Application Monitor Admin interface identified. Versions 2.7 and earlier contain XSS vulnerabilities.",
+            "references" : "CVE-2013-6235",
+            "url" : "/JAMonAdmin.jsp"
+         }
+      ]
+   }
+]

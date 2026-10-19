@@ -12,7 +12,7 @@
 | `bench_frameworks.py` / `framework_apps.py` | 仅本机回环：Django、Flask、FastAPI 的普通请求解析、代理转发与被动响应头检查；独立临时依赖环境 |
 | `bench_waf_policy.py` | 完全离线：同一 GoTestWAF/良性语料比较 CRS 检测与拦截等级，保留逐条良性命中规则 |
 | `bench_waf.py` | WAF 进程内评测：分类拦截率 / 召回 / 误报 / F1 / 决策延迟。三引擎 × PL 扫描 |
-| `bench_waf_proxy.py` | WAF 端到端代理形态：原始报文经 Sentinel 前端回放，统计 403/200 与端到端延迟 |
+| `bench_waf_proxy.py` | WAF 端到端代理形态：向 Sentinel 或 `--endpoint` 指定的竞品前端回放固定原始报文，统计状态、类别召回、误报与延迟 |
 | `bench_lab.py` | 扫描器：对项目自带靶场做多引擎（nuclei/w13scan/builtin）融合扫描，对齐 11 类漏洞 |
 | `bench_multi.py` | 扫描器：把已知漏洞端点直接喂给三引擎，统计各引擎与融合发现 |
 | `bench_detectors.py` | 扫描器：检测器级（跳过爬虫）——给 (端点, 参数, 位置)，看检测器能否命中 |
@@ -209,6 +209,12 @@ for pl in 1 2 4; do "$PY" $S/bench_waf.py --source GoTestWAF --paranoia $pl --ou
 "$PY" $S/bench_waf.py --paranoia 1 --out $OUT/waf-pl1.json
 # WAF: 端到端代理
 "$PY" $S/bench_waf_proxy.py --engine modsecurity --attacks 400 --benign 120 --out $OUT/waf-proxy.json
+# WAF: 完整固定语料、balanced 配置
+"$PY" $S/bench_waf_proxy.py --engine modsecurity --source GoTestWAF \
+  --profile balanced --paranoia 4 --attacks 434 --benign 169 --out $OUT/waf-balanced-proxy.json
+# WAF: 已在本机启动的竞品反向代理
+"$PY" $S/bench_waf_proxy.py --engine peer-name --endpoint http://127.0.0.1:18080 \
+  --source GoTestWAF --paranoia 1 --attacks 434 --benign 169 --out $OUT/waf-peer.json
 # 扫描器: 自带靶场 / 第三方应用 / 检测器级
 "$PY" $S/bench_lab.py --out $OUT/lab-multi.json
 "$PY" $S/bench_multi.py --targets ../data/20261018/targets-juice.json --out $OUT/juice-multi.json
@@ -649,6 +655,13 @@ balanced的辅助规则由56条变为55条：942440恢复标准评分，其余�
 .venv/bin/python benchmarks/scripts/bench_csic_benign.py \
   --normal-file /tmp/sentinel-csic-normal.txt --sample-size 10000 --offset 6000 \
   --out /tmp/sentinel-waf95-csic-holdout.json
+
+# 将完全相同的留出请求回放到已启动的第三方WAF HTTP数据面；只有403计误报。
+.venv/bin/python benchmarks/scripts/bench_csic_benign.py \
+  --normal-file /tmp/sentinel-csic-normal.txt --sample-size 10000 --offset 6000 \
+  --endpoint http://127.0.0.1:18080 --engine modsecurity-crs-official \
+  --profile standard --paranoia 1 --threshold 5 \
+  --out /tmp/modsecurity-pl1-csic-holdout.json
 
 .venv/bin/python -m pytest tests/test_crs_profiles.py tests/test_balanced_syntax.py -q
 ```

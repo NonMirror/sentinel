@@ -12,6 +12,7 @@ from html.parser import HTMLParser
 from urllib.parse import parse_qs, unquote, urljoin, urlsplit, urlunsplit
 
 from .client import HttpClient
+from .qingscan import detect_qingscan_fingerprints
 
 FORM_PARAM_HINTS = ("q", "id", "name", "file", "url", "next", "callback", "path",
                     "page", "search", "query", "redirect", "return", "to", "target",
@@ -57,6 +58,20 @@ def _crawl_url(base_url: str, candidate: str) -> str | None:
         return urlunsplit((parts.scheme, parts.netloc, parts.path or "/", parts.query, ""))
     except ValueError:
         return None
+
+
+def _follow_same_origin(client: HttpClient, origin_url: str, current_url: str,
+                        result, max_redirects: int = 3):
+    """仅为目录探测跟随站内跳转，保持通用客户端的不跟随语义。"""
+    for _ in range(max_redirects):
+        if result.status < 300 or result.status >= 400 or not result.location:
+            break
+        target = _crawl_url(origin_url, urljoin(current_url, result.location))
+        if target is None:
+            break
+        current_url = target
+        result = client.get(target)
+    return result
 
 
 @dataclass(slots=True)
@@ -129,6 +144,7 @@ class _LinkFormParser(HTMLParser):
         self.links: list[str] = []
         self.forms: list[tuple[str, str, list[str]]] = []
         self.scripts: list[str] = []
+        self.assets: list[str] = []
         self._form: dict | None = None
         self.title = ""
 
@@ -138,6 +154,11 @@ class _LinkFormParser(HTMLParser):
             self.links.append(data["href"])
         elif tag == "script" and data.get("src"):
             self.scripts.append(data["src"])
+            self.assets.append(data["src"])
+        elif tag == "link" and data.get("href"):
+            self.assets.append(data["href"])
+        elif tag in ("img", "source", "video", "audio") and data.get("src"):
+            self.assets.append(data["src"])
         elif tag == "form":
             self._form = {"action": data.get("action", ""),
                           "method": (data.get("method") or "GET").upper(), "fields": []}
@@ -182,6 +203,9 @@ class TargetRecognizer:
         for tech, needles in TECH_SIGNATURES.items():
             if any(n in hay for n in needles):
                 target.technologies.append(tech)
+        for tech in detect_qingscan_fingerprints(seed.headers, seed.text):
+            if tech not in target.technologies:
+                target.technologies.append(tech)
 
         parser = _LinkFormParser()
         try:
@@ -191,7 +215,7 @@ class TargetRecognizer:
         target.title = parser.title
 
         seed_parts = urlsplit(seed_url)
-        seed_params = list(parse_qs(seed_parts.query).keys())
+        seed_params = list(parse_qs(seed_parts.query, keep_blank_values=True).keys())
         target.add(urlunsplit(seed_parts[:3] + ("", "")), params=seed_params,
                    source="seed")
 
@@ -213,11 +237,16 @@ class TargetRecognizer:
 
         queue = deque([(seed_url, 0)])
         queued = {seed_url}
+        include_urls: set[str] = set()
+        include_baseline = _follow_same_origin(
+            self.client, seed_url, seed_url, seed) if self.include_paths else seed
         for path in target.robots + list(self.include_paths):
             absolute = _crawl_url(root + "/", path)
             if absolute is not None and absolute not in queued and len(queued) < self.max_urls:
                 queue.append((absolute, 1))
                 queued.add(absolute)
+                if path in self.include_paths:
+                    include_urls.add(absolute)
 
         visited: set[str] = set()
         while queue and target.url_count < self.max_urls:
@@ -233,6 +262,15 @@ class TargetRecognizer:
                 page = self.client.get(url)
                 if page.status == 0:
                     continue
+                if url in include_urls:
+                    # QingScan DirScan: 过滤错误响应及与首页完全相同的软 404。
+                    page = _follow_same_origin(self.client, seed_url, url, page)
+                    if not 200 <= page.status < 300 or (
+                            include_baseline.body and page.body == include_baseline.body):
+                        continue
+                    target.add(page.url, params=list(parse_qs(
+                        urlsplit(page.url).query, keep_blank_values=True)),
+                               source="qingscan-dict")
                 html_text = page.text
             else:
                 html_text = seed.text
@@ -247,7 +285,8 @@ class TargetRecognizer:
                 absolute = _crawl_url(url, href)
                 if absolute is None:
                     continue
-                params = list(parse_qs(urlsplit(absolute).query).keys())
+                params = list(parse_qs(urlsplit(absolute).query,
+                                       keep_blank_values=True).keys())
                 target.add(absolute, params=params, source="crawl")
                 if params:
                     for param in params:
@@ -262,12 +301,28 @@ class TargetRecognizer:
                 if absolute is not None:
                     target.add(absolute, method=method, form_fields=fields, source="form")
 
+            # ZAP/sqlmap both obtain most SPA attack surface from referenced bundles.
+            # Keep the assets as endpoints (their parent directories may themselves be
+            # exposed), and crawl JavaScript so quoted REST/API routes become injectable.
+            scripts = set(page_parser.scripts)
+            for asset in page_parser.assets:
+                absolute = _crawl_url(url, asset)
+                if absolute is None:
+                    continue
+                target.add(absolute, source="asset")
+                if asset in scripts and absolute not in queued and len(queued) < self.max_urls:
+                    queue.append((absolute, depth + 1))
+                    queued.add(absolute)
+
             for match in JS_ENDPOINT_RE.finditer(html_text):
                 absolute = _crawl_url(url, match.group(2))
                 if absolute is None:
                     continue
-                params = list(parse_qs(urlsplit(absolute).query).keys())
-                if params:
+                parts = urlsplit(absolute)
+                params = list(parse_qs(parts.query, keep_blank_values=True).keys())
+                api_path = parts.path.lower().startswith(
+                    ("/api/", "/rest/", "/graphql", "/v1/", "/v2/", "/v3/"))
+                if params or api_path:
                     target.add(absolute, params=params, source="js")
 
         return target

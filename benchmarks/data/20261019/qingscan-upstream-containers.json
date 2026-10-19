@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-19",
+  "scanner": {
+    "repository": "daxia/QingScan",
+    "commit": "2e4706226f1c68121843f37120f05adee57fe80e",
+    "modules": [
+      "CrawlerScan",
+      "DirScan",
+      "FingerScan",
+      "WafScan",
+      "VulnScan",
+      "SqlInjectScan"
+    ],
+    "directory_candidates": 329,
+    "crawl_max_depth": 2,
+    "crawl_max_urls": 400
+  },
+  "runner": {
+    "runtime": "PHP 7.0.30 from the existing vulnerable/web-dvwa image",
+    "compatibility_rewrites": [
+      "Removed PHP 7.1 nullable type declarations and class constant visibility at load time.",
+      "Converted array destructuring to list() syntax at load time.",
+      "Provided str_starts_with and mb_substr compatibility functions."
+    ],
+    "source_files_modified": false,
+    "reason": "The host has no PHP CLI and pulling a PHP 8 image failed while fetching the Docker Hub authorization token.",
+    "assessment": "The rewrites preserve scan rule and request semantics, but this is not an unmodified production QingScan deployment."
+  },
+  "method": [
+    "Crawl each unauthenticated application root.",
+    "Run the complete upstream directory dictionary, technology fingerprint and WAF fingerprint checks.",
+    "Run VulnScan on the root and crawled URLs.",
+    "Run SqlInjectScan only on crawled URLs that contain a query string.",
+    "Report directory hits separately from confirmed vulnerability findings."
+  ],
+  "targets": {
+    "dvwa": {
+      "url": "http://127.0.0.1:8081/",
+      "deployment": "local container vulnerable/web-dvwa:latest",
+      "seconds": 0.095,
+      "crawl_urls": ["/", "/login.php"],
+      "directory_hits": [
+        "/login.php",
+        "/.gitignore",
+        "/robots.txt",
+        "/favicon.ico",
+        "/README.md",
+        "/config/",
+        "/docs/",
+        "/config",
+        "/index.php",
+        "/phpinfo.php"
+      ],
+      "directory_statuses": {"200": 7, "301": 1, "302": 2},
+      "fingerprints": ["apache", "PHP"],
+      "waf_detected": false,
+      "confirmed_findings": ["robots: /robots.txt"],
+      "raw_vuln_records": 2,
+      "raw_vuln_duplicate_reason": "The same robots.txt rule was emitted once for each VulnScan input URL.",
+      "sqli_findings": 0
+    },
+    "juice_shop": {
+      "url": "http://127.0.0.1:3000/",
+      "deployment": "local container bkimminich/juice-shop:latest",
+      "seconds": 1.05,
+      "crawl_urls": ["/"],
+      "directory_hits": ["/robots.txt", "/metrics", "/api-docs", "/assets", "/media"],
+      "directory_statuses": {"200": 2, "301": 3},
+      "fingerprints": [],
+      "waf_detected": false,
+      "confirmed_findings": ["robots: /robots.txt"],
+      "raw_vuln_records": 1,
+      "sqli_findings": 0
+    }
+  },
+  "comparison_notes": [
+    "A successful directory request proves that a path exists; it does not by itself prove a vulnerability.",
+    "QingScan found useful candidates such as Juice Shop /metrics and /api-docs, but its own vulnerability phase did not classify them.",
+    "The crawler did not execute the Juice Shop single-page application, so it discovered no API URLs or query parameters for injection checks.",
+    "The upstream client was not instrumented for a complete request count; DirScan alone sends one baseline request plus 329 candidate requests per target."
+  ],
+  "limits": [
+    "Unauthenticated root scan only; no DVWA login or challenge-specific seed URLs.",
+    "No browser JavaScript execution.",
+    "No labelled full challenge set, so vulnerability recall and false-positive percentages are not reported."
+  ]
+}

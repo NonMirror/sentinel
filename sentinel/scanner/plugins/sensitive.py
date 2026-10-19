@@ -42,15 +42,15 @@ SENSITIVE_RULES: tuple[tuple[str, str, Severity], ...] = (
 JS_RULES: tuple[tuple[str, str, Severity], ...] = (
     ("AWS AccessKey", r"AKIA[0-9A-Z]{16}", Severity.HIGH),
     ("Google API Key", r"AIza[0-9A-Za-z\-_]{35}", Severity.HIGH),
-    ("JWT 令牌", r"ey[A-Za-z0-9\-_=]+\.[A-Za-z0-9\-_=]+\.[A-Za-z0-9\-_.+/=]*",
+    ("JWT 令牌", r"eyJ[A-Za-z0-9\-_]{5,}\.[A-Za-z0-9\-_]{5,}\.[A-Za-z0-9\-_]{5,}",
      Severity.MEDIUM),
     ("云存储地址", r"[\w\-.]+\.(?:s3[^.]*\.amazonaws\.com|cloudfront\.net|"
                    r"appspot\.com|digitaloceanspaces\.com|storage\.googleapis\.com)",
      Severity.LOW),
     ("token/口令赋值",
      r"(?:secret|token|auth_token|access_token|api_key|apikey|password|passwd|"
-     r"client_secret|private_key|consumer_secret)[\"'\s]*(?::|=|=>)[\"'\s]*"
-     r"[A-Za-z0-9_\-]{8,64}", Severity.MEDIUM),
+     r"client_secret|private_key|consumer_secret)[\"'\s]*(?::|=|=>)\s*"
+     r"[\"'][A-Za-z0-9_\-]{8,64}[\"']", Severity.MEDIUM),
     ("邮箱地址", r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}", Severity.LOW),
 )
 
@@ -76,7 +76,10 @@ class SensitiveInfo(Plugin):
         body = result.text
         is_script = result.url.split("?")[0].lower().endswith(".js") or \
             "javascript" in result.content_type.lower()
-        rules = SENSITIVE_RULES + (JS_RULES if is_script else ())
+        # Minified application bundles contain framework symbols such as
+        # ``StackTrace`` and ordinary ``password: value`` form fields.  Treating
+        # those as leaked secrets swamps the useful JS-specific key patterns.
+        rules = JS_RULES if is_script else SENSITIVE_RULES
         findings: list[Finding] = []
         seen: set[str] = set()
         for name, pattern, severity in rules:
@@ -139,13 +142,19 @@ class ErrorPage(Plugin):
                 match = re.search(pattern, result.text, re.I | re.M)
                 if not match:
                     continue
+                banner_only = name == "服务器版本"
                 findings.append(ctx.add(
-                    vuln_type="errorpage", url=url, method="GET", param="",
+                    vuln_type="server_banner" if banner_only else "errorpage",
+                    url=url, method="GET", param="",
                     payload=url,
                     evidence=snippet(result.text, match.group(0)[:40], 60),
-                    severity=self.severity, confidence=0.7,
-                    proof=f"HTTP {result.status} 错误页泄漏「{name}」"
-                          f"({match.group(0)[:60]!r})"))
+                    severity=Severity.INFO if banner_only else self.severity,
+                    confidence=0.7,
+                    proof=(f"HTTP {result.status} 响应包含服务器标识；"
+                           "仅为技术栈信息，未确认可利用漏洞或敏感内容泄漏"
+                           if banner_only else
+                           f"HTTP {result.status} 错误页泄漏「{name}」"
+                           f"({match.group(0)[:60]!r})")))
                 break
             if findings:
                 break

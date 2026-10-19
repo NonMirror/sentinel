@@ -1,0 +1,21 @@
+{
+  "project": "chaitin/SafeLine",
+  "github_stars_observed": 22780,
+  "source_commit": "7dee6104b2c8e94ddee9bac1e7c05fa783d769db",
+  "image": "chaitin/safeline-detector:9.2.7",
+  "image_digest": "sha256:601fae211a08b626f8a3f3fae4fe4a1ce38e7f882ca2706cd3b67138103f6bb3",
+  "interface": "official T1K TCP protocol through the repository SDK framing",
+  "probe": {
+    "attack_total": 434,
+    "benign_total": 169,
+    "attack_actions": {
+      ",": 434
+    },
+    "benign_actions": {
+      ",": 169
+    }
+  },
+  "scored": false,
+  "reason": "A standalone detector without the management plane returned the same undocumented action for every request and no HTTP block status. Treating that action as allow or block would fabricate a score.",
+  "deployment_note": "The official compose deployment requires PostgreSQL, management, detector, tengine, luigi, fvm and chaos services plus a configured protected site."
+}

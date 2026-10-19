@@ -58,7 +58,10 @@ class Cors(Plugin):
             severity, confidence = Severity.LOW, 0.8
             proof = "跨域来源被原样反射, 但未允许携带凭据"
         else:
-            return []
+            if ctx.endpoint.url.rstrip("/") != ctx.target.base_url.rstrip("/"):
+                return []
+            severity, confidence = Severity.LOW, 0.75
+            proof = "资源允许任意来源跨域读取；公开资源可能属预期配置，需结合数据敏感性复核"
         if reflect_headers:
             proof += "; 且 Allow-Headers 同样反射了请求头"
         return [ctx.add(

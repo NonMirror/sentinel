@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter, defaultdict
 import json
 import socket
 import statistics
@@ -49,12 +50,17 @@ def raw_status(base: str, raw: bytes, timeout: float = 15.0) -> tuple[int, float
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--engine", default="modsecurity")
+    ap.add_argument("--endpoint", default="")
+    ap.add_argument("--source", default="")
     ap.add_argument("--attacks", type=int, default=400)
     ap.add_argument("--benign", type=int, default=120)
+    ap.add_argument("--profile", choices=("standard", "balanced"), default="standard")
+    ap.add_argument("--paranoia", type=int, choices=range(1, 5), default=1)
+    ap.add_argument("--threshold", type=int, default=5)
     ap.add_argument("--out", default="")
     ns = ap.parse_args()
 
-    attacks, _meta = build_attacks(4096)
+    attacks, _meta = build_attacks(4096, ns.source or None)
     benign, _ = load_benign()
     # 均匀抽样, 覆盖全部类别
     step = max(1, len(attacks) // ns.attacks)
@@ -63,26 +69,44 @@ def main() -> int:
     bsample = benign[::bstep][:ns.benign]
 
     cfg = Config()
+    cfg.waf.crs_profile = ns.profile
+    cfg.waf.paranoia_level = ns.paranoia
+    cfg.waf.detection_paranoia_level = ns.paranoia
+    cfg.waf.anomaly_threshold = ns.threshold
     cfg.listener.host, cfg.listener.port = "127.0.0.1", 0
     cfg.lab.base_port, cfg.lab.instances = 0, 2
     cfg.audit_path = "/tmp/opencode/results/proxy-audit.jsonl"
-    runtime = SentinelRuntime(cfg, engine=ns.engine).start()
-    base = f"http://127.0.0.1:{runtime.front_port}"
-    print(f"[*] 引擎 {runtime.engine_name} 前端 {base}")
+    runtime = None
+    if ns.endpoint:
+        base = ns.endpoint.rstrip("/")
+        print(f"[*] 外部引擎 {ns.engine} 前端 {base}")
+    else:
+        runtime = SentinelRuntime(cfg, engine=ns.engine).start()
+        base = f"http://127.0.0.1:{runtime.front_port}"
+        print(f"[*] 引擎 {runtime.engine_name} 前端 {base}")
 
     def replay(samples, expect):
         blocked = 0
         lat = []
+        statuses = Counter()
+        categories = defaultdict(lambda: [0, 0])
         for raw in samples:
             payload = raw.raw if hasattr(raw, "raw") else raw
             status, ms = raw_status(base, payload)
             lat.append(ms)
             blocked += int(status == 403)
+            statuses[status] += 1
+            if hasattr(raw, "category"):
+                categories[raw.category][0] += 1
+                categories[raw.category][1] += int(status == 403)
         ordered = sorted(lat)
 
         def pct(p):
             return round(ordered[min(len(ordered) - 1, max(0, int(len(ordered) * p) - 1))], 2)
         return {"n": len(samples), "blocked": blocked, "expect": expect,
+                "statuses": dict(sorted(statuses.items())),
+                "by_category": {name: {"total": values[0], "blocked": values[1]}
+                                for name, values in sorted(categories.items())},
                 "p50": pct(0.50), "p90": pct(0.90), "p99": pct(0.99),
                 "mean": round(statistics.fmean(lat), 2)}
 
@@ -90,10 +114,17 @@ def main() -> int:
     a = replay(sample, "block")
     b = replay(bsample, "pass")
     wall = time.perf_counter() - t0
-    runtime.stop()
+    if runtime is not None:
+        runtime.stop()
 
+    category_recall = [row["blocked"] / row["total"] for row in a["by_category"].values()]
     out = {"engine": ns.engine, "front": base,
+           "configuration": {"source": ns.source, "profile": ns.profile,
+                             "paranoia_level": ns.paranoia,
+                             "anomaly_threshold": ns.threshold},
            "attack_recall": round(a["blocked"] / a["n"], 4) if a["n"] else 0.0,
+           "category_macro_recall": round(statistics.fmean(category_recall), 4)
+                                    if category_recall else 0.0,
            "false_positive_rate": round(b["blocked"] / b["n"], 4) if b["n"] else 0.0,
            "attacks": a, "benign": b,
            "seconds": round(wall, 2),

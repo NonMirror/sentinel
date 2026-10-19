@@ -32,6 +32,7 @@ from ...core.models import Finding
 from ..client import HttpClient
 from ..crawler import Endpoint, Target, TargetRecognizer
 from ..detectors import OobRegistry
+from ..qingscan import QINGSCAN_DIR_PATHS
 from ..plugins import (SCOPE_ENDPOINT, SCOPE_PARAM, SCOPE_SERVER, Plugin,
                        PluginContext, registry)
 from .base import EngineInfo, ScannerEngine, engine_run_dir, severity_by_type
@@ -40,6 +41,7 @@ from .base import EngineInfo, ScannerEngine, engine_run_dir, severity_by_type
 MAX_WORKERS = 8
 #: 插件 crash 时保留的最近错误条数
 MAX_ERRORS = 12
+COMPETITOR_DISCOVERY_PATHS = ("icons/README",)
 
 
 class W13ScanEngine(ScannerEngine):
@@ -106,7 +108,9 @@ class W13ScanEngine(ScannerEngine):
                             user_agent=self.config.user_agent,
                             cookie=self.config.cookie, headers=self.config.headers)
         crawler = TargetRecognizer(client, max_urls=self.config.max_urls,
-                                   max_depth=self.config.max_depth)
+                                   max_depth=self.config.max_depth,
+                                   include_paths=(QINGSCAN_DIR_PATHS + COMPETITOR_DISCOVERY_PATHS)
+                                   if deep else ())
         findings: list[Finding] = []
         errors: list[str] = []
         plugins_run = 0

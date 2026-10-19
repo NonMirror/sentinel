@@ -22,6 +22,7 @@ LISTING_SIGNS: tuple[str, ...] = (
     "directory listing for",
     "<title>directory",
     "<title>index of",
+    "<title>listing directory",
     "<head><title>index of",
     "index of /",
     '<table summary="directory listing"',
@@ -50,7 +51,11 @@ class DirectoryBrowse(Plugin):
     references = ("https://owasp.org/www-community/attacks/Directory_traversal",)
 
     def run(self, ctx: PluginContext) -> list[Finding]:
-        for url in [ctx.endpoint.url] + _directories(ctx)[1:]:
+        base = ctx.base_url.rstrip("/")
+        current_dirs = [base + path for path in _path_directories(ctx.endpoint.url)]
+        global_dirs = [base + path for path in _directories(ctx)[1:]]
+        urls = list(dict.fromkeys([ctx.endpoint.url] + current_dirs + global_dirs))
+        for url in urls[:MAX_DIRS + 1]:
             result = ctx.raw(url)
             if result.status != 200 or not result.body:
                 continue
@@ -58,11 +63,13 @@ class DirectoryBrowse(Plugin):
             sign = next((s for s in LISTING_SIGNS if s in lower), "")
             if not sign:
                 continue
+            finding_url = result.url.rstrip("/") if urlsplit(result.url).path != "/" \
+                else result.url
             return [ctx.add(
-                vuln_type="directory_browse", url=result.url, method="GET",
-                param="", payload=url, evidence=snippet(result.text, sign, 60),
+                vuln_type="directory_browse", url=finding_url, method="GET",
+                param="", payload=finding_url, evidence=snippet(result.text, sign, 60),
                 severity=self.severity, confidence=0.85,
-                proof=f"目录 {result.url} 直接列出文件清单 (命中 {sign!r}), "
+                proof=f"目录 {finding_url} 直接列出文件清单 (命中 {sign!r}), "
                       f"泄漏源码与备份文件名")]
         return []
 
@@ -274,12 +281,19 @@ def _directories(ctx: PluginContext) -> list[str]:
     dirs = ["/"]
     for url in ctx.target.endpoints:
         path = urlsplit(url).path
-        if "/" not in path.strip("/"):
-            continue
-        parent = path.rsplit("/", 1)[0]
-        if parent and parent not in dirs:
-            dirs.append(parent + "/")
+        for parent in reversed(_path_directories(url)):
+            if parent not in dirs:
+                dirs.append(parent)
     return dirs[:MAX_DIRS]
+
+
+def _path_directories(url: str) -> list[str]:
+    """Return the current path's parent directories, deepest first."""
+    parts = [part for part in urlsplit(url).path.strip("/").split("/") if part]
+    if len(parts) < 2:
+        return []
+    return ["/" + "/".join(parts[:size]) + "/"
+            for size in range(len(parts) - 1, 0, -1)]
 
 
 __all__ = ["IDEA_MARKERS", "IDEA_PATHS", "LISTING_SIGNS", "REPO_TARGETS",

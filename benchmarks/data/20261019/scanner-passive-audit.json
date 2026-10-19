@@ -1,0 +1,355 @@
+{
+  "scope": "Offline classification of saved evidence excerpts and crawl-boundary checks only",
+  "base_commit": "54fa5feef3df2a6ecdf680d906b4d08ef16b078c",
+  "network_requests": 0,
+  "dvwa": {
+    "historical_findings": 11,
+    "banner_records": [
+      {
+        "record_index": 0,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 1,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 2,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 3,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 4,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 5,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 6,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 7,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 8,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      },
+      {
+        "record_index": 9,
+        "input": "saved evidence excerpt, synthetic HTTP 404",
+        "previous_type": "errorpage",
+        "previous_severity": "low",
+        "current_type": "server_banner",
+        "current_severity": "info",
+        "memory_requests": 1,
+        "network_requests": 0
+      }
+    ],
+    "reclassified_as_info": 10
+  },
+  "juice_shop": {
+    "historical_findings": 83,
+    "rejected_by_existing_crawl_boundary": 54,
+    "remaining_unverified": 29,
+    "rejected_records": [
+      {
+        "record_index": 2,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 15,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 16,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 17,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 18,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 19,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 20,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 21,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 22,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 23,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 24,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 25,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 26,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 27,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 28,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 29,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 30,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 31,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 32,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 33,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 34,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 35,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 36,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 37,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 38,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 39,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 40,
+        "finding_type": "html_res_information_disclosure"
+      },
+      {
+        "record_index": 43,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 44,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 45,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 46,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 47,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 48,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 49,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 50,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 51,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 52,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 53,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 64,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 65,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 66,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 67,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 68,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 69,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 70,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 71,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 72,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 73,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 74,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 75,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 76,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 77,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 78,
+        "finding_type": "sensitive"
+      },
+      {
+        "record_index": 79,
+        "finding_type": "sensitive"
+      }
+    ]
+  },
+  "tests": {
+    "passed": 119,
+    "deselected": 1,
+    "selection": "tests/test_errorpage_classification.py tests/test_scanner_report.py tests/test_public_benchmarks.py tests/test_passive_headers.py tests/test_crawler_safety.py",
+    "filter": "-k \"not builtin_engine_scans_lab\" -m \"not slow\""
+  },
+  "sha256": {
+    "benchmarks/data/20261018/dvwa-multi.json": "76cc8f5d11683907a5ee5b4450ff258e6f70dae7c137b1633ac2896ec0705b01",
+    "benchmarks/data/20261018/juice-multi.json": "1df8f8fb1659882359eb1d156515d7ea231374d4aa9901092ec07e7a7d3314b4",
+    "sentinel/scanner/plugins/sensitive.py": "f454c6ba7f968978104a668e23353e35d5190553c76416712e5ad92b45d8e40d",
+    "sentinel/scanner/report.py": "05edf2f918d56335247be3c7e0792bf8a433756fbf22fe9737bb38ae53b6c6e4",
+    "sentinel/scanner/crawler.py": "0dcc8a00d27cb0ef1c39c167277f6368f7b8700b00ed21cb38466a0a13a2bc44",
+    "tests/test_errorpage_classification.py": "2f72285ddc0d29fc8b223c5f3ec13becfdd144f90ee9309d463e5d97793810d8",
+    "benchmarks/data/20261019/scanner-passive-audit-tests.xml": "b4e45efbf744901cb58d6d1f2c4cfdbdfdcc044e1e858764111f20cf06894af5"
+  },
+  "limitations": [
+    "Saved evidence snippets are not complete HTTP responses",
+    "Historical findings are not independently labelled positives and negatives; no recall or false-positive rate is measured",
+    "No active scan or authenticated application traversal was rerun",
+    "Juice Shop rejection uses existing crawler safeguards; no new crawl capability was added"
+  ]
+}

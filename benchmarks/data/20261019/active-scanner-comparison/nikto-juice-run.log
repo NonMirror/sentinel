@@ -1,0 +1,68 @@
+- Nikto v2.6.1
+---------------------------------------------------------------------------
++ [000287] /: Retrieved access-control-allow-origin header: \*.
++ [999100] /: Uncommon header(s) 'x-recruiting' found, with contents: /#/jobs.
++ Target IP:          127.0.0.1
++ Target Hostname:    127.0.0.1
++ Target Port:        3000
++ Platform:           Unknown
++ Start Time:         2026-10-19 10:18:15 (GMT0)
+---------------------------------------------------------------------------
++ Server: No banner retrieved
++ [999997] /robots.txt: Entry '/ftp/' is returned a non-forbidden or redirect HTTP code (200). See: https://portswigger.net/kb/issues/00600600_robots-txt-file
++ [999996] /robots.txt: contains 1 entry which should be manually viewed. See: https://developer.mozilla.org/en-US/docs/Glossary/Robots.txt
++ No CGI Directories found (use '-C all' to force check all possible dirs). CGI tests skipped.
++ [013587] /: Suggested security header missing: permissions-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy
++ [013587] /: Suggested security header missing: referrer-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
++ [013587] /: Suggested security header missing: content-security-policy. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
++ [013587] /: Suggested security header missing: strict-transport-security. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+- STATUS: Completed 1000 requests (~14% complete, ~1.2 minutes left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 2000 requests (~28% complete, ~42 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [001535] /.psql_history: This might be interesting.
++ [001675] /ftp/: This might be interesting.
++ [001811] /public/: This might be interesting.
+- STATUS: Completed 3000 requests (~41% complete, ~38 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [002739] /.htpasswd: Contains authorization information.
++ [002743] /.bash_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.
++ [002748] /.mysql_history: Database SQL?.
++ [002756] /.sh_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.
+- STATUS: Completed 4000 requests (~55% complete, ~25 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 4500 requests (~62% complete, ~20 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 5000 requests (~69% complete, ~16 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 5500 requests (~76% complete, ~12 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 6000 requests (~83% complete, ~8 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 6500 requests (~90% complete, ~5 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 7000 requests (~97% complete, ~1 seconds left): currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 7500 requests: currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
+- STATUS: Completed 8000 requests: currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ [007129] /.sqlite_history: This might be interesting.
++ [007203] /userdata.json: This might be interesting.
++ [007204] /login.json: This might be interesting.
++ [007205] /master.json: This might be interesting.
++ [007206] /masters.json: This might be interesting.
++ [007207] /connections.json: This might be interesting.
++ [007208] /connection.json: This might be interesting.
++ [007210] /PasswordsData.json: This might be interesting.
++ [007211] /users.json: This might be interesting.
++ [007212] /conndb.json: This might be interesting.
++ [007213] /conn.json: This might be interesting.
++ [007215] /accounts.json: This might be interesting.
++ [007303] /JAMonAdmin.jsp: JAMon - Java Application Monitor Admin interface identified. Versions 2.7 and earlier contain XSS vulnerabilities. See: https://nvd.nist.gov/vuln/detail/CVE-2013-6235
+- STATUS: Completed 8500 requests: currently in plugin 'Nikto Tests'
+- STATUS: Running average: Not enough data.
++ 8826 requests: 2 errors and 28 items reported on the remote host
++ End Time:           2026-10-19 10:19:03 (GMT0) (48 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested

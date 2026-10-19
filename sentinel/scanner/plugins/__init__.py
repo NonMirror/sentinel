@@ -20,9 +20,9 @@ from __future__ import annotations
 
 # 各插件家族模块 —— 导入即完成 ``@register`` 自注册, 因此这里的导入顺序不影响结果,
 # 但必须**逐个列出** (不做目录扫描): 插件出现在扫描能力里应当是显式的、可审阅的。
-from . import (backup, cors, crlf, csrf, deserialization, disclosure, iis, jsonp, lfi,
-               panels, rce, redirect, sensitive, smuggling, sqli, ssrf, upload,
-               weak_password, xss, xxe)
+from . import (backup, cors, crlf, csrf, deserialization, disclosure, hygiene, iis, jsonp, lfi,
+               panels, qingscan, rce, redirect, sensitive, smuggling, sqli, ssrf,
+               upload, weak_password, xss, xxe)
 from .base import (PLUGIN_CATEGORIES, SCOPE_ENDPOINT, SCOPE_PARAM, SCOPE_SERVER, SCOPES,
                    Plugin, PluginContext, PluginRegistry, register, registry)
 

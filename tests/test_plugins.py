@@ -466,7 +466,8 @@ class _FixtureApp:
                 "<input name='name'><textarea name='message'></textarea>"
                 "<input type='submit'></form>"
                 "</body></html>")
-        return 200, {"Content-Type": "text/html"}, body.encode()
+        # X-WAF provides a deterministic QingScan WAF-fingerprint fixture.
+        return 200, {"Content-Type": "text/html", "X-WAF": "fixture"}, body.encode()
 
     def _command(self, value: str):
         """命令注入点: 参数整体交给 shell (用白名单限制真实执行范围)."""

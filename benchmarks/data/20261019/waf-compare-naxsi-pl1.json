@@ -1,0 +1,132 @@
+{
+  "engine": "nginx-naxsi",
+  "front": "http://127.0.0.1:33719",
+  "configuration": {
+    "source": "GoTestWAF",
+    "profile": "standard",
+    "paranoia_level": 1,
+    "anomaly_threshold": 5
+  },
+  "attack_recall": 0.9447,
+  "category_macro_recall": 0.8878,
+  "false_positive_rate": 0.3609,
+  "attacks": {
+    "n": 434,
+    "blocked": 410,
+    "expect": "block",
+    "statuses": {
+      "200": 12,
+      "403": 410,
+      "404": 12
+    },
+    "by_category": {
+      "CRLF Injection": {
+        "total": 21,
+        "blocked": 17
+      },
+      "GraphQL": {
+        "total": 12,
+        "blocked": 10
+      },
+      "LDAP Injection": {
+        "total": 9,
+        "blocked": 7
+      },
+      "LFI": {
+        "total": 6,
+        "blocked": 4
+      },
+      "Mail Injection": {
+        "total": 6,
+        "blocked": 0
+      },
+      "NoSQL Injection": {
+        "total": 15,
+        "blocked": 15
+      },
+      "Path Traversal": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RCE": {
+        "total": 30,
+        "blocked": 30
+      },
+      "REST": {
+        "total": 21,
+        "blocked": 21
+      },
+      "REST non-CRUD": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RawRequest test": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SOAP": {
+        "total": 15,
+        "blocked": 15
+      },
+      "SQL Injection": {
+        "total": 21,
+        "blocked": 21
+      },
+      "SS Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SST Injection": {
+        "total": 9,
+        "blocked": 7
+      },
+      "Shell": {
+        "total": 12,
+        "blocked": 12
+      },
+      "UserAgent": {
+        "total": 27,
+        "blocked": 21
+      },
+      "XSS": {
+        "total": 162,
+        "blocked": 162
+      },
+      "XXE": {
+        "total": 26,
+        "blocked": 26
+      },
+      "community-lfi-multipart": {
+        "total": 6,
+        "blocked": 6
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6
+      }
+    },
+    "p50": 0.03,
+    "p90": 0.16,
+    "p99": 0.77,
+    "mean": 0.09
+  },
+  "benign": {
+    "n": 169,
+    "blocked": 61,
+    "expect": "pass",
+    "statuses": {
+      "200": 41,
+      "302": 1,
+      "403": 61,
+      "404": 62,
+      "500": 4
+    },
+    "by_category": {},
+    "p50": 0.46,
+    "p90": 0.67,
+    "p99": 2.6,
+    "mean": 0.51
+  },
+  "seconds": 0.13,
+  "qps": 4779.7
+}

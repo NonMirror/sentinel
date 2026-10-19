@@ -1,0 +1,3 @@
+WARN-NEW: Content Security Policy (CSP) Header Not Set [10038] x 12 
+WARN-NEW: Cross-Domain Misconfiguration [10098] x 11 
+FAIL-NEW: 0	FAIL-INPROG: 0	WARN-NEW: 2	WARN-INPROG: 0	INFO: 0	IGNORE: 0	PASS: 111

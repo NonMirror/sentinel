@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-19",
+  "mode": "w13scan deep discovery with non-invasive plugins",
+  "scanner": {
+    "qingscan_source_commit": "2e4706226f1c68121843f37120f05adee57fe80e",
+    "directory_candidates": 329,
+    "max_urls": 400,
+    "max_depth": 2,
+    "request_timeout_seconds": 1.2,
+    "deep_only_invasive_plugins_enabled": false
+  },
+  "targets": {
+    "dvwa": {
+      "url": "http://127.0.0.1:8081/",
+      "deployment": "local container vulnerable/web-dvwa:latest",
+      "endpoints": 26,
+      "plugin_runs": 217,
+      "requests": 1851,
+      "errors": 0,
+      "findings": {
+        "total": 27,
+        "confirmed_http_evidence": [
+          "backup_file: /config/config.inc.php.bak",
+          "directory_browse: /config",
+          "directory_browse: /docs",
+          "directory_browse: /dvwa",
+          "directory_browse: /dvwa/css",
+          "directory_browse: /dvwa/images",
+          "sensitive: /README.md default credential",
+          "metadata_exposure: /.gitignore",
+          "metadata_exposure: /icons/README",
+          "outdated_server: Apache 2.4.25"
+        ],
+        "configuration_observations": ["6 cookie attribute gaps", "9 browser security header gaps"],
+        "informational": ["robots: /robots.txt", "server_banner: Apache 2.4.25"]
+      }
+    },
+    "juice_shop": {
+      "url": "http://127.0.0.1:3000/",
+      "deployment": "local container bkimminich/juice-shop:latest",
+      "endpoints": 75,
+      "parameters": 3,
+      "plugin_runs": 548,
+      "requests": 2878,
+      "errors": 0,
+      "findings": {
+        "total": 14,
+        "confirmed_http_evidence": [
+          "directory_browse: /ftp",
+          "directory_browse: /ftp/quarantine",
+          "swagger_ui: /api-docs/",
+          "metrics_exposure: /metrics",
+          "cors: wildcard origin on root",
+          "sensitive: testing credential material in /main.js"
+        ],
+        "configuration_observations": ["7 browser security header gaps"],
+        "informational": ["robots: /robots.txt discloses /ftp"]
+      }
+    }
+  },
+  "regressions_fixed_during_run": [
+    "Shared login redirects are filtered from directory discovery.",
+    "CSS selector #stacktrace no longer triggers a debug-stack finding.",
+    "Express directory listing pages are recognized.",
+    "Trailing-slash aliases share one directory finding.",
+    "Unique same-origin redirect destinations are retained as discovered endpoints.",
+    "Prometheus metrics and the Juice Shop Swagger UI are classified from response evidence.",
+    "Referenced JavaScript bundles and static assets are crawled; blank query parameters are retained.",
+    "Current resource parents are checked before global directories, exposing nested DVWA listings.",
+    "Nuclei, Nikto and ZAP response-hygiene observations are represented as typed findings."
+  ],
+  "limits": [
+    "This is an unauthenticated scan from the two application roots.",
+    "Findings are direct HTTP evidence, not OWASP challenge completion counts.",
+    "No labelled full challenge set exists here, so recall and false-positive percentages are not reported."
+  ]
+}

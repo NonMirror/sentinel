@@ -2,13 +2,10 @@
 
 # Sentinel · 安全运营与管理控制台
 
-> 轻量级防火墙 + 漏洞扫描子系统 + Vim 键位的 TUI
-> —— **引擎、规则语言解释器与模板解释器全部是本仓库中的代码**。
+> 轻量级防火墙 + 漏洞扫描子系统 + TUI
+> —— **引擎、规则语言解释器与模板解释器**。
 
-Sentinel 不调用任何安全类二进制程序。它自己解释 ModSecurity 规则语言并执行真实的
-OWASP CRS 规则，实现 Naxsi 的评分模型，解释 nuclei 的 YAML 模板，并实现自己的
-主动扫描插件。第三方**数据**（规则、模板、映射表）由 `tools/vendor.py` 一次性拉取
-到 `sentinel/vendor/`；运行时不再读取任何同级目录。
+WAF 端实现了 ModSecurity 规则语言解释器，执行真实 OWASP CRS 规则。实现 Naxsi 评分模型，解释 nuclei 的 YAML 模版。
 
 ```
                     ┌────────────────────────────────────────────────┐
@@ -30,7 +27,7 @@ OWASP CRS 规则，实现 Naxsi 的评分模型，解释 nuclei 的 YAML 模板�
                                   ▼
                 ┌────────────────────────────────────┐
                 │ 后端靶场  ·  sentinel.lab          │
-                │ 多实例，故意预留漏洞               │
+                │ 多实例，预留漏洞                   │
                 │ (SQLi / XSS / SSRF / LFI)          │
                 └────────────────────────────────────┘
 ```
@@ -121,6 +118,29 @@ DSL 使用 `ast` 白名单求值，而非 `eval`——模板来自第三方仓�
 联系第三方，又省去了每次 5 秒的超时——同一次扫描从 **87 秒降到 1.5 秒**。可用
 `NucleiEngine(allow_external=True)` 关闭此限制。
 
+### 4. QingScan 主动扫描兼容层 (`sentinel/scanner/qingscan.py`)
+
+原生插件引擎适配了 `daxia/QingScan` commit
+`2e4706226f1c68121843f37120f05adee57fe80e` 的 Web 主动扫描规则。深度模式现已接入
+QingScan 的 329 个去重目录候选、全部 55 项技术指纹、全部 22 项 WAF 指纹及差分探针，
+并覆盖全部 11 组固定路径暴露规则。其中 3 组已有等价原生插件，其余 8 组由
+`qingscan_exposure` 适配器执行；QingScan 的 SQL 注入和反射型 XSS 能力由现有原生插件
+覆盖。
+
+爬虫和原生插件还吸收了Nuclei、OWASP ZAP、Nikto与sqlmap在同一批本地DVWA／Juice
+Shop容器上的经复核能力差集，包括同源JS和静态资产发现、空值查询参数API提取、嵌套
+目录检查、安全头与Cookie属性、通配CORS、旧服务器版本、工程元数据、Swagger及
+Prometheus分类。在该固定测试中，Sentinel复现19/19项归一化人工复核观察；这是同目标
+证据并集，不是四个项目完整规则库覆盖率。详见
+[`benchmarks/bench-20261019-active-scanners.md`](benchmarks/bench-20261019-active-scanners.md)。
+
+WAF也用相同的434条GoTestWAF攻击和169条良性原始报文，对照官方ModSecurity+CRS、
+Coraza+CRS及原生NAXSI数据面。Sentinel `balanced`取得95.39%总体拦截、95.15%类别
+等权拦截和2.96%误报，是本轮唯一同时通过95%／95%／5%门槛的配置。相同10,000条
+CSIC冻结留出正常请求也已回放到全部六个可评分配置：Sentinel误报5.08%，CRS PL1为
+4.86%但攻击拦截仅78.80%，NAXSI为14.91%，两个CRS PL4配置均为100%。详见
+[`benchmarks/bench-20261019-waf-comparison.md`](benchmarks/bench-20261019-waf-comparison.md)。
+
 ## 架构映射
 
 | 层 | 子系统 | 包 | 职责 |
@@ -150,6 +170,9 @@ DSL 使用 `ast` 白名单求值，而非 `eval`——模板来自第三方仓�
 | `naxsi/` | nbs-system/naxsi | GPL-3.0 | 2 个文件 | `naxsi_core.rules` |
 | `modsecurity/` | owasp-modsecurity/ModSecurity | Apache-2.0 | 1 个文件 | `unicode.mapping` |
 | `nuclei-templates/` | projectdiscovery/nuclei-templates | MIT | 11,656 个文件 | HTTP 模板与字典 |
+
+改写后的第三方代码不放入 `sentinel/vendor/` 数据目录；上述 QingScan 兼容规则和适配器
+已固定版本，并由 `tests/test_qingscan_compat.py` 直接回归。
 
 ```bash
 python tools/vendor.py            # 从上游重新同步

@@ -1,0 +1,349 @@
+{
+  "date": "2026-10-19",
+  "selection": {
+    "criterion": "GitHub stars >= 10000 and active Web scanning capability",
+    "stars_observed_via_github_api": {
+      "sqlmapproject/sqlmap": 38734,
+      "projectdiscovery/nuclei": 32121,
+      "zaproxy/zaproxy": 15964,
+      "sullo/nikto": 10781
+    },
+    "excluded_supplement": {
+      "wapiti-scanner/wapiti": "1900 stars; capable black-box scanner, below the high-star threshold"
+    }
+  },
+  "scope": {
+    "targets": [
+      "http://127.0.0.1:8081/ - local vulnerable/web-dvwa:latest",
+      "http://127.0.0.1:3000/ - local bkimminich/juice-shop:latest"
+    ],
+    "authentication": "none",
+    "seed_policy": "application root only",
+    "per_target_limit_seconds": 300,
+    "interpretation": "Raw alerts, directory hits and verified security-relevant observations are reported separately.",
+    "zap_supplemental_full_run": "Juice Shop rerun with the same fixed image and rules without an overall active-scan cutoff; completed to 100%"
+  },
+  "tools": {
+    "nuclei": {
+      "engine": "v3.11.1",
+      "templates_commit": "008731b339bde88f825b02764672c2cd66380830",
+      "templates_version": "v10.4.9",
+      "templates_loaded": 5299,
+      "profile": "HTTP exposures, exposed-panels, misconfiguration, technologies and vulnerabilities; OAST, DoS, fuzz, brute-force, default-login and token-spray tags excluded",
+      "dvwa": {
+        "seconds": 41,
+        "requests_reported": 9059,
+        "raw_matches": 21,
+        "medium": 1,
+        "info": 20
+      },
+      "juice_shop": {
+        "seconds": 41,
+        "requests_reported": 9060,
+        "raw_matches": 14,
+        "medium": 1,
+        "info": 13
+      },
+      "verified_strengths": [
+        "DVWA configuration directory, .gitignore, README and cookie/header observations",
+        "Juice Shop Prometheus metrics and public Swagger specification"
+      ],
+      "limits": [
+        "Does not crawl the Juice Shop SPA in this profile.",
+        "A loopback-only proxy rejected 246 non-target requests per target; those errors remain in Nuclei's counters.",
+        "The apachegeneric WAF match was not accepted as a verified WAF finding."
+      ],
+      "normalized_verified_items": {
+        "dvwa": 5,
+        "juice_shop": 3,
+        "total": 8,
+        "verified_union_coverage": 0.4211
+      },
+      "normalized_verified_evidence": {
+        "dvwa": [
+          "directory listing: /config",
+          "metadata: /.gitignore",
+          "disclosure: /README.md",
+          "cookie attribute gaps",
+          "browser security header gaps"
+        ],
+        "juice_shop": [
+          "public Swagger",
+          "public Prometheus metrics",
+          "browser security header gaps"
+        ]
+      }
+    },
+    "nikto": {
+      "commit": "312645d873478a77986627ab1fc8cffe595e85d4",
+      "dvwa": {
+        "seconds": 4,
+        "requests": 8240,
+        "raw_items": 14
+      },
+      "juice_shop": {
+        "seconds": 48,
+        "requests": 8826,
+        "raw_items": 28,
+        "soft404_false_items": 19
+      },
+      "normalized_verified_items": {
+        "dvwa": 6,
+        "juice_shop": 4,
+        "total": 10,
+        "verified_union_coverage": 0.5263
+      },
+      "verified_strengths": [
+        "Fast fixed-path enumeration",
+        "DVWA config/docs listings, .gitignore, Apache default README and stale Apache version",
+        "Juice Shop /ftp plus response-header observations"
+      ],
+      "limits": [
+        "19 of 28 Juice Shop items were the identical 9984-byte SPA fallback page.",
+        "The 67.86% figure is an audit of this one output, not a general Nikto false-positive rate."
+      ],
+      "normalized_verified_evidence": {
+        "dvwa": [
+          "directory listing: /config",
+          "directory listing: /docs",
+          "metadata: /.gitignore",
+          "metadata: /icons/README",
+          "stale Apache version",
+          "browser security header gaps"
+        ],
+        "juice_shop": [
+          "directory listing: /ftp",
+          "robots disclosure",
+          "wildcard CORS",
+          "browser security header gaps"
+        ]
+      }
+    },
+    "zap": {
+      "version": "2.17.0",
+      "image_digest": "sha256:5ccfff9a411743ab2615136a2edd7416bec9ce41572fa94e935df38c14adb2b6",
+      "source_commit_label": "e06ba5ee209e27a9a81ff16e17696d6b59757d3a",
+      "dvwa": {
+        "seconds": 144,
+        "alert_types": 12,
+        "alert_instances": 30,
+        "completed": true
+      },
+      "juice_shop": {
+        "initial_time_limited_run": {
+          "seconds_before_stop": 499,
+          "active_scan_progress_percent": 35,
+          "active_requests_at_stop": 2804,
+          "alert_types": 3,
+          "report_instances": 15,
+          "completed": false
+        },
+        "full_run": {
+          "active_scan_progress_percent": 100,
+          "active_requests_at_completion": 6725,
+          "alert_types": 4,
+          "report_instances": 20,
+          "completed": true,
+          "artifact": "benchmarks/data/20261019/active-scanner-comparison/zap-juice-full.json"
+        }
+      },
+      "verified_strengths": [
+        "DVWA /dvwa, /dvwa/css and /dvwa/images directory listings",
+        "Cookie, browser policy header, server banner and CORS observations"
+      ],
+      "limits": [
+        "Online add-on update caused the first startup attempt to time out; final runs used the fixed image rules with -silent.",
+        "The complete Juice Shop run exceeded the original 300-second planning budget; it is included to avoid estimating from a partial report.",
+        "No SQL injection or XSS was confirmed from either unauthenticated root."
+      ],
+      "normalized_verified_items": {
+        "dvwa": 6,
+        "juice_shop": 2,
+        "total": 8,
+        "verified_union_coverage": 0.4211
+      },
+      "normalized_verified_evidence": {
+        "dvwa": [
+          "directory listing: /dvwa",
+          "directory listing: /dvwa/css",
+          "directory listing: /dvwa/images",
+          "stale Apache version",
+          "cookie attribute gaps",
+          "browser security header gaps"
+        ],
+        "juice_shop": [
+          "wildcard CORS",
+          "browser security header gaps"
+        ]
+      }
+    },
+    "sqlmap": {
+      "version": "1.10.10.11#dev",
+      "commit": "6530184e2c5626596d650700dee8c51b6982c99b",
+      "profile": "crawl depth 2, forms, smart heuristic, level 1, risk 1",
+      "dvwa": {
+        "seconds": 1,
+        "forms": 1,
+        "confirmed_injections": 0
+      },
+      "juice_shop": {
+        "seconds": 3,
+        "parameterized_targets": 3,
+        "confirmed_injections": 0
+      },
+      "verified_strengths": [
+        "Recovered Juice Shop /api/Challenges/?key=, /rest/user/change-password?current= and /rest/user/security-question?email= from client assets"
+      ],
+      "limits": [
+        "Specialized SQL injection scanner; a zero result is not a general Web vulnerability score.",
+        "The authenticated change-password endpoint returned 401 and was not tested."
+      ],
+      "normalized_verified_items": {
+        "dvwa": 0,
+        "juice_shop": 1,
+        "total": 1,
+        "verified_union_coverage": 0.0526
+      },
+      "normalized_verified_evidence": {
+        "dvwa": [],
+        "juice_shop": [
+          "three parameterized API routes recovered from JavaScript"
+        ]
+      }
+    }
+  },
+  "verified_union": {
+    "normalized_items": 19,
+    "sentinel_reproduced": 19,
+    "items": [
+      "DVWA directory listing: /config",
+      "DVWA directory listing: /docs",
+      "DVWA directory listing: /dvwa",
+      "DVWA directory listing: /dvwa/css",
+      "DVWA directory listing: /dvwa/images",
+      "DVWA metadata: /.gitignore",
+      "DVWA metadata: /icons/README",
+      "DVWA disclosure: /README.md",
+      "DVWA stale Apache version",
+      "DVWA cookie attribute gaps",
+      "DVWA browser security header gaps",
+      "DVWA robots disclosure",
+      "Juice Shop directory listing: /ftp",
+      "Juice Shop public Swagger",
+      "Juice Shop public Prometheus metrics",
+      "Juice Shop wildcard CORS",
+      "Juice Shop browser security header gaps",
+      "Juice Shop three parameterized API routes recovered from JavaScript",
+      "Juice Shop robots disclosure"
+    ],
+    "excluded_from_union": [
+      "Nikto's 19 identical SPA fallback alerts",
+      "Nuclei's apachegeneric WAF label",
+      "Technology, modern-app and authentication-page inventory labels",
+      "HSTS/HTTP-only observations because the benchmark intentionally exposes HTTP-only local targets"
+    ]
+  },
+  "sentinel_after_integration": {
+    "dvwa": {
+      "endpoints": 26,
+      "requests": 1851,
+      "errors": 0,
+      "findings": 27,
+      "seconds": 0.594
+    },
+    "juice_shop": {
+      "endpoints": 75,
+      "parameters": 3,
+      "requests": 2878,
+      "errors": 0,
+      "findings": 14,
+      "seconds": 10.325
+    },
+    "additional_verified_findings": [
+      "DVWA /config/config.inc.php.bak",
+      "Juice Shop /ftp/quarantine",
+      "Juice Shop testing credential material in main.js"
+    ],
+    "additional_findings_official_mapping": [
+      {
+        "finding": "DVWA /config/config.inc.php.bak",
+        "official_challenge": null,
+        "classification": "deployment exposure in the tested third-party container"
+      },
+      {
+        "finding": "Juice Shop /ftp/quarantine",
+        "official_challenge": "SSTi",
+        "classification": "challenge clue, not challenge completion; SSTi is disabled in Docker"
+      },
+      {
+        "finding": "Juice Shop testing credential material in main.js",
+        "official_challenge": "Exposed Credentials",
+        "classification": "direct official challenge mapping; credentials independently validated with HTTP 200 login"
+      }
+    ],
+    "normalized_verified_items": {
+      "dvwa": 12,
+      "juice_shop": 7,
+      "total": 19,
+      "verified_union_coverage": 1.0
+    }
+  },
+  "raw_artifacts": "benchmarks/data/20261019/active-scanner-comparison/",
+  "comparison": {
+    "normalized_verified_union": 19,
+    "sentinel_reproduced": 19,
+    "sentinel_additional_verified": 3,
+    "sentinel_requests_total": 4729,
+    "sentinel_errors_total": 0,
+    "nuclei_requests_total": 18119,
+    "nuclei_to_sentinel_request_ratio": 3.831,
+    "nikto_requests_total": 17066,
+    "nikto_to_sentinel_request_ratio": 3.609,
+    "zap_juice_shop_complete": true,
+    "result": "Sentinel covered the full verified peer union with fewer requests than Nuclei or Nikto in this fixed benchmark.",
+    "raw_output_totals": {
+      "nuclei_template_matches": 35,
+      "nikto_items": 42,
+      "nikto_confirmed_spa_fallback_false_items": 19,
+      "zap_alert_instances": 50,
+      "zap_juice_shop_complete": true,
+      "sqlmap_confirmed_injections": 0,
+      "sqlmap_juice_shop_parameterized_targets": 3,
+      "zap_juice_shop_alert_types": 4,
+      "zap_juice_shop_alert_instances": 20,
+      "zap_juice_shop_active_requests": 6725
+    },
+    "tool_union_coverage": {
+      "sentinel": {
+        "dvwa": 12,
+        "juice_shop": 7,
+        "total": 19,
+        "ratio": 1.0
+      },
+      "nuclei": {
+        "dvwa": 5,
+        "juice_shop": 3,
+        "total": 8,
+        "ratio": 0.4211
+      },
+      "nikto": {
+        "dvwa": 6,
+        "juice_shop": 4,
+        "total": 10,
+        "ratio": 0.5263
+      },
+      "zap": {
+        "dvwa": 6,
+        "juice_shop": 2,
+        "total": 8,
+        "ratio": 0.4211
+      },
+      "sqlmap": {
+        "dvwa": 0,
+        "juice_shop": 1,
+        "total": 1,
+        "ratio": 0.0526
+      }
+    }
+  }
+}

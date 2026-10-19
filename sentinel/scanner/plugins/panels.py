@@ -128,6 +128,8 @@ SWAGGER_PATHS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("/v3/api-docs/swagger-config", ('"configUrl"',)),
     ("/openapi.json", ('"openapi":',)),
     ("/api-docs", ('"swagger":', '"apis"')),
+    ("/api-docs/", ("swagger-ui", "Swagger UI")),
+    ("/api-docs/swagger.yaml", ("swagger:", "paths:")),
     ("/swagger-resources", ('"swaggerVersion"', '"location"')),
 )
 

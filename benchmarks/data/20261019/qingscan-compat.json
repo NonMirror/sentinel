@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-19",
+  "scope": "QingScan Web active-scan compatibility",
+  "source": {
+    "repository": "daxia/QingScan",
+    "commit": "2e4706226f1c68121843f37120f05adee57fe80e",
+    "files": [
+      "code/app/scan/Dicts.php",
+      "code/app/scan/VulnScan.php",
+      "code/app/scan/WafScan.php"
+    ],
+    "license_metadata": "Apache-2.0",
+    "usage": "non-commercial course project"
+  },
+  "inventory": {
+    "directory_candidates_upstream_unique": 329,
+    "directory_candidates_adapted": 329,
+    "technology_fingerprints_upstream": 55,
+    "technology_fingerprints_adapted": 55,
+    "exposure_rule_groups_upstream": 11,
+    "exposure_rule_groups_adapted": 11,
+    "exposure_groups_mapped_to_existing_plugins": 3,
+    "exposure_groups_executed_by_adapter": 8,
+    "waf_fingerprints_upstream": 22,
+    "waf_fingerprints_adapted": 22,
+    "waf_active_probe_adapted": true
+  },
+  "validation": {
+    "compatibility_tests": {"passed": 13, "failed": 0},
+    "plugin_independent_hit_gate": {"passed": 2, "failed": 0},
+    "full_repository_suite": {"passed": 1224, "skipped": 9, "failed": 0},
+    "upstream_directory_set_diff": {"missing": 0, "extra": 0},
+    "upstream_fingerprint_name_order_equal": true,
+    "runtime_sibling_dependency": false
+  },
+  "limits": [
+    "Inventory parity proves implemented rule coverage, not vulnerability recall.",
+    "DVWA and OWASP Juice Shop were scanned from unauthenticated application roots; this is not full challenge coverage.",
+    "The directory dictionary is enabled only for deep scans."
+  ]
+}

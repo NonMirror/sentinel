@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-19",
+  "scope": "Same frozen CSIC normal holdout replayed through each HTTP WAF data plane; only HTTP 403 counts as a false positive.",
+  "source": "https://doi.org/10.60895/redata/RWUUSV",
+  "file_id": 389,
+  "source_sha256": "d3344377d4721b03b906ca232ab44bfd81b9c1356f967ec9d348532ec420f000",
+  "selection": {
+    "method": "SHA256-sorted complete unique requests",
+    "offset": 6000,
+    "size": 10000,
+    "methods": {
+      "GET": 7795,
+      "POST": 2205
+    }
+  },
+  "results": {
+    "sentinel_balanced": {
+      "false_positives": 508,
+      "false_positive_rate": 0.0508,
+      "statuses": {
+        "403": 508,
+        "404": 9492
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-sentinel-balanced.json"
+    },
+    "modsecurity_crs_pl1": {
+      "false_positives": 486,
+      "false_positive_rate": 0.0486,
+      "statuses": {
+        "200": 9514,
+        "403": 486
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-modsecurity-official-pl1.json"
+    },
+    "coraza_crs_pl1": {
+      "false_positives": 486,
+      "false_positive_rate": 0.0486,
+      "statuses": {
+        "200": 9514,
+        "403": 486
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-coraza-official-pl1.json"
+    },
+    "naxsi_pl1": {
+      "false_positives": 1491,
+      "false_positive_rate": 0.1491,
+      "statuses": {
+        "403": 1491,
+        "404": 8509
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-naxsi-pl1.json"
+    },
+    "modsecurity_crs_pl4": {
+      "false_positives": 10000,
+      "false_positive_rate": 1.0,
+      "statuses": {
+        "403": 10000
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-modsecurity-official-pl4.json"
+    },
+    "coraza_crs_pl4": {
+      "false_positives": 10000,
+      "false_positive_rate": 1.0,
+      "statuses": {
+        "403": 10000
+      },
+      "transport_errors": 0,
+      "raw_file": "csic-compare-coraza-official-pl4.json"
+    }
+  },
+  "interpretation": "CRS PL1 has slightly lower CSIC false positives but only 78.80% attack recall. Sentinel balanced is the only scored configuration combining at least 95% micro and macro attack recall with approximately 5% CSIC holdout false positives.",
+  "limitations": [
+    "Historical synthetic e-commerce normal traffic, not production prevalence.",
+    "This normal-only holdout cannot measure attack recall.",
+    "SafeLine is unscored because a policy-backed official data plane was not available.",
+    "Proxy implementations and backends differ; latency is not ranked."
+  ]
+}

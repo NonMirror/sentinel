@@ -43,7 +43,7 @@ FILE_READ_SIGNS = [
     re.compile(r"DB_PASSWORD\s*=", re.I),
 ]
 TRACEBACK_RE = re.compile(
-    r"(traceback \(most recent call last\)|stack\s*trace|"
+    r"(traceback \(most recent call last\)|stack(?:\s+trace|trace\s*:)|"
     r"at\s+[\w.$]+\([\w.]+\.java:\d+\)|"
     r"notice:\s+undefined\s+(?:index|variable)|"
     r"fatal\s+error:\s+uncaught|"

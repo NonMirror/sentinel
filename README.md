@@ -129,6 +129,42 @@ the scanner from quietly contacting third parties and removes a 5-second timeout
 each — the same scan went from **87 s to 1.5 s**. Opt out with
 `NucleiEngine(allow_external=True)`.
 
+### 4. QingScan active-scan compatibility (`sentinel/scanner/qingscan.py`)
+
+The native plugin engine adapts the Web active-scan rules from
+`daxia/QingScan` commit `2e4706226f1c68121843f37120f05adee57fe80e`.
+Its deep mode now uses QingScan's 329 unique directory candidates, all 55
+technology fingerprints, all 22 WAF fingerprints plus its differential probe,
+and all 11 fixed-path exposure groups. Three exposure groups already had
+equivalent native plugins; the remaining eight are handled by the
+`qingscan_exposure` adapter. Existing native plugins cover QingScan's SQLi and
+reflected-XSS checks.
+
+The adapted data is stored in this repository and never reads `../QingScan` at
+runtime. QingScan's `composer.json` declares Apache-2.0; its README separately
+restricts unauthorized commercial use. This attributed subset is used for this
+non-commercial course project.
+
+The crawler and native plugins also incorporate the verified capability gaps
+found by running Nuclei, OWASP ZAP, Nikto, and sqlmap against the same local
+DVWA and Juice Shop containers. This adds same-origin JavaScript and static
+asset discovery, API extraction with blank query parameters, nested directory
+checks, response-header and cookie hygiene, wildcard CORS, stale server,
+metadata, Swagger, and Prometheus classification. In that fixed benchmark,
+Sentinel reproduced all 19 normalized, manually verified peer observations;
+this is a same-target evidence union, not coverage of those projects' complete
+rule libraries. See [`benchmarks/bench-20261019-active-scanners.md`](benchmarks/bench-20261019-active-scanners.md).
+
+The WAF comparison replays the same 434 GoTestWAF attacks and 169 benign raw
+requests through official ModSecurity+CRS, Coraza+CRS, and native NAXSI data
+planes. Sentinel `balanced` reached 95.39% micro recall, 95.15% macro recall,
+and 2.96% false positives. It was the only configuration to pass the
+95%/95%/5% gate. The same frozen 10,000-request CSIC normal holdout was also
+replayed through all six scored configurations: Sentinel produced 5.08% false
+positives; CRS PL1 produced 4.86% but only 78.80% attack recall; NAXSI produced
+14.91%; and both CRS PL4 configurations blocked 100%. See
+[`benchmarks/bench-20261019-waf-comparison.md`](benchmarks/bench-20261019-waf-comparison.md).
+
 ## Architecture mapping
 
 | Layer | Subsystem | Package | Responsibility |
@@ -158,6 +194,10 @@ by `tools/vendor.py`, with a per-file SHA-256 and license recorded:
 | `naxsi/` | nbs-system/naxsi | GPL-3.0 | 2 files | `naxsi_core.rules` |
 | `modsecurity/` | owasp-modsecurity/ModSecurity | Apache-2.0 | 1 file | `unicode.mapping` |
 | `nuclei-templates/` | projectdiscovery/nuclei-templates | MIT | 11,656 files | HTTP templates and wordlists |
+
+Adapted source code is kept outside `sentinel/vendor/`: the QingScan-compatible
+scanner tables and adapters above are pinned and regression-tested directly in
+`tests/test_qingscan_compat.py`.
 
 ```bash
 python tools/vendor.py            # re-sync from upstream

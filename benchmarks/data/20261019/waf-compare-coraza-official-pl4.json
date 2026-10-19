@@ -1,0 +1,128 @@
+{
+  "engine": "coraza-crs-official",
+  "front": "http://127.0.0.1:18081",
+  "configuration": {
+    "source": "GoTestWAF",
+    "profile": "standard",
+    "paranoia_level": 4,
+    "anomaly_threshold": 5
+  },
+  "attack_recall": 0.9977,
+  "category_macro_recall": 0.9947,
+  "false_positive_rate": 0.8462,
+  "attacks": {
+    "n": 434,
+    "blocked": 433,
+    "expect": "block",
+    "statuses": {
+      "200": 1,
+      "403": 433
+    },
+    "by_category": {
+      "CRLF Injection": {
+        "total": 21,
+        "blocked": 21
+      },
+      "GraphQL": {
+        "total": 12,
+        "blocked": 12
+      },
+      "LDAP Injection": {
+        "total": 9,
+        "blocked": 8
+      },
+      "LFI": {
+        "total": 6,
+        "blocked": 6
+      },
+      "Mail Injection": {
+        "total": 6,
+        "blocked": 6
+      },
+      "NoSQL Injection": {
+        "total": 15,
+        "blocked": 15
+      },
+      "Path Traversal": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RCE": {
+        "total": 30,
+        "blocked": 30
+      },
+      "REST": {
+        "total": 21,
+        "blocked": 21
+      },
+      "REST non-CRUD": {
+        "total": 6,
+        "blocked": 6
+      },
+      "RawRequest test": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SOAP": {
+        "total": 15,
+        "blocked": 15
+      },
+      "SQL Injection": {
+        "total": 21,
+        "blocked": 21
+      },
+      "SS Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "SST Injection": {
+        "total": 9,
+        "blocked": 9
+      },
+      "Shell": {
+        "total": 12,
+        "blocked": 12
+      },
+      "UserAgent": {
+        "total": 27,
+        "blocked": 27
+      },
+      "XSS": {
+        "total": 162,
+        "blocked": 162
+      },
+      "XXE": {
+        "total": 26,
+        "blocked": 26
+      },
+      "community-lfi-multipart": {
+        "total": 6,
+        "blocked": 6
+      },
+      "gRPC": {
+        "total": 6,
+        "blocked": 6
+      }
+    },
+    "p50": 1.78,
+    "p90": 3.04,
+    "p99": 9.19,
+    "mean": 2.12
+  },
+  "benign": {
+    "n": 169,
+    "blocked": 143,
+    "expect": "pass",
+    "statuses": {
+      "200": 26,
+      "403": 143
+    },
+    "by_category": {},
+    "p50": 1.82,
+    "p90": 3.79,
+    "p99": 6.02,
+    "mean": 2.13
+  },
+  "seconds": 1.29,
+  "qps": 468.9
+}
